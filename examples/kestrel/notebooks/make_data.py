@@ -8,7 +8,7 @@ Run from examples/kestrel:  python3 notebooks/make_data.py
 """
 import json
 # name, tickets a month, correct of 50, cost, cost example, moves money,
-# examples: (customer message, Kestrel's reply, playbook rule id, correct, one-line reason)
+# examples: (customer request, Kestrel's reply, playbook rule id, correct, one-line reason)
 # Gusta's customer support playbook. FICTIONAL: Kestrel's answers are graded against these rules.
 # (section, [(rule id, rule)])
 PLAYBOOK = [

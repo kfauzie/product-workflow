@@ -11,4 +11,4 @@ One page: [design/1-overview.png](design/1-overview.png) (Password reset expande
 | Decision rules | AI, AI-assisted human, Human, colour-coded | Above the table |
 | Setting | A dropdown per row, defaulting to the recommendation; "Overridden" tag; a warning above the recommendation; "Apply all recommendations" | The three numbers update live |
 | Table | One row per type: tickets, accuracy on 50, cost of a wrong call with an example, recommendation, reason | Every row follows the rule |
-| Examples | 3 tickets under each row: customer message, Kestrel proposed, customer support rule, verdict from the grading AI | Password reset open by default; clicking a row expands it; types below 100% show a Wrong example |
+| Examples | 3 tickets under each row: customer request, Kestrel proposed, customer support rule, verdict from the grading AI | Password reset open by default; clicking a row expands it; types below 100% show a Wrong example |

@@ -162,7 +162,7 @@ function render(){
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Example tickets</div><div class="exgrid">${t.examples.map(e => `<div class="exbox">
-      <p><span class="lbl">Customer message</span>“${e.message}”</p>
+      <p><span class="lbl">Customer request</span>“${e.message}”</p>
       <p><span class="lbl">${K} proposed</span>“${e.proposed}”</p>
       <p><span class="lbl">Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</p>
       <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';

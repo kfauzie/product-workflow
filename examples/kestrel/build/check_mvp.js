@@ -36,7 +36,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('15 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 15 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
   const det = await txt('tr.detail');
   t('each expanded row has an Example tickets heading', det.includes('Example tickets'));
-  t('examples use the four labels', ['Customer message', 'Kestrel proposed', 'Customer support rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
+  t('examples use the four labels', ['Customer request', 'Kestrel proposed', 'Customer support rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
   t('each rule ID links to that rule in the playbook, in a new tab', await p.$eval('a.rule-link[href="playbook.html#BILL-2"]', a => a.target === '_blank' && a.textContent === 'BILL-2').catch(() => false));
