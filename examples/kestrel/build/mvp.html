@@ -48,6 +48,9 @@ tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var
 .name{font-weight:600;color:var(--head)}.chev{color:var(--mute);display:inline-block;width:12px}
 .risk{white-space:nowrap;font-weight:600}.risk-Low{color:var(--ai)}.risk-Medium{color:var(--mix)}.risk-High{color:var(--hum)}
 .sub{font-size:12px;color:var(--mute)}
+/* live accuracy: a dot blinks every second; the number itself changes every 10 seconds */
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ai);margin-right:5px;vertical-align:0;animation:blink 1s steps(1,end) infinite}
+@keyframes blink{50%{opacity:.15}}body.static .live-dot{animation:none}@media (prefers-reduced-motion:reduce){.live-dot{animation:none}}
 .reason{font-size:12px;color:var(--mute);line-height:1.4;margin-top:5px;max-width:240px}
 select{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head);cursor:pointer}
 select.s-resolve{background:var(--ai-bg);color:var(--ai);border-color:#a8dcc0}select.s-draft{background:var(--mix-bg);color:var(--mix);border-color:#f2d39b}select.s-human{background:var(--hum-bg);color:var(--hum);border-color:#f5b5bd}
@@ -152,7 +155,7 @@ function render(){
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
-      <td class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? "last 30 days" : t.tested + "-ticket test"}</div></td>
+      <td class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : t.tested + "-ticket test"}</div></td>
       <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
@@ -209,7 +212,7 @@ fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks 
   settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Add a new employee')] = 'resolve'; render();
   document.body.dataset.ready = '1';
   // live accuracy: every 10 seconds from load, one ticket type updates (off with ?static=1, for checks and screenshots)
-  if (!new URLSearchParams(location.search).has('static')) setInterval(tick, 10000); })
+  if (new URLSearchParams(location.search).has('static')) document.body.classList.add('static'); else setInterval(tick, 10000); })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>
