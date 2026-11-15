@@ -25,6 +25,8 @@ description: "Turn the solution concept into screens in the company's design sys
 11. **Label what each number really measures.** If a column mixes sources (live data and a test run), name it for what all rows share and mark the source on each row; don't call it "live" if some rows aren't. Anything shown as live moves at a pace the reader can believe, or the page says why it doesn't.
 12. **Make every change visible.** Numbers recalculate live from the current settings; a change shows its direction (green when good, red when not) and a short confirmation that fades. The default state should already show the main interaction, e.g. one change already made.
 13. **Name every actor without ambiguity.** If two things could share a word (a person and an AI, a customer and an end user), always qualify it, and use the same names on every screen.
+14. **One word per concept.** When a label changes, change it everywhere it refers to the same thing (headers, rules, summaries, warnings, docs) in the same pass.
+15. **Show evidence as the user met it.** Present a record in its native form (a conversation as a chat, a document as a page), in reading order: input, response, the rule it was judged by, the verdict. Keep our analysis (rules, grades) visibly outside the evidence, and let the verdict's colour be readable at a glance.
 
 ## Step 1: Specify each screen
 - **Input:** the concept's workflow and persona.
@@ -39,7 +41,7 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Output:** screen images in the run's `design/` folder, one per step, most important first.
 - **Happy path:**
   - **Look:** clean B2B SaaS in the company's design system. Primary colour only for the main action; soft tints for status; colour is never the only signal.
-  - **Layout:** details as label | value tables; a lighter line under each heading; hover explanations for assumptions; source tags on choices; notes and warnings look different from content.
+  - **Layout:** details as label | value tables; a lighter line under each heading; hover explanations for assumptions; source tags on choices; notes and warnings look different from content; small line icons beside labelled facts help scanning (they inherit the text colour and never carry meaning alone); in cards of equal height, let the flexible part absorb spare space so related parts stay together and footers line up.
   - **Actions:** one primary button per screen; others secondary; buttons say what they do.
   - **Borrow patterns:** name the closest comparable product for each step (e.g. Typeform for guided flows, Stripe for numbers with their source one click away, Linear for calm hierarchy).
   - **Prototype frame:** a ribbon at the top ("User: [role]" and "Job to be done: [job]") and a clickable step bar; both left out of exports. No other design notes on screen.
