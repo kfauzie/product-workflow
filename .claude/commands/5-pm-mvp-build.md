@@ -16,7 +16,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Output:** one plain HTML file with inline JS and CSS (no framework, no build step), plus a test file and a headless check.
 - **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes; exports leave out buttons and the prototype frame.
 - **Edge cases:**
-  - No real data: use a small synthetic file, clearly labelled on screen. Build it source first: write the reference the examples depend on (the policy, rulebook, price list or catalogue), then derive every example from it, so each example quotes its source by ID, every outcome follows from the source, and a test checks the quotes. Read each example as a domain expert would: does the input, the response and the verdict hold together?
+  - No real data: use a small synthetic file, clearly labelled on screen. Build it source first: write the reference the examples depend on (the policy, rulebook, price list or catalogue), then derive every example from it, so each example quotes its source by ID, every outcome follows from the source, and a test checks the quotes. Read each example as a domain expert would: does the input, the response and the verdict hold together? Make the data as messy as the real thing: a classification has a catch-all for what fits no category, and its numbers are plausible for that.
   - The concept leaves a number undefined: stop and name it, don't invent a formula.
 - **Acceptance criteria:**
   - when the brief gives data or rules, tests check them exactly (every row, every rule outcome); when it gives wording rules (banned words, no em dashes), a check enforces them
@@ -34,7 +34,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Output:** an edited file (never regenerate the whole file), with tests and the headless check rerun.
 - **Happy path:** each change takes about two minutes.
 - **Edge cases:** a change will take longer: tell me first and suggest a smaller step.
-- **Acceptance criteria:** tests and the headless check pass after every change. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after.
+- **Acceptance criteria:** tests and the headless check pass after every change. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after. When a change does move numbers, update everything that quotes them (tests, docs, screenshots, the concept's test cases), and flag any target or success criterion the new numbers miss rather than quietly moving it.
 - **Handoff:** back to me, or to `6-pm-mvp-review` when the flow is ready to show.
 
 ## Later, only if I ask
