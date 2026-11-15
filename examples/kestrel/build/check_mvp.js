@@ -89,5 +89,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     await m.selectOption('select[data-i="6"]', 'resolve');
     t('phone: settings still work', (await m.textContent('#sumHigh')) === '10');
     await mc.close(); }
+  { const tp = await b.newPage({ viewport: { width: 768, height: 1024 } }); await tp.goto(`http://localhost:${srv.address().port}/build/mvp.html?static=1`); await tp.waitForSelector('body[data-ready="1"]');
+    t('tablet (768px): no sideways scrolling, cards layout', (await tp.evaluate(() => document.documentElement.scrollWidth)) <= 768 && !(await tp.isVisible('#types tr.hdr'))); await tp.close(); }
+  t('desktop keeps the full table with its header row', await p.isVisible('#types tr.hdr') && (await p.$eval('#types tr.row', r => getComputedStyle(r).display)) === 'table-row');
   console.log(errs.length ? 'ERRORS: ' + errs.join(' | ') : 'All checks pass, no errors'); await b.close(); srv.close(); process.exit(errs.length ? 1 : 0);
 })();
