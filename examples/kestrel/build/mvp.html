@@ -35,6 +35,9 @@ td.acc{transition:background-color .6s,color .3s}td.acc-up{background:var(--ai-b
 .card b{display:block;font-size:28px;color:var(--head);font-variant-numeric:tabular-nums}
 .card span{color:var(--mute);font-size:13px}
 .rules{margin-bottom:14px}
+.impact-key{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;font-size:12.5px;color:var(--text);padding:10px 12px;border-top:1px solid var(--line)}
+.impact-key>b{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mute)}
+.ik{display:inline-block;font-weight:600;font-size:12px;padding:1px 7px;border-radius:5px;border:1px solid;margin-right:6px}
 .rules table td{font-size:13px;line-height:1.45;padding:9px 12px}
 .rules table td:first-child{width:170px}
 .rules table td:nth-child(2){width:38%}
@@ -61,7 +64,7 @@ tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var
 select{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head);cursor:pointer}
 select.s-resolve{background:var(--ai-bg);color:var(--ai);border-color:#a8dcc0}select.s-draft{background:var(--mix-bg);color:var(--mix);border-color:#f2d39b}select.s-human{background:var(--hum-bg);color:var(--hum);border-color:#f5b5bd}
 select option{background:#fff;color:var(--head);font-weight:400}
-select.rk-Low{color:var(--ai);border-color:#a8dcc0}select.rk-Medium{color:var(--mix);border-color:#f2d39b}select.rk-High{color:var(--hum);border-color:#f5b5bd}
+select.rk-Low,.ik.rk-Low{color:var(--ai);border-color:#a8dcc0}select.rk-Medium,.ik.rk-Medium{color:var(--mix);border-color:#f2d39b}select.rk-High,.ik.rk-High{color:var(--hum);border-color:#f5b5bd}
 .adjusted{font-size:12px;color:var(--mix);font-weight:600;margin-top:5px}
 .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;background:#eef0f2;color:var(--mute);margin-top:4px}
 .warn{font-size:12px;color:var(--hum);margin-top:4px}
@@ -162,6 +165,9 @@ if (typeof module !== 'undefined') module.exports = {accuracy, recommend, summar
 
 <script>
 const LABEL = {resolve: 'AI', draft: 'AI-assisted human', human: 'Human'};
+// impact if wrong: how hard a wrong answer is to undo (stored as Low, Medium, High)
+const IMPACT = {Low: 'Easy to fix', Medium: 'Fixable', High: 'Hard to undo'};
+const IMPACT_MEANS = {Low: 'A wrong answer costs time; nothing is paid or filed.', Medium: 'Something is set up wrongly and corrected in a later run.', High: 'Money or a filing goes out wrong.'};
 let D, settings = [], risks = [], open = new Set([0]);
 let liveCorrect = [], accFlash = {};
 const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i], correct: liveCorrect[i]}));
@@ -191,9 +197,10 @@ function staticParts(){
   document.getElementById('headline').textContent = 'Monthly projection per current settings';
   document.getElementById('rules').innerHTML = `<table>
     <tr class="hdr"><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
-    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td data-label="Recommended when">Accuracy 98% or more, and impact Low or Medium.</td></tr>
-    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td data-label="Recommended when">Accuracy 60% or more, any impact, when not recommended for AI.</td></tr>
-    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td data-label="Recommended when">Accuracy below 60%: a draft would not save a support agent time and may confuse them instead.</td></tr></table>`;
+    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td data-label="Recommended when">Accuracy 98% or more, and a wrong answer is Easy to fix or Fixable.</td></tr>
+    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td data-label="Recommended when">Accuracy 60% or more, whatever the impact, when not recommended for AI.</td></tr>
+    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td data-label="Recommended when">Accuracy below 60%: a draft would not save a support agent time and may confuse them instead.</td></tr></table>
+    <div class="impact-key"><b>Impact if wrong</b>${['Low', 'Medium', 'High'].map(v => `<span><span class="ik rk-${v}">${IMPACT[v]}</span>${IMPACT_MEANS[v]}</span>`).join('')}</div>`;
   document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
@@ -206,7 +213,7 @@ function render(){
   document.getElementById('summary').innerHTML = `
     <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled solely by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
     <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min saved per ticket fully handled by AI, ${D.minutes_assisted} per ticket partially handled by AI)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
-    <div class="card"><b id="sumHigh" class="${s.wrongHigh >= 0.5 ? 'hi-bad' : ''}">${fmt(s.wrongHigh)}</b><span>wrong answers on high-impact type tickets reaching customers</span>${delta(s.wrongHigh, r.wrongHigh, v => fmt(v), false)}</div>`;
+    <div class="card"><b id="sumHigh" class="${s.wrongHigh >= 0.5 ? 'hi-bad' : ''}">${fmt(s.wrongHigh)}</b><span>wrong answers reaching customers on ticket types that are Hard to undo</span>${delta(s.wrongHigh, r.wrongHigh, v => fmt(v), false)}</div>`;
   flash([['sumShare', s.aiShare, true], ['sumHours', s.hours, true], ['sumHigh', s.wrongHigh, false]]);
   const rows = E.map((t, i) => {
     const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = (accuracy(t, n) * 100).toFixed(t.tested === 50 ? 0 : 1), adj = t.risk !== D.types[i].risk;
@@ -218,7 +225,7 @@ function render(){
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n" data-label="Tickets a month">${fmt(t.tickets)}</td>
       <td data-label="Accuracy*" class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
-      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
+      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option value="${v}"${v === t.risk ? ' selected' : ''}>${IMPACT[v]}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td data-label="Recommendation"><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
       <td data-label="Setting" onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
