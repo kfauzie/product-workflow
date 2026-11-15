@@ -117,7 +117,7 @@
    "tested": 97,
    "correct": 96,
    "risk": "Medium",
-   "risk_example": "Medium: company details wrong in Gusta or with HMRC (the tax authority), so letters go astray",
+   "risk_example": "Medium: company details wrong in Gusta or with the tax authority, so letters go astray",
    "reason": "99.0% accurate and a wrong call is easy to fix",
    "examples": [
     {
@@ -257,7 +257,7 @@
    "tested": 189,
    "correct": 170,
    "risk": "High",
-   "risk_example": "High: staff paid late or twice, or pay reported wrongly to HMRC",
+   "risk_example": "High: staff paid late or twice, or pay reported wrongly to the tax authority",
    "reason": "89.9% accurate; staff pay is at stake, so a support agent checks",
    "examples": [
     {
@@ -292,7 +292,7 @@
    "tested": 298,
    "correct": 280,
    "risk": "High",
-   "risk_example": "High: wrong figures or forms go to staff or HMRC",
+   "risk_example": "High: wrong figures or forms go to staff or the tax authority",
    "reason": "94.0% accurate, but a wrong figure is costly, so a support agent checks",
    "examples": [
     {
@@ -327,7 +327,7 @@
    "tested": 88,
    "correct": 87,
    "risk": "High",
-   "risk_example": "High: account closed wrongly, or final HMRC steps missed",
+   "risk_example": "High: account closed wrongly, or final tax authority steps missed",
    "reason": "98.9% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
