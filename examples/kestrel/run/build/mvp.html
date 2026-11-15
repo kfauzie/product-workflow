@@ -16,9 +16,11 @@ h1{font-size:28px;color:var(--head);margin:0 0 16px}
 .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .card b{display:block;font-size:28px;color:var(--head);font-variant-numeric:tabular-nums}
 .card span{color:var(--mute);font-size:13px}
-.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
-.rule{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5}
-.rule .chip{margin-bottom:6px}
+.rules{margin-bottom:14px}
+.rules table td{font-size:13px;line-height:1.45;padding:9px 12px}
+.rules table td:first-child{width:170px}
+.rules table td:nth-child(2){width:38%}
+.rules tr.r-resolve td:first-child{box-shadow:inset 3px 0 0 var(--ai)}.rules tr.r-draft td:first-child{box-shadow:inset 3px 0 0 var(--mix)}.rules tr.r-human td:first-child{box-shadow:inset 3px 0 0 var(--hum)}
 .chip{display:inline-block;padding:3px 9px;border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}
 .c-resolve{background:var(--ai-bg);color:var(--ai)}.c-draft{background:var(--mix-bg);color:var(--mix)}.c-human{background:var(--hum-bg);color:var(--hum)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0 10px}
@@ -33,7 +35,9 @@ tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var
 .name{font-weight:600;color:var(--head)}.chev{color:var(--mute);display:inline-block;width:12px}
 .risk{white-space:nowrap;font-weight:600}.risk-Low{color:var(--ai)}.risk-Medium{color:var(--mix)}.risk-High{color:var(--hum)}
 .sub{font-size:12px;color:var(--mute)}
-select{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head)}
+select{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head);cursor:pointer}
+select.s-resolve{background:var(--ai-bg);color:var(--ai);border-color:#a8dcc0}select.s-draft{background:var(--mix-bg);color:var(--mix);border-color:#f2d39b}select.s-human{background:var(--hum-bg);color:var(--hum);border-color:#f5b5bd}
+select option{background:#fff;color:var(--head);font-weight:400}
 .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;background:#eef0f2;color:var(--mute);margin-top:4px}
 .warn{font-size:12px;color:var(--hum);margin-top:4px}
 tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
@@ -43,14 +47,14 @@ tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
 .lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mute)}
 .ok{color:var(--ai);font-weight:600}.no{color:var(--hum);font-weight:600}
 footer{margin-top:24px;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
-@media (max-width:900px){.summary,.rules,.exgrid{grid-template-columns:1fr}.hide-sm{display:none}main{padding:16px}.header{grid-template-columns:1fr}.bar{flex-direction:column;align-items:flex-start}}
+@media (max-width:900px){.summary,.exgrid{grid-template-columns:1fr}.hide-sm{display:none}main{padding:16px}.header{grid-template-columns:1fr}.bar{flex-direction:column;align-items:flex-start}}
 </style></head><body>
 <div class="topbar" id="topbar"></div>
 <main>
 <dl class="header" id="header"></dl>
 <h1 id="headline"></h1>
 <div class="summary" id="summary"></div>
-<div class="rules" id="rules"></div>
+<div class="panel rules" id="rules"></div>
 <div class="bar"><p class="measure" id="measure"></p><button class="apply" id="applyAll" onclick="applyAll()">Apply all recommendations</button></div>
 <div class="panel"><table id="types"></table></div>
 <footer id="footer"></footer>
@@ -88,16 +92,17 @@ function staticParts(){
   const K = D.product, G = D.customer, n = D.test_tickets_per_type;
   document.getElementById('topbar').innerHTML = `<b>${K}</b> · Configuration and analytics · Customer: ${G}`;
   document.getElementById('header').innerHTML = `
-    <dt>This page</dt><dd>${K}'s configuration and analytics dashboard (not the agent itself)</dd>
+    <dt>This page</dt><dd>${K}'s configuration and analytics dashboard</dd>
     <dt>${K}</dt><dd>An AI agent that answers support tickets in ${G}'s in-app chat</dd>
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>User</dt><dd>${G}'s Head of Customer Support</dd>
     <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;
   document.getElementById('headline').textContent = `Which tickets can ${K} handle on its own?`;
-  document.getElementById('rules').innerHTML = `
-    <div class="rule"><span class="chip c-resolve">AI</span><div>${K} replies and resolves. Accuracy 98% or more, and risk Low or Medium.</div></div>
-    <div class="rule"><span class="chip c-draft">AI-assisted human</span><div>${K} drafts; a support agent approves or edits. Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</div></div>
-    <div class="rule"><span class="chip c-human">Human</span><div>A support agent handles it. Everything else.</div></div>`;
+  document.getElementById('rules').innerHTML = `<table>
+    <tr><th>Outcome</th><th>What happens</th><th>When</th></tr>
+    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
+    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
+    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>A support agent handles it.</td><td>Everything else.</td></tr></table>`;
   document.getElementById('measure').textContent = `How accuracy is measured: ${K} was run on ${n} past ${G} tickets per type. Each answer was checked against ${G}'s support playbook by a separate grading AI.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
@@ -117,7 +122,7 @@ function render(){
       <td class="n">${p}% <span class="sub">(${t.correct}/${n})</span></td>
       <td><span class="risk risk-${t.risk}">${t.risk}</span><div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div></td>
       <td><span class="chip c-${rec}">${LABEL[rec]}</span></td>
-      <td onclick="event.stopPropagation()"><select data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
+      <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
       <td class="hide-sm">${t.reason}</td></tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="7"><div class="exgrid">${t.examples.map(e => `<div class="exbox">
       <p><span class="lbl">Customer message</span>“${e.message}”</p>

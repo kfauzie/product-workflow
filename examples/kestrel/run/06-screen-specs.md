@@ -6,7 +6,7 @@ One page: [design/1-overview.png](design/1-overview.png) (Password reset expande
 
 | Part | Shows | Acceptance criteria |
 |---|---|---|
-| Header | This page (the dashboard, not the agent itself), Kestrel, customer, user, job to be done | Short labelled lines, no paragraph |
+| Header | This page, Kestrel, customer, user, job to be done | Short labelled lines, no paragraph |
 | Three numbers | Share handled by AI, hours saved, wrong answers reaching customers | Match the table to the ticket |
 | Decision rules | AI, AI-assisted human, Human, colour-coded | Above the table |
 | Setting | A dropdown per row, defaulting to the recommendation; "Overridden" tag; a warning above the recommendation; "Apply all recommendations" | The three numbers update live |

@@ -10,7 +10,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const txt = s => p.textContent(s);
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   t('top bar', (await txt('#topbar')) === 'Kestrel · Configuration and analytics · Customer: Gusta');
-  t('header says it is the dashboard, not the agent', (await txt('#header')).includes("Kestrel's configuration and analytics dashboard (not the agent itself)"));
+  t('header names the dashboard', (await txt('#header')).includes("Kestrel's configuration and analytics dashboard"));
   t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
   t('summary: 49.7%, 231 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '231' && (await txt('#sumWrong')) === '9');
   t('rules before the table', await p.evaluate(() => !!(document.querySelector('#rules').compareDocumentPosition(document.querySelector('#types')) & Node.DOCUMENT_POSITION_FOLLOWING)));
@@ -28,6 +28,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));
   await p.click('#applyAll');
   t('Apply all recommendations resets everything', (await txt('#sumShare')) === '49.7%' && !(await txt('#types')).includes('Overridden'));
+  t('rules are one table with 3 coloured rows', (await p.$$('#rules tr.r-resolve, #rules tr.r-draft, #rules tr.r-human')).length === 3 && (await p.$$('#rules .chip')).length === 3);
+  t('setting dropdown is coloured by its value', (await p.getAttribute('select[data-i="0"]', 'class')) === 's-resolve' && (await p.getAttribute('select[data-i="6"]', 'class')) === 's-human');
   const body = await txt('body');
   t('no em dashes on the page', !body.includes('—'));
   t('never "agent" on its own', !/(?<!AI |support )\bagents?\b/i.test(body.replace(/the agent itself/g, '')));
