@@ -1,29 +1,35 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>How I go from customer need to a working prototype in an hour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
 <style>
 body{margin:0;font-family:Inter,Arial,sans-serif;background:#f9f9fa;color:#343a40}
 main{max-width:1200px;margin:56px auto 12px;padding:0 16px}
 .intro{max-width:none}
-h1{color:#212529;margin:0 0 10px;font-size:32px;line-height:1.2;white-space:nowrap}p{line-height:1.55;font-size:17px;margin:8px 0}
+h1{font-family:Fraunces,Georgia,serif;font-optical-sizing:auto;font-weight:600;color:#1b2430;margin:0 0 12px;font-size:46px;line-height:1.12;letter-spacing:-.6px}
+h1 .nw{white-space:nowrap}h1 em{font-style:italic;font-weight:500;color:#0f766e;white-space:nowrap}
+h1 .grad{background:linear-gradient(90deg,#0f766e,#16a34a 60%,#65a30d);-webkit-background-clip:text;background-clip:text;color:transparent;box-shadow:inset 0 -.14em 0 rgba(22,163,74,.14);padding:0 .04em;white-space:nowrap}p{line-height:1.55;font-size:17px;margin:8px 0}
 .links{margin:18px 0 24px}
-.case{background:#fff;border-left:3px solid #0f766e;padding:10px 14px;border-radius:4px;font-size:16px}
+.subtitle{font-size:21px;font-weight:500;color:#495057;line-height:1.35;margin:0 0 4px}
+.disclaimer{display:flex;align-items:center;gap:10px;background:#fff8e6;border:1px solid #f0d9a8;color:#6b4e00;border-radius:8px;padding:10px 14px;margin:0 0 14px;font-size:15px;line-height:1.45}
+.disclaimer svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 a.btn{display:inline-block;background:#0f766e;color:#fff;text-decoration:none;padding:11px 16px;border-radius:6px;font-weight:600;margin:0 10px 10px 0}
 a.sec{background:#fff;color:#343a40;border:1px solid #343a40}
 .demo{border:1px solid #e6e8eb;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.06)}
 iframe{display:block;width:100%;height:1200px;border:0}
-@media (max-width:1100px){h1{white-space:normal}}
-@media (max-width:700px){h1{font-size:26px}main{margin-top:28px;padding:0 12px}a.btn{display:block;text-align:center;margin:0 0 10px}.demo{border-radius:8px;margin:0 -4px}}
+@media (max-width:900px){h1{font-size:38px}.br-wide{display:none}}
+@media (max-width:700px){h1{font-size:31px;letter-spacing:-.3px}.subtitle{font-size:18px}.disclaimer{font-size:14px}main{margin-top:28px;padding:0 12px}a.btn{display:block;text-align:center;margin:0 0 10px}.demo{border-radius:8px;margin:0 -4px}}
 </style></head><body><main>
 <div class="intro">
-<h1>How I go from customer need to a working prototype in an hour</h1>
-<p>With Claude Code, custom skills, and MCPs.</p>
-<p>Below is the prototype it produced for a fictional use case. All data is synthetic.</p>
+<h1>How I go from <em>customer need</em><br class="br-wide"> to a <span class="grad">working prototype</span> <span class="nw">in an hour</span></h1>
+<p class="subtitle">With Claude Code, custom skills, and MCPs.</p>
 <div class="links">
 <a class="btn" href="https://github.com/kfauzie/product-workflow/tree/main/.claude/commands">See the skills on GitHub</a>
 <a class="btn sec" href="https://github.com/kfauzie/product-workflow/tree/main/examples/kestrel">See the data sources, context and code for this prototype</a>
 </div>
 </div>
+<div class="disclaimer" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg><span>Below is the prototype it produced for a fictional use case. All data is synthetic.</span></div>
 <div class="demo"><iframe id="demo" scrolling="no" src="examples/kestrel/build/mvp.html" title="Prototype: Kestrel analytics and configuration page (fictional)"></iframe></div>
 </main>
 <script>
