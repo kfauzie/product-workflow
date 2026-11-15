@@ -186,7 +186,7 @@ function staticParts(){
     <div class="idc"><span class="tile t-p">${ic('page')}</span><div><b>This page</b><span>Its analytics and configuration page</span></div></div>`;
   document.getElementById('header').innerHTML = `
     <dt>${ic('customer')}Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
-    <dt>${ic('user')}User</dt><dd>${G}'s Head of Customer Support</dd>
+    <dt>${ic('user')}User</dt><dd>Hannah Okafor, ${G}'s Head of Customer Support</dd>
     <dt>${ic('job')}Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types ${K} handles and which go to a human</dd>`;
   document.getElementById('headline').textContent = 'Monthly projection per current settings';
   document.getElementById('rules').innerHTML = `<table>
@@ -202,7 +202,7 @@ function render(){
   const recSet = E.map(t => recommend(t, n)), r = summary(DE, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
   const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} from recommended settings</div>`; };
-  document.getElementById('dashHead').innerHTML = overrides ? `<span id="state" class="state state-over">${overrides} ${overrides === 1 ? 'override' : 'overrides'}</span>` : '';
+  document.getElementById('dashHead').innerHTML = overrides ? `<span id="state" class="state state-over">${overrides} setting ${overrides === 1 ? 'override' : 'overrides'}</span>` : '';
   document.getElementById('summary').innerHTML = `
     <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled solely by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
     <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min saved per ticket fully handled by AI, ${D.minutes_assisted} per ticket partially handled by AI)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
@@ -210,7 +210,7 @@ function render(){
   flash([['sumShare', s.aiShare, true], ['sumHours', s.hours, true], ['sumHigh', s.wrongHigh, false]]);
   const rows = E.map((t, i) => {
     const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = (accuracy(t, n) * 100).toFixed(t.tested === 50 ? 0 : 1), adj = t.risk !== D.types[i].risk;
-    const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';
+    const over = set !== rec ? `<div><span class="tag">Setting overridden</span></div>` : '';
     const w = wrongPerMonth(t), warn = !aboveRecommended(t, n, set) ? '' : set === 'resolve'
       ? `<div class="warn">Riskier than recommended: about ${w} wrong ${w === 1 ? 'answer' : 'answers'} a month would reach customers with no one checking</div>`
       : `<div class="warn">Riskier than recommended: support agents would need to catch about ${w} wrong ${w === 1 ? 'draft' : 'drafts'} a month</div>`;

@@ -12,32 +12,32 @@
    "tested": 468,
    "correct": 467,
    "risk": "Low",
-   "risk_example": "Low: customer stays locked out a little longer",
+   "risk_example": "Low: customer locked out until a new link arrives",
    "reason": "99.8% accurate and a wrong call costs little",
    "examples": [
     {
-     "message": "I've forgotten my password and the reset email isn't arriving.",
-     "proposed": "I've sent a new reset link to the email you log in with. If it isn't in your inbox in a few minutes, check your spam folder for an email from Gusta. The link works for 30 minutes.",
+     "message": "Reset email never came and payroll's due Friday.",
+     "proposed": "I've sent a new reset link to the email you sign in with. If it isn't in your inbox in a few minutes, check your junk folder and, in Gmail, the Promotions tab for an email from Gusta.",
      "rule_id": "ACC-1",
-     "rule": "Forgotten password: send one reset link. If it hasn't arrived, ask the customer to check spam for an email from Gusta.",
+     "rule": "Forgotten password: send one reset link. If it hasn't arrived, ask the customer to check their junk folder and, in Gmail, the Promotions tab for an email from Gusta.",
      "correct": true,
-     "verdict_reason": "Sent one new link and pointed to the spam folder."
+     "verdict_reason": "Sent one new link and named the junk folder and Promotions tab."
     },
     {
-     "message": "Can you reset my password? I've lost access to my old work email.",
-     "proposed": "I can't change the email you log in with, but your account owner can, under Settings > Users. Once they've updated it, I'll send a reset link to the new address.",
+     "message": "I've lost access to my old work email. Can you send the reset to my personal one?",
+     "proposed": "I can't send it to a different address. Your account owner can change the email you sign in with under Settings > Users; then I'll send a reset link there.",
      "rule_id": "ACC-3",
-     "rule": "Never change the email someone logs in with. Only the account owner can, under Settings > Users.",
+     "rule": "Never change the email someone signs in with, or send a reset to a different address. Only the account owner can change it, under Settings > Users.",
      "correct": true,
-     "verdict_reason": "Didn't change the login email; pointed to the account owner."
+     "verdict_reason": "Didn't send a reset to an unverified address; pointed to the account owner."
     },
     {
-     "message": "Reset link says expired.",
+     "message": "Link says expired, I clicked it straight away.",
      "proposed": "Sorry about that. I've sent you a fresh reset link.",
      "rule_id": "ACC-2",
-     "rule": "Reset links expire after 30 minutes. Say so every time you send one.",
+     "rule": "Reset links expire after 30 minutes and only the newest one works. Say both every time you send one.",
      "correct": false,
-     "verdict_reason": "Didn't mention the 30-minute limit; the customer opened the link an hour later and it had expired again."
+     "verdict_reason": "Didn't say only the newest link works; the customer opened an older email and it failed again."
     }
    ]
   },
@@ -47,32 +47,32 @@
    "tested": 268,
    "correct": 263,
    "risk": "Low",
-   "risk_example": "Low: customer tries again or asks for a person",
+   "risk_example": "Low: owner can't run payroll until they're back in",
    "reason": "98.1% accurate and a wrong call costs little",
    "examples": [
     {
-     "message": "My 2-step code isn't arriving by text.",
-     "proposed": "I've sent your code by email instead. So texts work next time, check your phone number under Profile > Security.",
+     "message": "Got a new phone and my authenticator codes are gone.",
+     "proposed": "You can sign in with one of the backup codes you saved when you set up 2-step verification. If you don't have them, I'll pass you to a support agent, who will check your identity before resetting it.",
      "rule_id": "ACC-5",
-     "rule": "2-step code not arriving by text: send it by email instead, and show where to update the phone number (Profile > Security).",
+     "rule": "Lost 2-step codes: offer the backup codes saved at setup. Without them, hand over to a support agent to check identity. Never switch off 2-step verification in chat.",
      "correct": true,
-     "verdict_reason": "Sent the code by email and showed where to fix the phone number."
+     "verdict_reason": "Offered backup codes and a verified handover; didn't switch off 2-step in chat."
     },
     {
-     "message": "It says my account is locked.",
-     "proposed": "Your account locked after 5 failed attempts. It unlocks by itself in 15 minutes; I've sent a reset link so you can choose a new password then.",
+     "message": "It says I'm locked out after too many tries.",
+     "proposed": "Your account locked after 5 wrong passwords. It unlocks by itself in 15 minutes; I've sent a reset link so you can choose a new password then.",
      "rule_id": "ACC-4",
-     "rule": "Accounts lock for 15 minutes after 5 failed attempts. Explain the wait and send a reset link.",
+     "rule": "Accounts lock for 15 minutes after 5 wrong passwords. Explain the wait and send a reset link.",
      "correct": true,
      "verdict_reason": "Explained the 15-minute wait and sent a reset link."
     },
     {
-     "message": "I can't log in on my phone but it works on my laptop.",
-     "proposed": "Try clearing the app's cache: open your phone's settings, find Gusta and tap Clear cache.",
+     "message": "The app just spins since the update, but the website works.",
+     "proposed": "Try signing out of the app, clearing its cache in your phone's settings, and signing in again.",
      "rule_id": "ACC-6",
-     "rule": "Can't log in on the mobile app only: check the app version first. If it's out of date, ask them to update before anything else.",
+     "rule": "Can't sign in on the mobile app only: check the app version first. If it's out of date, ask them to update before anything else.",
      "correct": false,
-     "verdict_reason": "Skipped the version check; the app was 3 versions out of date and needed an update."
+     "verdict_reason": "Skipped the version check; the app was 3 versions behind and needed updating."
     }
    ]
   },
@@ -82,32 +82,32 @@
    "tested": 342,
    "correct": 340,
    "risk": "Low",
-   "risk_example": "Low: wrong month resent, employee asks again",
+   "risk_example": "Low: employee waits for proof of pay, e.g. for a mortgage",
    "reason": "99.4% accurate and a wrong call costs little",
    "examples": [
     {
-     "message": "One of my staff can't find her March payslip.",
-     "proposed": "Open her profile under Employees, then Documents. Her March payslip is there, and you can resend it to her from the same page.",
-     "rule_id": "PAY-1",
-     "rule": "Payslips are on each employee's profile under Documents. Admins can resend them from there.",
+     "message": "Can you resend Sam's March payslip?",
+     "proposed": "I've resent Sam's March payslip to the email address on Sam's employee record. You can also resend it yourself from Sam's record, under Documents.",
+     "rule_id": "PAY-4",
+     "rule": "Send payslips only to the email address on the employee's record, never to an address given in chat.",
      "correct": true,
-     "verdict_reason": "Pointed to the right page and offered the resend."
+     "verdict_reason": "Sent it only to the email on Sam's record."
     },
     {
-     "message": "Where do employees download payslips?",
-     "proposed": "Employees download their payslips in the Gusta employee app, under Payslips. Here's a guide you can share with your staff: Getting started with the employee app.",
+     "message": "Where do my staff download their payslips?",
+     "proposed": "Your staff get their payslips in the Gusta employee app once each payroll is finalised. Here's a guide to share with them: Getting started with the employee app.",
      "rule_id": "PAY-2",
-     "rule": "Employees download their own payslips in the Gusta employee app. Share the employee app guide.",
+     "rule": "Employees get their payslips in the Gusta employee app once each payroll is finalised. Share the employee app guide.",
      "correct": true,
      "verdict_reason": "Pointed to the employee app and shared the guide."
     },
     {
-     "message": "Payslips for last Friday aren't showing.",
-     "proposed": "I've resent last Friday's payslips to all your employees.",
+     "message": "Two staff say they've got no payslip this month.",
+     "proposed": "I've resent this month's payslips to both of them.",
      "rule_id": "PAY-3",
-     "rule": "Payslips missing for a recent run: check the run status first. Payslips only exist once a run is approved.",
+     "rule": "Payslips missing for a recent run: check the run is finalised and the payslip release date before anything else.",
      "correct": false,
-     "verdict_reason": "Didn't check the run: it was still a draft, so there were no payslips to send."
+     "verdict_reason": "Didn't check the release date: payslips were set to appear on payday, two days later, so nothing was missing."
     }
    ]
   },
@@ -117,32 +117,32 @@
    "tested": 97,
    "correct": 96,
    "risk": "Medium",
-   "risk_example": "Medium: tax letters go to the old address",
+   "risk_example": "Medium: HMRC letters and penalty notices go to the old address",
    "reason": "99.0% accurate and a wrong call is easy to fix",
    "examples": [
     {
-     "message": "We've moved office, how do I change our address?",
-     "proposed": "As the account owner, you can change it under Settings > Company > Addresses. If both have moved, update the registered address (where tax letters go) and the trading address (shown on payslips).",
-     "rule_id": "CO-1",
-     "rule": "Only the account owner can change the registered address, which tax letters go to. Admins can change the trading address.",
-     "correct": true,
-     "verdict_reason": "Checked the person is the account owner before giving the steps."
-    },
-    {
-     "message": "Change our trading address to 14 Mill Lane.",
-     "proposed": "You can update it under Settings > Company > Addresses > Trading address. Your registered address, where tax letters go, stays as it is.",
-     "rule_id": "CO-2",
-     "rule": "The registered and trading addresses are separate. Change or explain only the one the customer asked about.",
-     "correct": true,
-     "verdict_reason": "Dealt only with the trading address, as asked."
-    },
-    {
-     "message": "Our address on payslips is wrong.",
-     "proposed": "You can correct it under Settings > Company > Addresses > Registered address.",
+     "message": "We've moved office. How do I change the address on payslips?",
+     "proposed": "Payslips show your business address, which you can change under Settings > Company > Business address. If your registered office has moved too, update it at Companies House first, then in Gusta.",
      "rule_id": "CO-3",
-     "rule": "Payslips show the trading address, not the registered address.",
+     "rule": "Payslips show the business address set under Settings > Company, not the registered office.",
+     "correct": true,
+     "verdict_reason": "Pointed to the business address for payslips, and the right order for the registered office."
+    },
+    {
+     "message": "Our accountant changed our registered office at Companies House. Does payroll update?",
+     "proposed": "Not by itself. As the account owner, update it under Settings > Company > Registered office. Also check the PAYE address HMRC holds for you, as payroll letters go there.",
+     "rule_id": "CO-2",
+     "rule": "HMRC holds a separate PAYE correspondence address. When a customer moves, remind them to check it with HMRC as well as updating Gusta.",
+     "correct": true,
+     "verdict_reason": "Covered the separate PAYE address HMRC holds."
+    },
+    {
+     "message": "Can you change our registered office to 14 Mill Lane?",
+     "proposed": "Done: your registered office is now 14 Mill Lane.",
+     "rule_id": "CO-1",
+     "rule": "Only the account owner can change the registered office in Gusta, and only once the change is registered at Companies House.",
      "correct": false,
-     "verdict_reason": "Pointed to the registered address; payslips show the trading address."
+     "verdict_reason": "Changed it for an admin, not the account owner, and before it was registered at Companies House."
     }
    ]
   },
@@ -152,29 +152,29 @@
    "tested": 251,
    "correct": 242,
    "risk": "Medium",
-   "risk_example": "Medium: employee set up on the wrong pay schedule",
+   "risk_example": "Medium: starter put on an emergency tax code or the wrong pay schedule",
    "reason": "96.4% accurate: good, but not enough to send unchecked",
    "examples": [
     {
-     "message": "How do I add someone starting Monday?",
-     "proposed": "Go to Employees > Add employee. Before their first payroll run, you'll need their tax code, ID number, start date and bank details.",
-     "rule_id": "EMP-1",
-     "rule": "Before a new employee's first payroll run, Gusta needs their tax code, ID number, start date and bank details.",
+     "message": "New starter on Monday, no P45 yet. What tax code?",
+     "proposed": "Ask them to fill in HMRC's starter checklist. Their answer to statement A, B or C sets the tax code, and Gusta applies it when you add them under Employees > Add employee.",
+     "rule_id": "EMP-2",
+     "rule": "No P45: the employee's answer on the HMRC starter checklist (statement A, B or C) sets the tax code. Never guess a code.",
      "correct": true,
-     "verdict_reason": "Listed all four details needed before the first run."
+     "verdict_reason": "Used the starter checklist instead of guessing a code."
     },
     {
      "message": "New starter is part time, 3 days a week.",
-     "proposed": "When you add them, set their contracted days to 3. Gusta then pays 3/5 of the full-time salary.",
-     "rule_id": "EMP-2",
-     "rule": "Part-time staff: set their contracted days. Salary is pro-rata to a 5-day week.",
+     "proposed": "When you add them, set their contracted hours to 3 days a week. Gusta then pays 3/5 of the full-time salary.",
+     "rule_id": "EMP-3",
+     "rule": "Part-time staff: set their contracted hours. Salary is pro rata to the full-time week.",
      "correct": true,
-     "verdict_reason": "Set contracted days so the salary is pro-rata."
+     "verdict_reason": "Set contracted hours so the salary is pro rata."
     },
     {
-     "message": "Adding a weekly-paid worker to our monthly payroll.",
+     "message": "Adding a weekly-paid warehouse worker to our monthly payroll.",
      "proposed": "Add them under Employees > Add employee and choose your monthly pay schedule.",
-     "rule_id": "EMP-3",
+     "rule_id": "EMP-4",
      "rule": "Each employee is on one pay schedule. Weekly-paid staff need a weekly schedule; if the account has none, create it first under Settings > Pay schedules.",
      "correct": false,
      "verdict_reason": "Put a weekly-paid worker on the monthly schedule; the account had no weekly schedule, so one was needed first."
@@ -187,32 +187,32 @@
    "tested": 154,
    "correct": 152,
    "risk": "High",
-   "risk_example": "High: payroll paid from or to the wrong account",
+   "risk_example": "High: salary sent to a fraudster's account, usually unrecoverable",
    "reason": "98.7% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
-     "message": "We've switched banks, need to update the account payroll is paid from.",
-     "proposed": "I've started the change under Settings > Bank account. It takes effect once your account owner approves it and our team confirms it on a short verification call.",
+     "message": "We've switched banks. What do I need to change?",
+     "proposed": "Your account owner can add the new paying account under Settings > Bank account, and our team confirms it on a short verification call. It applies from your next pay run, so recreate any payment file you've already made.",
      "rule_id": "BANK-1",
-     "rule": "Changing the company bank account needs the account owner's approval and a verification call from Gusta before it takes effect.",
+     "rule": "A new company paying account needs the account owner's approval and a verification call from Gusta. It applies from the next pay run; any payment file already made must be recreated.",
      "correct": true,
-     "verdict_reason": "Asked for the owner's approval and the verification call."
+     "verdict_reason": "Covered owner approval, the verification call and the payment file."
     },
     {
-     "message": "An employee gave me new bank details.",
-     "proposed": "You can update them on the employee's profile under Bank details. Please check the new details against the bank form they signed before saving.",
+     "message": "Got an email from Jo with new bank details. Can you update them before Friday?",
+     "proposed": "Before changing anything, please call Jo on the number already on file to confirm the new details. Emailed requests are a common way fraudsters divert salaries.",
      "rule_id": "BANK-2",
-     "rule": "Admins change an employee's bank details on their profile. The new details must match the bank form the employee signed.",
+     "rule": "Never act on an emailed or messaged request to change an employee's bank details. The admin must confirm with the employee by phone, on the number already on file.",
      "correct": true,
-     "verdict_reason": "Asked for the check against the signed form."
+     "verdict_reason": "Asked for a call-back on the number on file before any change."
     },
     {
-     "message": "Change our company account number, urgent, payroll is tomorrow.",
-     "proposed": "I've started the change so it's ready for tomorrow's run. Your account owner needs to approve it first.",
+     "message": "We've changed our company account number and payroll goes out tomorrow.",
+     "proposed": "I've started the change so tomorrow's payment comes from the new account. Your account owner needs to approve it first.",
      "rule_id": "BANK-3",
-     "rule": "No bank changes within 3 working days of a payroll run. Hand over to a support agent for a manual check.",
+     "rule": "No bank changes within 3 working days of payday. Hand over to a support agent for a manual check.",
      "correct": false,
-     "verdict_reason": "Payroll was 1 working day away; inside 3 days it should have gone to a support agent for a manual check."
+     "verdict_reason": "Payday was 1 working day away; inside 3 days it should have gone to a support agent for a manual check."
     }
    ]
   },
@@ -222,11 +222,11 @@
    "tested": 121,
    "correct": 111,
    "risk": "High",
-   "risk_example": "High: wrong refund paid out",
+   "risk_example": "High: refund paid that the policy doesn't allow, or one refused wrongly",
    "reason": "91.7% accurate; moves money, so a support agent checks every draft",
    "examples": [
     {
-     "message": "You charged us twice this month.",
+     "message": "Charged twice this month??",
      "proposed": "I can see two identical charges on your November invoice. I've refunded the second one in full.",
      "rule_id": "BILL-1",
      "rule": "Duplicate charge: confirm it on the invoice, then refund the duplicate in full.",
@@ -242,10 +242,10 @@
      "verdict_reason": "February was still due: the cancellation only took effect at the end of February."
     },
     {
-     "message": "Can I get a refund for the unused months on our annual plan?",
+     "message": "Can I get my money back for the rest of our annual plan?",
      "proposed": "Annual plans can get a pro-rata refund for unused months. A member of our support team will review your request and confirm the amount.",
      "rule_id": "BILL-3",
-     "rule": "Annual plans: refunds for unused months are pro-rata and reviewed by a support agent before they're paid.",
+     "rule": "Annual plans: refunds for unused months are pro rata and reviewed by a support agent before they're paid.",
      "correct": true,
      "verdict_reason": "Sent the pro-rata refund for a support agent to review."
     }
@@ -257,24 +257,24 @@
    "tested": 189,
    "correct": 170,
    "risk": "High",
-   "risk_example": "High: staff paid late",
+   "risk_example": "High: staff paid late or paid twice, and HMRC penalties",
    "reason": "89.9% accurate; staff pay is at stake, so a support agent checks",
    "examples": [
     {
-     "message": "Payroll failed with a bank error.",
-     "proposed": "Your bank authorisation expired on 1 November. Renew it under Settings > Bank account > Authorisation, then rerun payroll from Payroll > Runs.",
-     "rule_id": "RUN-1",
-     "rule": "Bank error on a run: check the bank authorisation first. If it has expired, show how to renew it, then rerun.",
+     "message": "HMRC rejected my submission and staff are already paid.",
+     "proposed": "Your staff's pay isn't affected; only the report to HMRC was rejected. Priya Shah's National Insurance number is in the wrong format. Correct it on her record, then resubmit the FPS from Payroll > Submissions.",
+     "rule_id": "RUN-2",
+     "rule": "FPS rejected by HMRC: name the employees and the field at fault (often the National Insurance number), say pay isn't affected, then resubmit once fixed.",
      "correct": true,
-     "verdict_reason": "Found the expired authorisation before suggesting a rerun."
+     "verdict_reason": "Named the employee and field, and said pay wasn't affected."
     },
     {
-     "message": "Run failed, says tax code missing for 2 employees.",
-     "proposed": "Priya Shah and Tom Ellis have no tax code. Add them on each profile under Tax, then rerun payroll.",
-     "rule_id": "RUN-2",
-     "rule": "Missing tax codes: name the employees and where to add the codes, then rerun.",
+     "message": "The payment file failed and payday is Friday.",
+     "proposed": "Your bank authorisation for BACS payments expired on 1 November. Renew it under Settings > Bank account > Authorisation, then resubmit by the end of today so staff are paid on Friday.",
+     "rule_id": "RUN-1",
+     "rule": "BACS payment file rejected: check the bank authorisation first. If it has expired, show how to renew it and give the deadline to resubmit for payday.",
      "correct": true,
-     "verdict_reason": "Named both employees and where to add the codes."
+     "verdict_reason": "Found the expired authorisation and gave the BACS deadline."
     },
     {
      "message": "Payroll didn't go through and staff are asking where their pay is.",
@@ -292,32 +292,32 @@
    "tested": 298,
    "correct": 280,
    "risk": "High",
-   "risk_example": "High: customer files a wrong figure and gets a penalty",
+   "risk_example": "High: staff file wrong tax returns, or a contractor is treated as staff",
    "reason": "94.0% accurate, but a wrong figure is costly, so a support agent checks",
    "examples": [
     {
-     "message": "Where do I find the year-end tax forms for my staff?",
-     "proposed": "They're under Reports > Year end. From there you can download them or send each employee their form.",
+     "message": "Where are the P60s for my staff?",
+     "proposed": "They're under Reports > Year end. You can send each employee their P60 from there; they need to have them by 31 May.",
      "rule_id": "TAX-1",
-     "rule": "Year-end forms are under Reports > Year end. Admins send them to employees from there.",
+     "rule": "P60s are under Reports > Year end. Admins send them to employees from there; employees must have them by 31 May.",
      "correct": true,
-     "verdict_reason": "Gave the right place and how to send the forms."
+     "verdict_reason": "Gave the right place and the 31 May deadline."
     },
     {
-     "message": "Why is the tax on this form different from the payslips?",
-     "proposed": "The form includes a correction made in November, after this employee's tax code changed. Payslips before November show the old figures.",
+     "message": "My P60 doesn't match my payslips added up.",
+     "proposed": "Your P60 includes a correction made in November, after your tax code changed, which was sent to HMRC separately. Payslips before November show the old figures.",
      "rule_id": "TAX-2",
-     "rule": "A form differs from the payslips: check for corrections in that tax year before answering.",
+     "rule": "A P60 differs from the payslips: check for corrections sent to HMRC in that tax year before answering.",
      "correct": true,
      "verdict_reason": "Found the November correction before answering."
     },
     {
-     "message": "Do I need to file anything for a contractor?",
-     "proposed": "Yes: add them under Employees and they'll be included in your year-end filing.",
+     "message": "Do my subbies get a P60?",
+     "proposed": "Yes: add them under Employees and they'll get a P60 at year end with everyone else.",
      "rule_id": "TAX-3",
-     "rule": "Contractors are not employees: they aren't paid through payroll and use a separate contractor form. Never give the employee process for a contractor.",
+     "rule": "CIS subcontractors aren't employees: they aren't paid through payroll and get monthly CIS statements, not payslips or P60s. Never give the employee process for them.",
      "correct": false,
-     "verdict_reason": "Gave the employee process for a contractor."
+     "verdict_reason": "Treated CIS subcontractors as employees; they get monthly CIS statements, not P60s."
     }
    ]
   },
@@ -327,19 +327,19 @@
    "tested": 88,
    "correct": 87,
    "risk": "High",
-   "risk_example": "High: account and payroll history closed by mistake",
+   "risk_example": "High: final HMRC submission or P45s missed, records lost",
    "reason": "98.9% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
-     "message": "We're closing the business, how do I cancel?",
-     "proposed": "Sorry to see you go. First run your final payroll, then export your records under Reports > Export all. Once your account owner confirms, I'll set up the cancellation.",
+     "message": "Closing the business at the end of the month. What do I need to do?",
+     "proposed": "Sorry to see you go. Run your final payroll, mark the last FPS as final with the date you stopped employing staff, give everyone a P45, and export your records under Reports > Export all. Once your account owner confirms, I'll set up the cancellation.",
      "rule_id": "CAN-1",
-     "rule": "Before cancelling: run the final payroll, export the records (Reports > Export all), and the account owner confirms.",
+     "rule": "Before cancelling: run the final payroll, mark the last FPS as final with the date the business stopped employing staff, issue P45s, export the records (Reports > Export all), and the account owner confirms.",
      "correct": true,
-     "verdict_reason": "Covered final payroll, export and the owner's confirmation."
+     "verdict_reason": "Covered final payroll, final FPS, P45s, export and the owner's confirmation."
     },
     {
-     "message": "Cancel at the end of this month please.",
+     "message": "Please cancel at the end of this month.",
      "proposed": "I've set your cancellation for the end of this billing month; this month is still charged. Before then, export your records under Reports > Export all.",
      "rule_id": "BILL-2",
      "rule": "Cancellations take effect at the end of the current billing month. That month is still charged.",
@@ -347,12 +347,12 @@
      "verdict_reason": "Cancelled for the end of the billing month and said it's still charged."
     },
     {
-     "message": "Thinking of cancelling, what happens to our data?",
+     "message": "Moving to another provider. What happens to our data?",
      "proposed": "Your records are deleted when your account closes, so export anything you need first.",
      "rule_id": "CAN-2",
-     "rule": "Records are kept, read-only, for 6 years after cancelling, then deleted.",
+     "rule": "Records stay available, read-only, for 6 years after cancelling, then are deleted. Remind customers they must keep payroll records for 3 years after the tax year ends.",
      "correct": false,
-     "verdict_reason": "Records are kept read-only for 6 years, not deleted at closing."
+     "verdict_reason": "Records stay read-only for 6 years, not deleted at closing, and it didn't mention the 3-year record-keeping rule."
     }
    ]
   },
@@ -362,32 +362,32 @@
    "tested": 132,
    "correct": 124,
    "risk": "High",
-   "risk_example": "High: staff paid on the wrong day",
+   "risk_example": "High: staff paid late and miss rent or mortgage payments",
    "reason": "93.9% accurate; moves money, so a support agent checks",
    "examples": [
     {
-     "message": "Can we pay staff on the 25th instead of the last day?",
-     "proposed": "Yes. Change it under Settings > Pay schedules; it applies from your next run. Approve each run at least 2 working days before the 25th so the bank pays on time.",
+     "message": "Can we pay on the 25th instead of the last day of the month?",
+     "proposed": "Yes. Change it under Settings > Pay schedules; it starts from your next pay period. Approve each run 3 working days before the 25th so the BACS payment arrives on time.",
      "rule_id": "RUN-4",
-     "rule": "A new pay date applies from the next run. Runs must be approved 2 working days before the pay date (the bank cut-off).",
+     "rule": "A new pay date applies from the next pay period. Runs must be approved 3 working days before payday for BACS.",
      "correct": true,
-     "verdict_reason": "Applied it from the next run and gave the bank cut-off."
+     "verdict_reason": "Started it from the next pay period and gave the BACS deadline."
     },
     {
-     "message": "Bank holiday on payday, can we pay a day early?",
-     "proposed": "Yes. I've moved this month's pay date to the working day before the bank holiday.",
+     "message": "Payday's a bank holiday. When do we pay?",
+     "proposed": "Pay on the working day before. I've moved this month's pay date to Friday, so approve the run by Tuesday for BACS.",
      "rule_id": "RUN-5",
-     "rule": "Payday on a bank holiday: pay on the working day before.",
+     "rule": "Payday on a weekend or bank holiday: pay on the working day before, and bring the approval deadline forward to match.",
      "correct": true,
-     "verdict_reason": "Moved pay to the working day before."
+     "verdict_reason": "Moved pay to the working day before and brought the deadline forward."
     },
     {
-     "message": "Move this month's pay date to tomorrow.",
+     "message": "Can we bring this month's payday forward to tomorrow?",
      "proposed": "Done: this month's pay date is now tomorrow.",
      "rule_id": "RUN-6",
-     "rule": "A pay date can't move inside the 2-working-day bank cut-off.",
+     "rule": "A pay date can't be brought forward inside the 3-working-day BACS window. Hand over to a support agent.",
      "correct": false,
-     "verdict_reason": "Tomorrow was inside the 2-working-day bank cut-off; staff would have been paid late."
+     "verdict_reason": "Tomorrow was inside the 3-working-day BACS window; staff would have been paid late."
     }
    ]
   },
@@ -397,20 +397,20 @@
    "tested": 177,
    "correct": 174,
    "risk": "Low",
-   "risk_example": "Low: customer is confused about a charge",
+   "risk_example": "Low: customer confused about a charge",
    "reason": "98.3% accurate and a wrong call costs little",
    "examples": [
     {
-     "message": "What is this extra charge on our invoice?",
-     "proposed": "That line is for 2 employees added on 12 November, charged pro-rata for the rest of the month.",
+     "message": "Why is this month's invoice higher?",
+     "proposed": "You paid 2 more employees this month, Lena and Tom, added on 12 November. Each employee paid in a month is charged at the per-employee rate, on the second line of your invoice.",
      "rule_id": "BILL-4",
-     "rule": "Explain invoice charges line by line, using the invoice breakdown.",
+     "rule": "Explain invoice charges line by line, using the invoice breakdown. Each employee paid in a month is charged at the per-employee rate.",
      "correct": true,
      "verdict_reason": "Explained the line from the invoice breakdown."
     },
     {
-     "message": "Can I get a copy of last month's invoice?",
-     "proposed": "Here's your October invoice. You'll always find invoices under Settings > Billing > Invoices.",
+     "message": "Where do I download invoices for my accountant?",
+     "proposed": "They're under Settings > Billing > Invoices. Here's October's.",
      "rule_id": "BILL-5",
      "rule": "Invoices are under Settings > Billing > Invoices.",
      "correct": true,
@@ -420,7 +420,7 @@
      "message": "Why did our price go up?",
      "proposed": "Gusta raised prices for all customers this year.",
      "rule_id": "BILL-6",
-     "rule": "Before explaining a price change, check the account's plan history.",
+     "rule": "Before explaining a price change, check the account's plan history and the number of employees paid.",
      "correct": false,
      "verdict_reason": "Didn't check the plan history: they had moved to a bigger plan in September."
     }
@@ -432,32 +432,32 @@
    "tested": 170,
    "correct": 146,
    "risk": "Medium",
-   "risk_example": "Medium: employee underpaid for leave",
+   "risk_example": "Medium: worker underpaid holiday pay and owed back pay",
    "reason": "85.9% accurate: enough for a useful draft, checked by a support agent",
    "examples": [
     {
-     "message": "How is holiday pay worked out for part-time staff?",
-     "proposed": "It's pro-rata to their contracted days: someone on 3 days a week gets 3/5 of the full-time holiday.",
+     "message": "How much holiday does a 3-day-a-week employee get?",
+     "proposed": "Statutory holiday is 5.6 weeks a year, so someone working 3 days a week gets 16.8 days.",
      "rule_id": "HOL-1",
-     "rule": "Part-time holiday is pro-rata to contracted days.",
+     "rule": "Statutory holiday is 5.6 weeks a year. Part-time is pro rata: 3 days a week is 16.8 days.",
      "correct": true,
-     "verdict_reason": "Explained the pro-rata rule with an example."
+     "verdict_reason": "Gave the pro-rata figure."
     },
     {
-     "message": "An employee says her holiday pay is too low.",
-     "proposed": "I've checked: her holiday pay matches her basic pay for those days, so it's correct.",
+     "message": "Why is Dan's holiday pay more than his normal week?",
+     "proposed": "That looks like an error. Dan's holiday pay should match his basic pay, so I'd reduce it.",
      "rule_id": "HOL-2",
-     "rule": "Holiday pay includes regular overtime and regular commission, not just basic pay.",
+     "rule": "Holiday pay for the first 4 weeks includes regular overtime and commission, averaged over the last 52 weeks of pay, not just basic pay.",
      "correct": false,
-     "verdict_reason": "Left out the regular overtime she works every month, so she was underpaid."
+     "verdict_reason": "Dan works regular overtime, which must be included; the higher figure was right."
     },
     {
-     "message": "How do I record 2 days of leave?",
-     "proposed": "Open the employee's profile, go to Leave and add the 2 days on their calendar.",
+     "message": "Our casual staff, how much holiday do they get?",
+     "proposed": "For irregular-hours workers, holiday builds up at 12.07% of the hours they work each pay period. Gusta works this out when you set their contract to irregular hours.",
      "rule_id": "HOL-3",
-     "rule": "Leave is recorded on the employee's profile under Leave.",
+     "rule": "Irregular-hours and part-year workers build up holiday at 12.07% of the hours they work each pay period.",
      "correct": true,
-     "verdict_reason": "Pointed to the Leave page."
+     "verdict_reason": "Applied the irregular-hours rule."
     }
    ]
   },
@@ -467,14 +467,14 @@
    "tested": 131,
    "correct": 129,
    "risk": "Low",
-   "risk_example": "Low: wrong date range exported",
+   "risk_example": "Low: accountant gets figures for the wrong period",
    "reason": "98.5% accurate and a wrong call costs little",
    "examples": [
     {
-     "message": "Need a payroll summary for our accountant.",
-     "proposed": "Here's your payroll summary for the last full tax year, as a spreadsheet. Tell me if your accountant needs different dates.",
+     "message": "My accountant needs payroll totals for the tax year.",
+     "proposed": "Here's your payroll summary for the last full tax year, 6 April to 5 April, as a spreadsheet. Tell me if your accountant needs different dates.",
      "rule_id": "REP-1",
-     "rule": "Payroll summary: default to the last full tax year unless the customer gives dates.",
+     "rule": "Payroll summary: default to the last full tax year (6 April to 5 April) unless the customer gives dates.",
      "correct": true,
      "verdict_reason": "Defaulted to the last full tax year."
     },
@@ -487,7 +487,7 @@
      "verdict_reason": "The ticket came in October; the most recent full quarter was July to September."
     },
     {
-     "message": "Can I get a list of all employees with salaries?",
+     "message": "Can I get a list of all employees with their salaries?",
      "proposed": "Here's the list of your 24 employees with their salaries.",
      "rule_id": "REP-3",
      "rule": "Only the account owner and admins can export salaries.",
@@ -502,32 +502,32 @@
    "tested": 96,
    "correct": 84,
    "risk": "Medium",
-   "risk_example": "Medium: wrong deduction explained to staff",
+   "risk_example": "Medium: wrong deduction, or an opt-out refund missed",
    "reason": "87.5% accurate: a useful draft, not enough to send unchecked",
    "examples": [
     {
-     "message": "Why has pension been taken from a new starter?",
-     "proposed": "New starters join your workplace pension automatically after a 3-month waiting period. Sam's ended in October, so deductions started this month.",
+     "message": "Why has pension been taken from our new starter?",
+     "proposed": "Staff aged 22 or over earning more than \u00a310,000 a year are enrolled automatically. You postpone enrolment by 3 months, and Sam's postponement ended in October, so deductions started this month.",
      "rule_id": "PEN-1",
-     "rule": "New starters are enrolled in the workplace pension automatically after a 3-month waiting period.",
+     "rule": "Staff aged 22 or over earning more than \u00a310,000 a year are enrolled automatically, after any postponement (up to 3 months) the employer has set.",
      "correct": true,
-     "verdict_reason": "Explained the waiting period using Sam's dates."
+     "verdict_reason": "Explained enrolment using the account's postponement setting."
     },
     {
-     "message": "An employee wants to opt out of the pension.",
-     "proposed": "Record the opt-out on their profile under Pension. As they're within a month of enrolment, their deductions will be refunded in the next run.",
+     "message": "New guy wants to opt out. Can I stop it?",
+     "proposed": "He opts out himself through the pension provider. If he does within a month of enrolment, record it on his record under Pension and his deductions are refunded in the next run. You can't encourage him to opt out.",
      "rule_id": "PEN-2",
-     "rule": "Opt-outs within a month of enrolment get their deductions refunded in the next run.",
+     "rule": "Opt-outs within a month of enrolment get their deductions refunded in the next run. Never encourage an opt-out.",
      "correct": true,
-     "verdict_reason": "Recorded the opt-out and the refund."
+     "verdict_reason": "Covered the opt-out window and refund, and didn't encourage it."
     },
     {
-     "message": "Pension amount looks wrong this month.",
+     "message": "Amy's pension looks wrong this month.",
      "proposed": "This month's pension deduction is the same as last month's, so it looks right.",
      "rule_id": "PEN-3",
-     "rule": "Before confirming a pension deduction is right, check for salary changes that month.",
+     "rule": "Contributions are worked out on qualifying earnings (\u00a36,240 to \u00a350,270), so they change with pay. Check for pay changes that month before confirming a deduction.",
      "correct": false,
-     "verdict_reason": "Didn't check for salary changes: a pay rise this month hadn't reached the pension, so the deduction was too low."
+     "verdict_reason": "Didn't check her pay: a pay rise hadn't reached the pension calculation, so the deduction was too low."
     }
    ]
   },
@@ -537,32 +537,32 @@
    "tested": 50,
    "correct": 29,
    "risk": "Medium",
-   "risk_example": "Medium: customer gets a wrong or made-up answer",
+   "risk_example": "Medium: customer relies on a guessed answer, or a real problem isn't passed on",
    "reason": "Only 58% accurate: no playbook rule covers these",
    "examples": [
     {
-     "message": "Does Gusta connect to our rota app?",
-     "proposed": "Yes, Gusta connects with most rota apps under Settings > Integrations.",
+     "message": "Is my cleaner self-employed or staff?",
+     "proposed": "If they set their own hours and bring their own equipment, they're self-employed, so you don't need to add them to payroll.",
      "rule_id": "GEN-5",
-     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question.",
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, no rule covers the question, or it needs tax, legal or employment-status advice, a data request, or a suspected bug looked at.",
      "correct": false,
-     "verdict_reason": "No rule covers integrations; it guessed instead of handing over to a support agent."
+     "verdict_reason": "Gave an employment-status judgement instead of handing over to a support agent."
     },
     {
-     "message": "We're being audited next week. Can someone talk us through what data you hold?",
-     "proposed": "I'll pass you to a member of our support team, who can take you through what we hold for your audit.",
+     "message": "An ex-employee wants a copy of all the data we hold on him.",
+     "proposed": "That's a subject access request, which you need to answer within a month. I'll pass you to a member of our support team, who can help you export his records.",
      "rule_id": "GEN-5",
-     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question.",
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, no rule covers the question, or it needs tax, legal or employment-status advice, a data request, or a suspected bug looked at.",
      "correct": true,
-     "verdict_reason": "No rule covers audits, so it handed over to a support agent."
+     "verdict_reason": "Handed the data request over to a support agent."
     },
     {
-     "message": "Your last update deleted our custom report.",
-     "proposed": "Updates don't affect custom reports. You'll find yours under Reports > Saved.",
+     "message": "The tax on one payslip looks wrong. Is it a bug?",
+     "proposed": "Gusta's tax calculations follow HMRC's rules, so the figure is right. Check the employee's tax code.",
      "rule_id": "GEN-5",
-     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question.",
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, no rule covers the question, or it needs tax, legal or employment-status advice, a data request, or a suspected bug looked at.",
      "correct": false,
-     "verdict_reason": "No rule covers this; it denied a possible bug instead of handing over to a support agent."
+     "verdict_reason": "Dismissed a possible bug instead of handing over to a support agent."
     }
    ]
   }

@@ -12,8 +12,9 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('no top bar', !(await p.$('#topbar')));
   const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.includes('An AI agent that answers customer support tickets') && it.indexOf('An AI agent') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
   t('accuracy footnote below the table explains the overrides', (await txt('#measure')).startsWith('* Where Kestrel is in use, accuracy is live') && (await txt('#thAcc')) === 'Accuracy*' && (await txt('#measure')).includes('makes a material change') && (await p.evaluate(() => !!(document.querySelector('#types').compareDocumentPosition(document.querySelector('#measure')) & Node.DOCUMENT_POSITION_FOLLOWING))) && (await txt('#measure')).includes('asks for a human') && (await txt('#measure')).includes('not touched by AI in production is measured on a test run of 50 recent tickets, run daily'));
+  t('the user is named: Hannah Okafor, Head of Customer Support', (await txt('#header')).includes("Hannah Okafor, Gusta's Head of Customer Support"));
   t('headline', (await txt('#headline')) === 'Monthly projection per current settings');
-  t('default: 1 override (Add a new employee set to AI, above recommended)', (await txt('#state')) === '1 override' && (await p.inputValue('select[data-i="4"]')) === 'resolve' && (await txt('tr.row[data-i="4"]')).includes('Riskier than recommended: about 9 wrong answers a month would reach customers with no one checking'));
+  t('default: 1 setting override (Add a new employee set to AI, above recommended)', (await txt('#state')) === '1 setting override' && (await p.inputValue('select[data-i="4"]')) === 'resolve' && (await txt('tr.row[data-i="4"]')).includes('Riskier than recommended: about 9 wrong answers a month would reach customers with no one checking'));
   t('default projection: 55.5%, 393 hours, 0', (await txt('#sumShare')) === '55.5%' && (await txt('#sumHours')) === '393' && (await txt('#sumHigh')) === '0');
   t('static mode: no accuracy change on load', (await p.$$('td.acc-up, td.acc-down')).length === 0);
   t('a blinking live dot on each type measured on live tickets (15), 1-second blink', (await p.$$('td.acc .live-dot')).length === 15 && (await p.evaluate(() => { document.body.classList.remove('static'); const cs = getComputedStyle(document.querySelector('.live-dot')); const ok = cs.animationName === 'blink' && cs.animationDuration === '1s'; document.body.classList.add('static'); return ok; })));
@@ -54,12 +55,12 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('confirmation sits right under the changed control, inside its cell', Math.abs(tb.top - sb.bottom) < 12 && Math.abs(tb.left - sb.left) < 4);
   const row = await txt('tr.row[data-i="6"]');
   t('raising AI share flashes green, high-risk wrong answers flash red', (await p.getAttribute('#sumShare >> xpath=..', 'class')).includes('flash-good') && (await p.getAttribute('#sumHigh >> xpath=..', 'class')).includes('flash-bad'));
-  t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Riskier than recommended: about 10 wrong answers a month would reach customers with no one checking'));
+  t('override shows Overridden and the warning', row.includes('Setting overridden') && row.includes('Riskier than recommended: about 10 wrong answers a month would reach customers with no one checking'));
   t('summary updates: 51.4%, 10 high-risk wrong answers', (await txt('#sumShare')) === '51.4%' && (await txt('#sumHigh')) === '10');
-  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 from recommended settings'));
+  t('dashboard updates: 1 setting override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 setting override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 from recommended settings'));
   await p.selectOption('select[data-i="0"]', 'human');
   const row0 = await txt('tr.row[data-i="0"]');
-  t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Riskier than recommended'));
+  t('lowering autonomy: Overridden, no warning', row0.includes('Setting overridden') && !row0.includes('Riskier than recommended'));
   await p.click('#applyAll');
   // risk: Password reset Low -> High moves it to AI-assisted human; the setting follows because it was on the recommendation
   await p.selectOption('select[data-risk="0"]', 'High');
@@ -72,7 +73,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.selectOption('select[data-risk="0"]', 'Low'); await p.selectOption('select[data-risk="1"]', 'Low'); await p.click('#applyAll');
   t('back to the original: 47.5%', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Adjusted by user'));
   t('confirmation after Apply all', (await txt('#toast')).includes('All recommendations applied'));
-  t('Apply all recommendations resets everything', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Overridden'));
+  t('Apply all recommendations resets everything', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Setting overridden'));
   t('rules are one table with 3 coloured rows', (await p.$$('#rules tr.r-resolve, #rules tr.r-draft, #rules tr.r-human')).length === 3 && (await p.$$('#rules .chip')).length === 3);
   t('setting dropdown is coloured by its value', (await p.getAttribute('select[data-i="0"]', 'class')) === 's-resolve' && (await p.getAttribute('select[data-i="6"]', 'class')) === 's-draft' && (await p.getAttribute('select[data-i="15"]', 'class')) === 's-human');
   const body = await txt('body');

@@ -11,7 +11,7 @@
     },
     {
      "id": "GEN-2",
-     "rule": "Check the account itself (payroll runs, invoices, plan history, settings) before answering. Never answer from general knowledge alone."
+     "rule": "Check the account itself (pay runs, HMRC submissions, invoices, plan history, settings) before answering. Never answer from general knowledge alone."
     },
     {
      "id": "GEN-3",
@@ -23,7 +23,7 @@
     },
     {
      "id": "GEN-5",
-     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question."
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, no rule covers the question, or it needs tax, legal or employment-status advice, a data request, or a suspected bug looked at."
     },
     {
      "id": "GEN-6",
@@ -32,31 +32,31 @@
    ]
   },
   {
-   "name": "Logging in",
+   "name": "Signing in",
    "rules": [
     {
      "id": "ACC-1",
-     "rule": "Forgotten password: send one reset link. If it hasn't arrived, ask the customer to check spam for an email from Gusta."
+     "rule": "Forgotten password: send one reset link. If it hasn't arrived, ask the customer to check their junk folder and, in Gmail, the Promotions tab for an email from Gusta."
     },
     {
      "id": "ACC-2",
-     "rule": "Reset links expire after 30 minutes. Say so every time you send one."
+     "rule": "Reset links expire after 30 minutes and only the newest one works. Say both every time you send one."
     },
     {
      "id": "ACC-3",
-     "rule": "Never change the email someone logs in with. Only the account owner can, under Settings > Users."
+     "rule": "Never change the email someone signs in with, or send a reset to a different address. Only the account owner can change it, under Settings > Users."
     },
     {
      "id": "ACC-4",
-     "rule": "Accounts lock for 15 minutes after 5 failed attempts. Explain the wait and send a reset link."
+     "rule": "Accounts lock for 15 minutes after 5 wrong passwords. Explain the wait and send a reset link."
     },
     {
      "id": "ACC-5",
-     "rule": "2-step code not arriving by text: send it by email instead, and show where to update the phone number (Profile > Security)."
+     "rule": "Lost 2-step codes: offer the backup codes saved at setup. Without them, hand over to a support agent to check identity. Never switch off 2-step verification in chat."
     },
     {
      "id": "ACC-6",
-     "rule": "Can't log in on the mobile app only: check the app version first. If it's out of date, ask them to update before anything else."
+     "rule": "Can't sign in on the mobile app only: check the app version first. If it's out of date, ask them to update before anything else."
     }
    ]
   },
@@ -65,15 +65,19 @@
    "rules": [
     {
      "id": "PAY-1",
-     "rule": "Payslips are on each employee's profile under Documents. Admins can resend them from there."
+     "rule": "Payslips are on each employee's record under Documents. Admins can resend them from there."
     },
     {
      "id": "PAY-2",
-     "rule": "Employees download their own payslips in the Gusta employee app. Share the employee app guide."
+     "rule": "Employees get their payslips in the Gusta employee app once each payroll is finalised. Share the employee app guide."
     },
     {
      "id": "PAY-3",
-     "rule": "Payslips missing for a recent run: check the run status first. Payslips only exist once a run is approved."
+     "rule": "Payslips missing for a recent run: check the run is finalised and the payslip release date before anything else."
+    },
+    {
+     "id": "PAY-4",
+     "rule": "Send payslips only to the email address on the employee's record, never to an address given in chat."
     }
    ]
   },
@@ -82,19 +86,15 @@
    "rules": [
     {
      "id": "CO-1",
-     "rule": "Only the account owner can change the registered address, which tax letters go to. Admins can change the trading address."
+     "rule": "Only the account owner can change the registered office in Gusta, and only once the change is registered at Companies House."
     },
     {
      "id": "CO-2",
-     "rule": "The registered and trading addresses are separate. Change or explain only the one the customer asked about."
+     "rule": "HMRC holds a separate PAYE correspondence address. When a customer moves, remind them to check it with HMRC as well as updating Gusta."
     },
     {
      "id": "CO-3",
-     "rule": "Payslips show the trading address, not the registered address."
-    },
-    {
-     "id": "CO-4",
-     "rule": "A new registered address reaches the tax office in 1 to 2 weeks. Say so."
+     "rule": "Payslips show the business address set under Settings > Company, not the registered office."
     }
    ]
   },
@@ -103,14 +103,18 @@
    "rules": [
     {
      "id": "EMP-1",
-     "rule": "Before a new employee's first payroll run, Gusta needs their tax code, ID number, start date and bank details."
+     "rule": "Before a new employee's first pay run, Gusta needs their National Insurance number, date of birth, start date, bank details and a P45 or starter checklist."
     },
     {
      "id": "EMP-2",
-     "rule": "Part-time staff: set their contracted days. Salary is pro-rata to a 5-day week."
+     "rule": "No P45: the employee's answer on the HMRC starter checklist (statement A, B or C) sets the tax code. Never guess a code."
     },
     {
      "id": "EMP-3",
+     "rule": "Part-time staff: set their contracted hours. Salary is pro rata to the full-time week."
+    },
+    {
+     "id": "EMP-4",
      "rule": "Each employee is on one pay schedule. Weekly-paid staff need a weekly schedule; if the account has none, create it first under Settings > Pay schedules."
     }
    ]
@@ -120,15 +124,15 @@
    "rules": [
     {
      "id": "BANK-1",
-     "rule": "Changing the company bank account needs the account owner's approval and a verification call from Gusta before it takes effect."
+     "rule": "A new company paying account needs the account owner's approval and a verification call from Gusta. It applies from the next pay run; any payment file already made must be recreated."
     },
     {
      "id": "BANK-2",
-     "rule": "Admins change an employee's bank details on their profile. The new details must match the bank form the employee signed."
+     "rule": "Never act on an emailed or messaged request to change an employee's bank details. The admin must confirm with the employee by phone, on the number already on file."
     },
     {
      "id": "BANK-3",
-     "rule": "No bank changes within 3 working days of a payroll run. Hand over to a support agent for a manual check."
+     "rule": "No bank changes within 3 working days of payday. Hand over to a support agent for a manual check."
     }
    ]
   },
@@ -145,11 +149,11 @@
     },
     {
      "id": "BILL-3",
-     "rule": "Annual plans: refunds for unused months are pro-rata and reviewed by a support agent before they're paid."
+     "rule": "Annual plans: refunds for unused months are pro rata and reviewed by a support agent before they're paid."
     },
     {
      "id": "BILL-4",
-     "rule": "Explain invoice charges line by line, using the invoice breakdown."
+     "rule": "Explain invoice charges line by line, using the invoice breakdown. Each employee paid in a month is charged at the per-employee rate."
     },
     {
      "id": "BILL-5",
@@ -157,20 +161,20 @@
     },
     {
      "id": "BILL-6",
-     "rule": "Before explaining a price change, check the account's plan history."
+     "rule": "Before explaining a price change, check the account's plan history and the number of employees paid."
     }
    ]
   },
   {
-   "name": "Payroll runs",
+   "name": "Pay runs",
    "rules": [
     {
      "id": "RUN-1",
-     "rule": "Bank error on a run: check the bank authorisation first. If it has expired, show how to renew it, then rerun."
+     "rule": "BACS payment file rejected: check the bank authorisation first. If it has expired, show how to renew it and give the deadline to resubmit for payday."
     },
     {
      "id": "RUN-2",
-     "rule": "Missing tax codes: name the employees and where to add the codes, then rerun."
+     "rule": "FPS rejected by HMRC: name the employees and the field at fault (often the National Insurance number), say pay isn't affected, then resubmit once fixed."
     },
     {
      "id": "RUN-3",
@@ -178,15 +182,15 @@
     },
     {
      "id": "RUN-4",
-     "rule": "A new pay date applies from the next run. Runs must be approved 2 working days before the pay date (the bank cut-off)."
+     "rule": "A new pay date applies from the next pay period. Runs must be approved 3 working days before payday for BACS."
     },
     {
      "id": "RUN-5",
-     "rule": "Payday on a bank holiday: pay on the working day before."
+     "rule": "Payday on a weekend or bank holiday: pay on the working day before, and bring the approval deadline forward to match."
     },
     {
      "id": "RUN-6",
-     "rule": "A pay date can't move inside the 2-working-day bank cut-off."
+     "rule": "A pay date can't be brought forward inside the 3-working-day BACS window. Hand over to a support agent."
     }
    ]
   },
@@ -195,15 +199,15 @@
    "rules": [
     {
      "id": "TAX-1",
-     "rule": "Year-end forms are under Reports > Year end. Admins send them to employees from there."
+     "rule": "P60s are under Reports > Year end. Admins send them to employees from there; employees must have them by 31 May."
     },
     {
      "id": "TAX-2",
-     "rule": "A form differs from the payslips: check for corrections in that tax year before answering."
+     "rule": "A P60 differs from the payslips: check for corrections sent to HMRC in that tax year before answering."
     },
     {
      "id": "TAX-3",
-     "rule": "Contractors are not employees: they aren't paid through payroll and use a separate contractor form. Never give the employee process for a contractor."
+     "rule": "CIS subcontractors aren't employees: they aren't paid through payroll and get monthly CIS statements, not payslips or P60s. Never give the employee process for them."
     }
    ]
   },
@@ -212,11 +216,11 @@
    "rules": [
     {
      "id": "CAN-1",
-     "rule": "Before cancelling: run the final payroll, export the records (Reports > Export all), and the account owner confirms."
+     "rule": "Before cancelling: run the final payroll, mark the last FPS as final with the date the business stopped employing staff, issue P45s, export the records (Reports > Export all), and the account owner confirms."
     },
     {
      "id": "CAN-2",
-     "rule": "Records are kept, read-only, for 6 years after cancelling, then deleted."
+     "rule": "Records stay available, read-only, for 6 years after cancelling, then are deleted. Remind customers they must keep payroll records for 3 years after the tax year ends."
     }
    ]
   },
@@ -225,15 +229,19 @@
    "rules": [
     {
      "id": "HOL-1",
-     "rule": "Part-time holiday is pro-rata to contracted days."
+     "rule": "Statutory holiday is 5.6 weeks a year. Part-time is pro rata: 3 days a week is 16.8 days."
     },
     {
      "id": "HOL-2",
-     "rule": "Holiday pay includes regular overtime and regular commission, not just basic pay."
+     "rule": "Holiday pay for the first 4 weeks includes regular overtime and commission, averaged over the last 52 weeks of pay, not just basic pay."
     },
     {
      "id": "HOL-3",
-     "rule": "Leave is recorded on the employee's profile under Leave."
+     "rule": "Irregular-hours and part-year workers build up holiday at 12.07% of the hours they work each pay period."
+    },
+    {
+     "id": "HOL-4",
+     "rule": "Leave is recorded on the employee's record under Leave."
     }
    ]
   },
@@ -242,7 +250,7 @@
    "rules": [
     {
      "id": "REP-1",
-     "rule": "Payroll summary: default to the last full tax year unless the customer gives dates."
+     "rule": "Payroll summary: default to the last full tax year (6 April to 5 April) unless the customer gives dates."
     },
     {
      "id": "REP-2",
@@ -259,15 +267,15 @@
    "rules": [
     {
      "id": "PEN-1",
-     "rule": "New starters are enrolled in the workplace pension automatically after a 3-month waiting period."
+     "rule": "Staff aged 22 or over earning more than \u00a310,000 a year are enrolled automatically, after any postponement (up to 3 months) the employer has set."
     },
     {
      "id": "PEN-2",
-     "rule": "Opt-outs within a month of enrolment get their deductions refunded in the next run."
+     "rule": "Opt-outs within a month of enrolment get their deductions refunded in the next run. Never encourage an opt-out."
     },
     {
      "id": "PEN-3",
-     "rule": "Before confirming a pension deduction is right, check for salary changes that month."
+     "rule": "Contributions are worked out on qualifying earnings (\u00a36,240 to \u00a350,270), so they change with pay. Check for pay changes that month before confirming a deduction."
     }
    ]
   }
