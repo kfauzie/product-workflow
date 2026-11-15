@@ -19,11 +19,13 @@ description: "Turn the agreed screens into a working first version, fast: one HT
   - No real data: use a small synthetic file, clearly labelled on screen.
   - The concept leaves a number undefined: stop and name it, don't invent a formula.
 - **Acceptance criteria:**
+  - when the brief gives data or rules, tests check them exactly (every row, every rule outcome); when it gives wording rules (banned words, no em dashes), a check enforces them
+  - interactive controls recalculate everything that depends on them, and the tests cover the override paths, not just the default
   - every number is calculated by code, following the concept's AI / code / people split
   - the concept's test cases pass
   - a headless check (about 10 seconds): the page loads, the main flow clicks through, no errors
   - a first-time user can tell in five seconds what each screen is for and what to do next
-- **Handoff:** tell me how to open it; screenshots only if I ask.
+- **Handoff:** tell me how to open it; screenshots only if I ask. If the work is public, a live link (static hosting) and checks that run on every push make it easy to review.
 
 ## Step 2: Change one thing at a time
 - **Input:** my feedback.

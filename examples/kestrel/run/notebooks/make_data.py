@@ -88,6 +88,8 @@ LIVE = {
  'Export payroll report': (131, 129),
  'Pension deduction question': (50, 44),
 }
+# yesterday's correct count for the live types, so the page can show today's refresh (no threshold is crossed)
+PREV = {"Password reset": 466, "Can't log in": 264, "Missing payslip": 339, "Add a new employee": 241, "Change bank details": 151, "Export payroll report": 130}
 REASON = {
  "Password reset": "{p} accurate and a wrong call costs little",
  "Can't log in": "{p} accurate and a wrong call costs little",
@@ -108,7 +110,7 @@ REASON = {
 pct = lambda n: (f"{LIVE[n][1] / LIVE[n][0] * 100:.0f}%" if LIVE[n][0] == 50 else f"{LIVE[n][1] / LIVE[n][0] * 100:.1f}%")
 out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",
        "product": "Kestrel", "customer": "Gusta", "channel": "In-app chat", "minutes_ai": 10, "minutes_assisted": 5,
-       "types": [{"name": n, "tickets": v, "tested": LIVE[n][0], "correct": LIVE[n][1], "risk": c, "risk_example": ce, "reason": REASON[n].format(p=pct(n)),
+       "types": [{"name": n, "tickets": v, "tested": LIVE[n][0], "correct": LIVE[n][1], "prev_correct": PREV.get(n, LIVE[n][1]), "risk": c, "risk_example": ce, "reason": REASON[n].format(p=pct(n)),
                   "examples": [{"message": a, "proposed": b, "rule": rl, "correct": ok, "verdict_reason": rs} for a, b, rl, ok, rs in ex]}
                  for n, v, k, c, ce, mm, ex in T]}
 json.dump(out, open("data/ticket_types.json", "w"), indent=1)

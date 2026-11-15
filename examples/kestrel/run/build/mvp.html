@@ -19,6 +19,8 @@ h1{font-size:28px;color:var(--head);margin:0 0 16px}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
 .delta{font-size:12px;font-weight:600;margin-top:4px}.d-up{color:var(--ai)}.d-bad{color:var(--hum)}.d-none{color:var(--mute);font-weight:400}
 .card b.hi-bad{color:var(--hum)}
+td.acc{transition:background-color .6s,color .3s}td.acc-up{background:var(--ai-bg);color:var(--ai);font-weight:600}td.acc-down{background:var(--hum-bg);color:var(--hum);font-weight:600}
+.accd{font-size:11px;margin-right:6px}
 .card b{transition:color .25s}.card{transition:background-color .6s}
 .card.flash-good{background:var(--ai-bg)}.card.flash-good b{color:var(--ai)}
 .card.flash-bad{background:var(--hum-bg)}.card.flash-bad b{color:var(--hum)}
@@ -106,7 +108,8 @@ if (typeof module !== 'undefined') module.exports = {accuracy, recommend, summar
 <script>
 const LABEL = {resolve: 'AI', draft: 'AI-assisted human', human: 'Human'};
 let D, settings = [], risks = [], open = new Set([0]);
-const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}));
+let live = false, accFlash = {};
+const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}, live ? {} : {correct: t.prev_correct}));
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
@@ -143,7 +146,7 @@ function render(){
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
-      <td class="n">${p}%<div class="sub">${t.tested === t.tickets ? "last 30 days" : t.tested + "-ticket test"}</div></td>
+      <td class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? "last 30 days" : t.tested + "-ticket test"}</div></td>
       <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
@@ -177,9 +180,15 @@ function setRisk(i, v){ const n = 0, before = recommend(eff()[i], n); risks[i] =
   const after = recommend(eff()[i], n); if (settings[i] === before) settings[i] = after; render();
   toast(`${D.types[i].name} risk set to ${v}. ${after !== before ? 'Now recommended: ' + LABEL[after] + '.' : 'Recommendation unchanged.'}`); }
 function applyAll(silent){ settings = eff().map(t => recommend(t, 0)); render(); if (!silent) toast('All recommendations applied. Projection updated.'); }
-fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts(); applyAll(true);
-  setTimeout(() => { settings[D.types.findIndex(t => t.name === 'Change bank details')] = 'human'; render();
-    toast("Saved settings loaded: 1 override from Kestrel's recommendation."); document.body.dataset.ready = '1'; }, 600); })
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts();
+  // saved settings: one override (Add a new employee moved up to AI)
+  settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Add a new employee')] = 'resolve'; render();
+  // live accuracy refresh: yesterday's figures move to today's, each changed cell flashes green or red
+  setTimeout(() => { live = true; accFlash = {};
+    D.types.forEach((t, i) => { const d = (t.correct - t.prev_correct) / t.tested * 100; if (Math.abs(d) >= 0.05) accFlash[i] = d; });
+    render(); const n = Object.keys(accFlash).length;
+    toast(`Live accuracy updated with today's tickets: ${n} ticket types changed.`); document.body.dataset.ready = '1';
+    setTimeout(() => { accFlash = {}; render(); }, 2200); }, 700); })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>

@@ -20,6 +20,10 @@ description: "Turn the solution concept into screens in the company's design sys
 6. **Trust.** The user can see how each number was produced, and where every choice came from (their input, a default, or changed by them).
 7. **Handle edge cases.** Missing data, unclear input, or something the product can't do: say so where it happens, let the user fix it there, then redo what depends on it.
 8. **Make it enjoyable.** Serious, with a little personality: friendly wording, a sense of progress.
+9. **One page by default.** Lead with the few numbers that answer the job, then the rule that produces the recommendation, then the detail. Everything else is one click away (expand a row, open a panel), not a second screen.
+10. **Recommend, let the user decide.** Show the product's recommendation and a separate control the user owns. Mark anything the user changed ("Overridden", "Adjusted by user"), warn when a change goes beyond the recommendation, and offer a one-click way back.
+11. **Make every change visible.** Numbers recalculate live from the current settings; a change shows its direction (green when good, red when not) and a short confirmation that fades. The default state should already show the main interaction, e.g. one change already made.
+12. **Name every actor without ambiguity.** If two things could share a word (a person and an AI, a customer and an end user), always qualify it, and use the same names on every screen.
 
 ## Step 1: Specify each screen
 - **Input:** the concept's workflow and persona.
@@ -41,5 +45,5 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Edge cases:**
   - No Figma: use `design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
-- **Acceptance criteria:** realistic placeholder numbers (no calculations, no data checks: real numbers come in `pm-5`); every label is in the glossary; walk the flow once as the user and fix anything confusing.
+- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `pm-5`); a short header says what the page is and who it is for, in labelled lines, not a paragraph; colours mean the same thing everywhere, including on controls; every label is in the glossary; walk the flow once as the user and fix anything confusing.
 - **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `pm-5-mvp-build`.
