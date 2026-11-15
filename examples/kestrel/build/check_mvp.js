@@ -37,7 +37,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('raising AI share flashes green, high-risk wrong answers flash red', (await p.getAttribute('#sumShare >> xpath=..', 'class')).includes('flash-good') && (await p.getAttribute('#sumHigh >> xpath=..', 'class')).includes('flash-bad'));
   t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Above recommended: 92% accurate on a High-risk type'));
   t('summary updates: 53.8%, 10 high-risk wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumHigh')) === '10');
-  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs. recommended'));
+  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 from recommended settings'));
   await p.selectOption('select[data-i="0"]', 'human');
   const row0 = await txt('tr.row[data-i="0"]');
   t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));
