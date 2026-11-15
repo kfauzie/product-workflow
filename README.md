@@ -10,9 +10,21 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 [The worked example, step by step](examples/palmer/run/RUN.md) · [decisions I made](examples/palmer/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
-![The decision table, built end to end with this workflow](examples/palmer/run/design/1-overview.png)
+![The analytics page: which tickets can the AI handle on its own?](examples/palmer/run/design/1-overview.png)
 
 > **The example in [`examples/palmer/`](examples/palmer/) is FICTIONAL.** Palmer, the use case and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
+
+## What the demo shows
+One analytics page in our AI support agent, for Palmer's Head of Customer Support:
+
+| Part | What it shows |
+|---|---|
+| Three numbers | **49.7%** of tickets handled by AI (1,483 of 2,982 a month) · **198** support hours saved a month · **9** wrong answers reaching customers a month, all on Low-cost tickets |
+| Decision rules | **AI** (98%+ accurate, Low or Medium cost of a wrong call) · **AI-assisted human** (90%+, or High cost at 98%+) · **Human** (everything else, including money moves under 98%) |
+| The table | 15 ticket types across in-app chat, email and the help-centre form: tickets a month, accuracy, cost of a wrong call, recommendation, reason |
+| Examples | 3 real-looking tickets per type: the customer's message, what the AI agent proposed, the playbook rule, and the grading AI's verdict |
+
+Accuracy comes from running the AI agent on 50 past tickets per type, each checked against Palmer's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/palmer/run/data/ticket_types.json) and checked by [tests](examples/palmer/run/build/test_mvp.js) on every push.
 
 ## My AI stack
 
