@@ -15,7 +15,7 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 | 5. Design | [`pm-4-solution-design`](.claude/commands/pm-4-solution-design.md) | The spec; design system from Figma; glossary | Per screen: input, output, happy path, edge cases, acceptance criteria, handoff; then the screens | [06-screen-specs](examples/corvane/run/06-screen-specs.md), [design/](examples/corvane/run/design/) |
 | 6. Prototype | [`pm-5-mvp-build`](.claude/commands/pm-5-mvp-build.md) | Agreed screens; spec's test cases | One HTML file, numbers by code, tests and a headless check | [build/](examples/corvane/run/build/) |
 | 7. MVP review | [`pm-6-mvp-review`](.claude/commands/pm-6-mvp-review.md) | The spec's assumptions; the prototype | Questions that could change the solution; the sample needed to test the AI parts | [07-mvp-review](examples/corvane/run/07-mvp-review.md) |
-| 8. Hand-off | `pm-5-mvp-build` ("later, if asked") | The prototype and its tests | One PR per screen behind a feature flag, engineer review, staging, release | Not in the example: see Gaps |
+| 8. Hand-off | `pm-5-mvp-build` ("later, if asked") | The prototype and its tests | One PR per screen behind a feature flag, engineer review, staging, release | — |
 
 Every skill also reads [`pm-standard`](.claude/commands/pm-standard.md): what good looks like, the communication guide and the document style.
 
@@ -43,13 +43,6 @@ The aim is that the next person, or the next skill, knows exactly what they rece
 - I choose based on user insight, commercial benefit to the company, and implementation effort.
 - If it follows fixed logic, it's code. If it needs judgment, it's AI. Every number on a screen is calculated, never written by the model.
 - I go after the why behind the why.
-
-## Gaps (flagged, not filled)
-- **Research synthesis across many interviews:** `pm-1` Answer tests one claim at a time; there's no skill that clusters themes across several calls.
-- **Spec:** `pm-3` writes a solution concept; the per-screen spec (input, output, edge cases, acceptance criteria) lives in `pm-4`. There's no separate engineering spec.
-- **One PR per screen behind a feature flag:** only a one-line "later, if asked" step in `pm-5`. Not demonstrated in the example.
-- **MCPs:** the skills say where to pull from, but the example uses local context files (Figma and Slack weren't connected when it was built).
-- **`tools/lens.py`** only reads wide exports (one row per item, columns per scenario and year). Other data shapes are analysed by hand.
 
 ## Try the example
 ```bash
