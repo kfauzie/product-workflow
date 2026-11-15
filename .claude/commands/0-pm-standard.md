@@ -27,6 +27,7 @@ For anything the customer or a reader sees: questions, screens, documents, findi
 - **Explain briefly.** Terms, units and assumptions get a few words the first time they appear (see `product-glossary`), including terms the customer knows well. Keep it brief, never a lecture.
 - **Read it as them.** Before showing it: would someone who hasn't seen our notes understand every noun on first reading?
 - **Say what it means for them.** Warnings, confirmations and notes state the consequence in the user's terms (what happens to their customers, their team, their time or money, with a number), not the system's internal measure or rule. Write every message as if you were the user reading it at that moment.
+- **Order things the way they're used.** When a reader browses a list (files, steps, sections), name and order the items so the default view already matches the order they're used in, with the foundation everything else relies on first. One numbering scheme per view: two side by side make the reader translate.
 - **Answer first (pyramid).** Lead with the answer or recommendation, then the two or three reasons, then the detail. Each section opens with its point in one line.
 - **Concise, specific, reasoned.** As few words as possible, every one specific, but keep the "because".
 
@@ -46,5 +47,6 @@ Professional and easy to scan: a sharp memo with a little visual help, not a dec
 - Challenge me when a choice doesn't trace back to the customer or the data.
 - Show the judgement, not just the output: for each step, state the call and the reason before doing it, and name what you turned down.
 - Cut before you add: when something new goes in, say what it replaces or what moves out of view.
+- When you rename or move something, update every reference in the same change, check every link still resolves, and tell me which links I may already have shared will break.
 - In fictional examples, invent names that don't resemble real companies or products in the same space.
 - Documents I read or annotate live in Notion, under the parent page named in the active context folder. Create the page and give me the link; don't summarise it in chat.
