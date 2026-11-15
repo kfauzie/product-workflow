@@ -1,8 +1,36 @@
 # Product workflow
 
+[![checks](https://github.com/kfauzie/product-workflow/actions/workflows/checks.yml/badge.svg)](https://github.com/kfauzie/product-workflow/actions/workflows/checks.yml)
+
 How I go from a customer's ask to a tested, working prototype with Claude Code: discovery notes, research synthesis, spec, design, prototype, then hand-off to engineering. Each step is a skill in [`.claude/commands/`](.claude/commands/), grounded in company, customer and design context pulled through MCP.
 
+**[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)** · [the worked example, step by step](examples/corvane/run/RUN.md) · [decisions I made](examples/corvane/run/RUN.md#decisions-i-made-and-what-i-turned-down)
+
+![The deal climate brief, built end to end with this workflow](examples/corvane/run/design/2-brief.png)
+
 > **The example in [`examples/corvane/`](examples/corvane/) is FICTIONAL.** Corvane, Riskline, Retrofit Planner, Ashgrove Partners, Project Lantern and Lantern Group are invented, and all data is synthetic. It shows the workflow end to end on a realistic B2B case: a physical climate-risk platform and a private equity customer.
+
+## My AI stack
+
+```mermaid
+flowchart LR
+  subgraph Context["Context via MCP"]
+    N[Notion<br/>company, research, docs]
+    SL[Slack<br/>customer channels]
+    F[Figma<br/>design system]
+  end
+  subgraph CC["Claude Code + custom skills"]
+    S1[Data review] --> S2[Discovery guide] --> S3[Synthesis] --> S4[Spec] --> S5[Design] --> S6[Prototype] --> S7[MVP review]
+  end
+  Context --> CC
+  ME((Me: the judgement calls)) -.-> S2 & S4 & S5 & S7
+  S2 & S4 & S7 --> NP[Notion pages]
+  S6 --> GH[GitHub: code, tests, CI]
+```
+
+- **AI** for what needs judgement on messy input: reading notes, drafting, suggesting.
+- **Code** for everything fixed: every number on a screen is calculated and tested, never written by the model.
+- **Me** for the decisions: what the problem is, what to cut, what ships.
 
 ## The workflow, end to end
 
@@ -44,14 +72,23 @@ The aim is that the next person, or the next skill, knows exactly what they rece
 - If it follows fixed logic, it's code. If it needs judgment, it's AI. Every number on a screen is calculated, never written by the model.
 - I go after the why behind the why.
 
+## How I use this at work
+- **Day to day:** Claude Code with custom skills and MCPs for GitHub, Slack, Notion and Figma, for customer research, data analysis, specs, design, prototyping and PRs.
+- **ExaCare AI:** I built an eval agent (SQL, TypeScript, Claude API, Notion and Linear MCPs, GitHub Actions) that diagnosed failures daily and drove five prioritised fixes a week for the squad.
+- **Savvy:** I designed an agent development platform that turned each customer's workflow and data into a first-pass agent, cutting time to the first working agent from a month to a week.
+
 ## Try the example
+The quickest way is the [live prototype](https://kfauzie.github.io/product-workflow/). To run it locally:
 ```bash
-pip install -q -r requirements.txt
+pip install -q -r requirements.txt && npm install && npx playwright install chromium
 ```
 ```bash
 tools/open_run.sh
 ```
-Tests, from `examples/corvane/run`: `node build/test_mvp.js` (known answers) and `node build/check_mvp.js` (headless click-through; needs Playwright). Regenerate the synthetic data with `python3 notebooks/make_data.py`.
+```bash
+npm test
+```
+`npm test` runs the known-answer tests and a headless click-through; the same checks run on every push. Regenerate the synthetic data with `python3 notebooks/make_data.py` from `examples/corvane/run`.
 
 ## About
 Built by Kevin Fauzie, an AI product manager in London: a decade as a PM, a co-founded AI agent startup, a Stanford MBA. [LinkedIn](https://www.linkedin.com/in/kevinardian/)

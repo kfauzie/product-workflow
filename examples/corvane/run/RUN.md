@@ -17,3 +17,15 @@
 | 6. Design: screen specs and screens | `pm-4-solution-design` | [06-screen-specs.md](06-screen-specs.md), [design/](design/) |
 | 7. Prototype | `pm-5-mvp-build` | [build/mvp.html](build/mvp.html), tests in [build/](build/) |
 | 8. MVP review | `pm-6-mvp-review` | [07-mvp-review.md](07-mvp-review.md) |
+
+## Decisions I made (and what I turned down)
+The skills do the legwork; these were the judgement calls.
+
+| Decision | Why | What I turned down |
+|---|---|---|
+| Treat the Head of Sustainability as the customer, the deal team as his audience | His problem is that his work never moves a deal; solving that is what makes the deal team ask for it | Designing for the deal team directly: a second user to onboard, and he loses control of the message |
+| Drop "grades vs £" and "timing" as the main problem | The interview showed the deal team already gets £ and isn't blocked by timing; they reject the no-defences assumption | Keeping my pre-call hypotheses because the data review pointed to them |
+| Make the defended case the headline, undefended one toggle away | It answers the actual objection with evidence (which defences, who provides them, what standard) instead of asking the deal team to accept an assumption | Showing only the undefended figure, the product's default |
+| Count insurance premiums as a cost | "Just insure it" is the common answer; premiums over the hold (£31.6–42.1m) exceed the expected damage (£18.6m) | Treating insurance as a way out of the risk |
+| Cut the brief to one page | One answer, why, the defences and the deal terms is what gets acted on; the rest is one click away | A dashboard with every breakdown, control and assumption visible |
+| Output deal terms and a spreadsheet, not just a report | Success is the deal team putting the number into its model and terms | A longer narrative report |
