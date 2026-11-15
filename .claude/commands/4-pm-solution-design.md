@@ -21,7 +21,7 @@ description: "Turn the solution concept into screens in the company's design sys
 7. **Handle edge cases.** Missing data, unclear input, or something the product can't do: say so where it happens, let the user fix it there, then redo what depends on it.
 8. **Make it enjoyable.** Serious, with a little personality: friendly wording, a sense of progress.
 9. **One page by default.** Lead with the few numbers that answer the job, then the rule that produces the recommendation, then the detail. Everything else is one click away (expand a row, open a panel), not a second screen.
-10. **Recommend, let the user decide.** Show the product's recommendation and a separate control the user owns. Mark anything the user changed ("Overridden", "Adjusted by user"), warn when a change goes beyond the recommendation, and offer a one-click way back.
+10. **Recommend, let the user decide.** Show the product's recommendation and a separate control the user owns. Mark anything the user changed, naming what changed ("[Setting] overridden", "Adjusted by user"), warn when a change goes beyond the recommendation, and offer a one-click way back.
 11. **Label what each number really measures.** If a column mixes sources (live data and a test run), name it for what all rows share and mark the source on each row; don't call it "live" if some rows aren't. Anything shown as live moves at a pace the reader can believe, or the page says why it doesn't.
 12. **Make every change visible.** Numbers recalculate live from the current settings; a change shows its direction (green when good, red when not) and a short confirmation that fades. The default state should already show the main interaction, e.g. one change already made.
 13. **Name every actor without ambiguity.** If two things could share a word (a person and an AI, a customer and an end user), always qualify it, and use the same names on every screen.
@@ -44,6 +44,7 @@ description: "Turn the solution concept into screens in the company's design sys
   - **Layout:** details as label | value tables; a lighter line under each heading; hover explanations for assumptions; source tags on choices; notes and warnings look different from content; small line icons beside labelled facts help scanning (they inherit the text colour and never carry meaning alone); in cards of equal height, let the flexible part absorb spare space so related parts stay together and footers line up.
   - **Actions:** one primary button per screen; others secondary; buttons say what they do.
   - **Borrow patterns:** name the closest comparable product for each step (e.g. Typeform for guided flows, Stripe for numbers with their source one click away, Linear for calm hierarchy).
+  - **Marks and icons:** list the shapes and colours comparable products use, then pick ones they don't; check the mark at the smallest size it will appear (e.g. a browser tab) and that its silhouette reads as what it is meant to be.
   - **Prototype frame:** a ribbon at the top ("User: [role]" and "Job to be done: [job]") and a clickable step bar; both left out of exports. No other design notes on screen.
 - **Edge cases:**
   - No Figma: use `design-system`'s neutral defaults, and say so in the notes under the image.
