@@ -1,7 +1,11 @@
 {
  "label": "FICTIONAL and SYNTHETIC: Palmer example, not real data",
  "company": "Palmer",
- "channel": "In-app chat",
+ "channels": [
+  "In-app chat",
+  "Email",
+  "Help-centre form"
+ ],
  "minutes_per_ticket": 8,
  "test_tickets_per_type": 50,
  "types": [
@@ -14,22 +18,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "I've forgotten my password and the reset email isn't arriving.",
-     "reply": "Sent a new reset link and asked them to check spam for an email from Palmer.",
+     "channel": "In-app chat",
+     "message": "I've forgotten my password and the reset email isn't arriving.",
+     "proposed": "Send a new reset link and ask them to check spam for an email from Palmer.",
+     "rule": "Resend the reset link once; point to the spam folder.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Can you reset my password? I changed jobs and lost access to my old email.",
-     "reply": "Explained that the account owner must change the login email first, and how to ask them.",
+     "channel": "Email",
+     "message": "Can you reset my password? I've lost access to my old work email.",
+     "proposed": "Explain that the account owner must change the login email first, and how to ask them.",
+     "rule": "Never change a login email without the account owner.",
      "correct": true,
-     "note": ""
+     "reason": "Did not change the email itself."
     },
     {
-     "ticket": "Reset link says expired.",
-     "reply": "Sent a fresh link and explained links expire after 30 minutes.",
+     "channel": "Help-centre form",
+     "message": "Reset link says expired.",
+     "proposed": "Send a fresh link and explain links expire after 30 minutes.",
+     "rule": "Expired link: send a new one and give the 30-minute limit.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     }
    ]
   },
@@ -42,22 +52,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "My 2-step code isn't arriving by text.",
-     "reply": "Sent the code by email instead and showed how to update the phone number.",
+     "channel": "Email",
+     "message": "My 2-step code isn't arriving by text.",
+     "proposed": "Send the code by email instead and show how to update the phone number.",
+     "rule": "Offer email codes when text fails.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "It says my account is locked.",
-     "reply": "Unlocked after the failed-attempt timeout and sent a reset link.",
+     "channel": "Help-centre form",
+     "message": "It says my account is locked.",
+     "proposed": "Unlock after the 15-minute timeout and send a reset link.",
+     "rule": "Locked accounts unlock after 15 minutes; send a reset link.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "I can't log in on my phone but it works on my laptop.",
-     "reply": "Told them to clear the app cache.",
+     "channel": "In-app chat",
+     "message": "I can't log in on my phone but it works on my laptop.",
+     "proposed": "Ask them to clear the app cache.",
+     "rule": "Check the app version first; ask them to update if it's out of date.",
      "correct": false,
-     "note": "The app needed an update; clearing the cache didn't fix it"
+     "reason": "Skipped the version check; the app needed an update."
     }
    ]
   },
@@ -70,22 +86,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "One of my staff can't find her March payslip.",
-     "reply": "Showed where payslips sit under Employees > Documents and how to resend March.",
+     "channel": "Help-centre form",
+     "message": "One of my staff can't find her March payslip.",
+     "proposed": "Show where payslips sit under Employees > Documents and how to resend March.",
+     "rule": "Show the documents page and offer to resend.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Where do employees download payslips?",
-     "reply": "Linked the employee app guide and the resend option.",
+     "channel": "In-app chat",
+     "message": "Where do employees download payslips?",
+     "proposed": "Link the employee app guide and the resend option.",
+     "rule": "Link the employee app guide.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Payslip for last Friday isn't showing.",
-     "reply": "Explained payslips appear once the payroll run is approved, and that it is still in draft.",
+     "channel": "Email",
+     "message": "Payslip for last Friday isn't showing.",
+     "proposed": "Explain payslips appear once the payroll run is approved; this one is still in draft.",
+     "rule": "Check the run status before anything else.",
      "correct": true,
-     "note": ""
+     "reason": "Checked the run status first."
     }
    ]
   },
@@ -98,22 +120,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "We've moved office, how do I change our address?",
-     "reply": "Updated the registered address after confirming the account owner, and noted tax letters follow in 1 to 2 weeks.",
+     "channel": "In-app chat",
+     "message": "We've moved office, how do I change our address?",
+     "proposed": "Update the registered address after confirming the account owner; tax letters follow in 1 to 2 weeks.",
+     "rule": "Only the account owner can change the registered address.",
      "correct": true,
-     "note": ""
+     "reason": "Confirmed the account owner first."
     },
     {
-     "ticket": "Change our trading address to 14 Mill Lane.",
-     "reply": "Updated the trading address and left the registered address unchanged, as asked.",
+     "channel": "Email",
+     "message": "Change our trading address to 14 Mill Lane.",
+     "proposed": "Update the trading address and leave the registered address as it is.",
+     "rule": "Trading and registered addresses are separate; change only the one asked for.",
      "correct": true,
-     "note": ""
+     "reason": "Changed only the trading address."
     },
     {
-     "ticket": "Our address on payslips is wrong.",
-     "reply": "Showed that payslips use the trading address and updated it.",
+     "channel": "Help-centre form",
+     "message": "Our address on payslips is wrong.",
+     "proposed": "Explain payslips use the trading address and update it.",
+     "rule": "Payslips show the trading address.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     }
    ]
   },
@@ -126,22 +154,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "How do I add someone starting Monday?",
-     "reply": "Walked through Add employee and the tax details needed before the first run.",
+     "channel": "Email",
+     "message": "How do I add someone starting Monday?",
+     "proposed": "Walk through Add employee and the tax details needed before the first run.",
+     "rule": "List the tax details needed before the first payroll run.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "New starter is part time, 3 days a week.",
-     "reply": "Set up a part-time contract with pro-rata salary.",
+     "channel": "Help-centre form",
+     "message": "New starter is part time, 3 days a week.",
+     "proposed": "Set up a part-time contract with pro-rata salary.",
+     "rule": "Part-time staff get a pro-rata salary on their contract.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Adding a weekly-paid worker to our monthly payroll.",
-     "reply": "Added them to the monthly schedule.",
+     "channel": "In-app chat",
+     "message": "Adding a weekly-paid worker to our monthly payroll.",
+     "proposed": "Add them to the monthly schedule.",
+     "rule": "Weekly-paid staff need a weekly pay schedule first.",
      "correct": false,
-     "note": "Should have created a weekly pay schedule first"
+     "reason": "Put a weekly worker on the monthly schedule."
     }
    ]
   },
@@ -154,22 +188,28 @@
    "moves_money": true,
    "examples": [
     {
-     "ticket": "We've switched banks, need to update the account payroll is paid from.",
-     "reply": "Drafted the change and asked for owner approval and a verification call before it takes effect.",
+     "channel": "Help-centre form",
+     "message": "We've switched banks, need to update the account payroll is paid from.",
+     "proposed": "Draft the change; ask for owner approval and a verification call before it takes effect.",
+     "rule": "Company bank changes need owner approval and a verification call.",
      "correct": true,
-     "note": ""
+     "reason": "Asked for both checks."
     },
     {
-     "ticket": "Employee gave me new bank details.",
-     "reply": "Drafted the update on the employee record, flagged for a person to check against the signed form.",
+     "channel": "In-app chat",
+     "message": "An employee gave me new bank details.",
+     "proposed": "Draft the update on the employee record and flag it to check against the signed form.",
+     "rule": "Employee bank changes must match a signed form.",
      "correct": true,
-     "note": ""
+     "reason": "Flagged the form check."
     },
     {
-     "ticket": "Change our company account number, urgent, payroll is tomorrow.",
-     "reply": "Drafted the change for tomorrow's run.",
+     "channel": "Email",
+     "message": "Change our company account number, urgent, payroll is tomorrow.",
+     "proposed": "Draft the change for tomorrow's run.",
+     "rule": "No bank changes within 3 working days of a payroll run without a manual check.",
      "correct": false,
-     "note": "Changes inside 3 days of a run need a manual check; it should have flagged the deadline"
+     "reason": "Missed the 3-day rule."
     }
    ]
   },
@@ -182,22 +222,28 @@
    "moves_money": true,
    "examples": [
     {
-     "ticket": "You charged us twice this month.",
-     "reply": "Confirmed the duplicate charge and proposed a refund of the second payment.",
+     "channel": "In-app chat",
+     "message": "You charged us twice this month.",
+     "proposed": "Confirm the duplicate charge and propose a refund of the second payment.",
+     "rule": "Refund duplicate charges in full once confirmed on the invoice.",
      "correct": true,
-     "note": ""
+     "reason": "Confirmed the duplicate, then refunded it."
     },
     {
-     "ticket": "We cancelled in January but were billed in February.",
-     "reply": "Proposed a full refund for February.",
+     "channel": "Email",
+     "message": "We cancelled in January but were billed in February.",
+     "proposed": "Propose a full refund for February.",
+     "rule": "Cancellations take effect at the end of the current billing month.",
      "correct": false,
-     "note": "Cancellation took effect at the end of February, so no refund was due"
+     "reason": "February was still due; no refund owed."
     },
     {
-     "ticket": "Can I get a refund for the unused months on our annual plan?",
-     "reply": "Explained the annual plan terms and proposed a pro-rata refund for review.",
+     "channel": "Help-centre form",
+     "message": "Can I get a refund for the unused months on our annual plan?",
+     "proposed": "Explain the annual plan terms and propose a pro-rata refund for a person to review.",
+     "rule": "Annual plans: pro-rata refunds only, reviewed by a person.",
      "correct": true,
-     "note": ""
+     "reason": "Sent it for review as the rule says."
     }
    ]
   },
@@ -210,22 +256,28 @@
    "moves_money": true,
    "examples": [
     {
-     "ticket": "Payroll failed with a bank error.",
-     "reply": "Identified an expired bank authorisation and showed how to renew it, then rerun.",
+     "channel": "Email",
+     "message": "Payroll failed with a bank error.",
+     "proposed": "Point to the expired bank authorisation, show how to renew it, then rerun.",
+     "rule": "Bank errors: check the authorisation before rerunning.",
      "correct": true,
-     "note": ""
+     "reason": "Found the expired authorisation."
     },
     {
-     "ticket": "Run failed, says tax code missing for 2 employees.",
-     "reply": "Listed the 2 employees and where to add their tax codes.",
+     "channel": "Help-centre form",
+     "message": "Run failed, says tax code missing for 2 employees.",
+     "proposed": "List the 2 employees and where to add their tax codes.",
+     "rule": "Fix missing tax codes before rerunning.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Payroll didn't go through and staff are asking where their pay is.",
-     "reply": "Told them to rerun payroll.",
+     "channel": "In-app chat",
+     "message": "Payroll didn't go through and staff are asking where their pay is.",
+     "proposed": "Tell them to rerun payroll.",
+     "rule": "Check whether payment was sent before any rerun.",
      "correct": false,
-     "note": "Payment was already sent; rerunning would have paid staff twice"
+     "reason": "Payment had gone; a rerun would pay staff twice."
     }
    ]
   },
@@ -238,22 +290,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "Where do I find the year-end tax forms for my staff?",
-     "reply": "Showed Reports > Year end and how to send forms to employees.",
+     "channel": "Help-centre form",
+     "message": "Where do I find the year-end tax forms for my staff?",
+     "proposed": "Show Reports > Year end and how to send forms to employees.",
+     "rule": "Year-end forms live under Reports > Year end.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Why is the tax on this form different from the payslips?",
-     "reply": "Explained the form includes a correction made in November.",
+     "channel": "In-app chat",
+     "message": "Why is the tax on this form different from the payslips?",
+     "proposed": "Explain the form includes a correction made in November.",
+     "rule": "Check for corrections in the tax year before answering.",
      "correct": true,
-     "note": ""
+     "reason": "Found the November correction."
     },
     {
-     "ticket": "Do I need to file anything for a contractor?",
-     "reply": "Said contractors are filed the same way as employees.",
+     "channel": "Email",
+     "message": "Do I need to file anything for a contractor?",
+     "proposed": "Say contractors are filed the same way as employees.",
+     "rule": "Contractors use a separate form; never treat them as employees.",
      "correct": false,
-     "note": "Contractors use a different form"
+     "reason": "Gave the employee process for a contractor."
     }
    ]
   },
@@ -266,22 +324,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "We're closing the business, how do I cancel?",
-     "reply": "Explained the final payroll steps, how to export records, then drafted the cancellation for approval.",
+     "channel": "In-app chat",
+     "message": "We're closing the business, how do I cancel?",
+     "proposed": "Explain the final payroll steps and how to export records, then draft the cancellation.",
+     "rule": "Before cancelling: final payroll, export records, owner confirms.",
      "correct": true,
-     "note": ""
+     "reason": "Covered all three steps."
     },
     {
-     "ticket": "Cancel at the end of this month please.",
-     "reply": "Drafted the cancellation for the end of the month and listed what to export first.",
+     "channel": "Email",
+     "message": "Cancel at the end of this month please.",
+     "proposed": "Draft the cancellation for the end of the month and list what to export first.",
+     "rule": "Cancellations take effect at the end of the billing month.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Thinking of cancelling, what happens to our data?",
-     "reply": "Explained records are kept for 6 years and can be exported any time.",
+     "channel": "Help-centre form",
+     "message": "Thinking of cancelling, what happens to our data?",
+     "proposed": "Explain records are kept for 6 years and can be exported at any time.",
+     "rule": "Records are kept for 6 years after cancelling.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     }
    ]
   },
@@ -294,22 +358,28 @@
    "moves_money": true,
    "examples": [
     {
-     "ticket": "Can we pay staff on the 25th instead of the last day?",
-     "reply": "Showed how to change the pay date from next month and the bank cut-off.",
+     "channel": "Email",
+     "message": "Can we pay staff on the 25th instead of the last day?",
+     "proposed": "Show how to change the pay date from next month and the bank cut-off.",
+     "rule": "Pay date changes apply from the next run; give the bank cut-off.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Bank holiday on payday, can we pay a day early?",
-     "reply": "Moved this month's pay date one working day earlier.",
+     "channel": "Help-centre form",
+     "message": "Bank holiday on payday, can we pay a day early?",
+     "proposed": "Move this month's pay date one working day earlier.",
+     "rule": "Bank holidays: pay the working day before.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Move this month's pay date to tomorrow.",
-     "reply": "Moved the pay date to tomorrow.",
+     "channel": "In-app chat",
+     "message": "Move this month's pay date to tomorrow.",
+     "proposed": "Move the pay date to tomorrow.",
+     "rule": "Pay dates can't move inside the 2-day bank cut-off.",
      "correct": false,
-     "note": "Tomorrow is past the bank cut-off; staff would have been paid late"
+     "reason": "Tomorrow was past the cut-off; staff would be paid late."
     }
    ]
   },
@@ -322,22 +392,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "What is this extra charge on our invoice?",
-     "reply": "Explained the charge is for 2 employees added mid-month.",
+     "channel": "Help-centre form",
+     "message": "What is this extra charge on our invoice?",
+     "proposed": "Explain the charge is for 2 employees added mid-month.",
+     "rule": "Explain each line using the invoice breakdown.",
      "correct": true,
-     "note": ""
+     "reason": "Used the breakdown."
     },
     {
-     "ticket": "Can I get a copy of last month's invoice?",
-     "reply": "Sent the invoice and showed where invoices are kept.",
+     "channel": "In-app chat",
+     "message": "Can I get a copy of last month's invoice?",
+     "proposed": "Send the invoice and show where invoices are kept.",
+     "rule": "Invoices are under Settings > Billing.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Why did our price go up?",
-     "reply": "Said prices rose for all customers.",
+     "channel": "Email",
+     "message": "Why did our price go up?",
+     "proposed": "Say prices rose for all customers.",
+     "rule": "Check the customer's plan history before explaining a price change.",
      "correct": false,
-     "note": "Their price rose because they moved to a bigger plan"
+     "reason": "They had moved to a bigger plan."
     }
    ]
   },
@@ -350,22 +426,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "How is holiday pay worked out for part-time staff?",
-     "reply": "Explained pro-rata holiday based on contracted days.",
+     "channel": "In-app chat",
+     "message": "How is holiday pay worked out for part-time staff?",
+     "proposed": "Explain pro-rata holiday based on contracted days.",
+     "rule": "Part-time holiday is pro-rata to contracted days.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Employee says her holiday pay is too low.",
-     "reply": "Said the calculation was correct.",
+     "channel": "Email",
+     "message": "An employee says her holiday pay is too low.",
+     "proposed": "Say the calculation was correct.",
+     "rule": "Holiday pay includes regular overtime.",
      "correct": false,
-     "note": "Overtime should have been included in her holiday pay"
+     "reason": "Left out her regular overtime."
     },
     {
-     "ticket": "How do I record 2 days of leave?",
-     "reply": "Showed how to add leave on the employee's calendar.",
+     "channel": "Help-centre form",
+     "message": "How do I record 2 days of leave?",
+     "proposed": "Show how to add leave on the employee's calendar.",
+     "rule": "Record leave on the employee calendar.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     }
    ]
   },
@@ -378,22 +460,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "Need a payroll summary for our accountant.",
-     "reply": "Exported the summary for the last tax year as a spreadsheet.",
+     "channel": "Email",
+     "message": "Need a payroll summary for our accountant.",
+     "proposed": "Export the summary for the last tax year as a spreadsheet.",
+     "rule": "Default to the last full tax year unless asked.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "How do I export last quarter?",
-     "reply": "Showed the date filter on Reports and exported Q3.",
+     "channel": "Help-centre form",
+     "message": "How do I export last quarter?",
+     "proposed": "Show the date filter on Reports and export Q3.",
+     "rule": "Use the date filter for custom ranges.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Can I get a list of all employees with salaries?",
-     "reply": "Exported the employee list with salaries.",
+     "channel": "In-app chat",
+     "message": "Can I get a list of all employees with salaries?",
+     "proposed": "Export the employee list with salaries.",
+     "rule": "Only admins can export salaries; this user is an admin.",
      "correct": true,
-     "note": ""
+     "reason": "Checked the user is an admin."
     }
    ]
   },
@@ -406,22 +494,28 @@
    "moves_money": false,
    "examples": [
     {
-     "ticket": "Why has pension been taken from a new starter?",
-     "reply": "Explained automatic enrolment after the waiting period.",
+     "channel": "Help-centre form",
+     "message": "Why has pension been taken from a new starter?",
+     "proposed": "Explain automatic enrolment after the waiting period.",
+     "rule": "New starters are enrolled after the waiting period.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Employee wants to opt out of the pension.",
-     "reply": "Showed how to record the opt-out and refund the first deduction.",
+     "channel": "In-app chat",
+     "message": "An employee wants to opt out of the pension.",
+     "proposed": "Show how to record the opt-out and refund the first deduction.",
+     "rule": "Opt-outs within a month get the deduction refunded.",
      "correct": true,
-     "note": ""
+     "reason": "Followed the rule."
     },
     {
-     "ticket": "Pension amount looks wrong this month.",
-     "reply": "Said it was correct.",
+     "channel": "Email",
+     "message": "Pension amount looks wrong this month.",
+     "proposed": "Say it was correct.",
+     "rule": "Check for salary changes before confirming a deduction.",
      "correct": false,
-     "note": "A salary change hadn't been passed to the pension calculation"
+     "reason": "Missed a salary change."
     }
    ]
   }

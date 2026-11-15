@@ -5,7 +5,7 @@
 | Claim (from the notes) | In data terms | Result |
 |---|---|---|
 | "Logins and payslips are safe" | Accuracy on 50 test tickets | **Supported:** Password reset 100%, Missing payslip 100%, Can't log in 98% |
-| "Nothing that moves money without a person" | Money types and their accuracy | **Supported by the data:** none of the 4 money types reaches 98% except Change bank details, which still goes to a person to approve |
-| "It should save real hours" | Tickets resolved alone × 8 minutes | **Supported:** 1,483 tickets (49.7%), 198 hours a month |
+| "Nothing that moves money without a support agent" | Money types and their accuracy | **Supported by the data:** of the 4 money types only Change bank details reaches 98%, and it still goes to a support agent (AI-assisted human) |
+| "It should save real hours" | Tickets handled by AI × 8 minutes | **Supported:** 1,483 tickets (49.7%), 198 hours a month |
 
 Code: [build/test_mvp.js](build/test_mvp.js).

@@ -5,5 +5,5 @@
 - **Need:** What's behind the rollout: hours, response time, or something else?
 - **User journey:** Walk me through the last ticket that went wrong and cost a customer money. Who noticed, and what did it take to fix?
 - **Pain points:** Which ticket types take your team the most time? Which ones worry you most?
-- **Success criteria:** What would you need to see before letting the agent answer a type on its own?
+- **Success criteria:** What would you need to see before letting the AI agent handle a type on its own?
 - **Closing:** **Recap** three points, biggest first · Anything I missed?

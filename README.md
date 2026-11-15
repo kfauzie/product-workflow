@@ -6,13 +6,13 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 **[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)**
 
-**The use case (fictional):** Palmer, a payroll software company, is rolling out an AI support agent; this one page shows, for each of 15 ticket types, whether the agent can resolve it alone, draft a reply for a person to approve, or leave it to a person, and what that means in hours saved and wrong answers.
+**The use case (fictional):** Palmer, a payroll software company, is rolling out our AI support agent; this analytics page shows, for each of 15 ticket types, whether the AI handles it, a support agent approves the AI's draft, or a support agent handles it, and what that means in hours saved and wrong answers.
 
 [The worked example, step by step](examples/palmer/run/RUN.md) · [decisions I made](examples/palmer/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
 ![The decision table, built end to end with this workflow](examples/palmer/run/design/1-overview.png)
 
-> **The example in [`examples/palmer/`](examples/palmer/) is FICTIONAL.** Palmer, the use case and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can resolve on its own.
+> **The example in [`examples/palmer/`](examples/palmer/) is FICTIONAL.** Palmer, the use case and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
 
 ## My AI stack
 

@@ -3,8 +3,8 @@
 > **FICTIONAL EXAMPLE.** Palmer, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
 
 **The question:** which ticket types can the AI support agent resolve on its own?
-**Scope:** support tickets in in-app chat only.
-**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type. Made by `notebooks/make_data.py`.
+**Scope:** support tickets only, across in-app chat, email and the help-centre form.
+**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type (channel, message, the AI agent's proposal, the playbook rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
 
 | Step | Skill | Output |
 |---|---|---|
@@ -22,7 +22,7 @@
 | Decision | Why | What I turned down |
 |---|---|---|
 | Decide per ticket type, not one setting for all | Accuracy runs from 86% to 100% across types; one setting is wrong for most of them | A single confidence threshold |
-| Three outcomes, not two | "Draft for approval" keeps a person on the 4 types that are good but not safe to send unchecked | Only "on" or "off" |
-| Anything that moves money needs 98%+ even to draft | A wrong refund or a missed payroll costs the customer real money | Treating money like any other answer |
+| Three outcomes, not two | "AI-assisted human" keeps a support agent on the 4 types that are good but not safe to send unchecked | Only "on" or "off" |
+| Anything that moves money needs 98%+ even for AI-assisted human | A wrong refund or a missed payroll costs the customer real money | Treating money like any other answer |
 | Count wrong answers that reach customers, not just accuracy | Leadership asks "what could go wrong"; 9 a month, all on low or medium-cost tickets, is an answer they can sign | Showing accuracy alone |
-| One page: a table, three numbers, examples on click | The decision is the table; the examples let anyone check the agent themselves | A dashboard with filters and charts |
+| One page: rules, a table, three numbers, examples | The decision is the table; each example shows the playbook rule and the grading AI's verdict, so anyone can check the AI agent | A dashboard with filters and charts |
