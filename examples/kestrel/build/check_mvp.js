@@ -12,8 +12,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('no top bar', !(await p.$('#topbar')));
   const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.includes('An AI agent that answers customer support tickets') && it.indexOf('An AI agent') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
   t('accuracy footnote below the table explains the overrides', (await txt('#measure')).startsWith('* Accuracy is live') && (await txt('#measure')).includes('makes a material change') && (await p.evaluate(() => !!(document.querySelector('#types').compareDocumentPosition(document.querySelector('#measure')) & Node.DOCUMENT_POSITION_FOLLOWING))) && (await txt('#measure')).includes('asks for a human'));
-  t('headline', (await txt('#headline')) === 'Monthly projection based on current settings');
-  t('default: 1 override (Add a new employee set to AI, above recommended)', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await p.inputValue('select[data-i="4"]')) === 'resolve' && (await txt('tr.row[data-i="4"]')).includes('Above recommended'));
+  t('headline', (await txt('#headline')) === 'Monthly projection per current settings');
+  t('default: 1 override (Add a new employee set to AI, above recommended)', (await txt('#state')) === '1 override' && (await p.inputValue('select[data-i="4"]')) === 'resolve' && (await txt('tr.row[data-i="4"]')).includes('Above recommended'));
   t('default projection: 58.1%, 309 hours, 0', (await txt('#sumShare')) === '58.1%' && (await txt('#sumHours')) === '309' && (await txt('#sumHigh')) === '0');
   t('live accuracy refresh: green and red cells with the change', (await p.$$('td.acc-up')).length === 4 && (await p.$$('td.acc-down')).length === 2 && (await txt('tr.row[data-i="0"] td.acc')).includes('▲ +0.2') && (await txt('#toast')).includes('Updated today: 6 changed'));
   t('no load flash on the hours card', !(await p.getAttribute('#sumHours >> xpath=..', 'class')).includes('flash'));
@@ -37,7 +37,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('raising AI share flashes green, high-risk wrong answers flash red', (await p.getAttribute('#sumShare >> xpath=..', 'class')).includes('flash-good') && (await p.getAttribute('#sumHigh >> xpath=..', 'class')).includes('flash-bad'));
   t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Above recommended: 92% accurate on a High-risk type'));
   t('summary updates: 53.8%, 10 high-risk wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumHigh')) === '10');
-  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs recommended'));
+  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs recommended'));
   await p.selectOption('select[data-i="0"]', 'human');
   const row0 = await txt('tr.row[data-i="0"]');
   t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));

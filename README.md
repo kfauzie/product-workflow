@@ -8,7 +8,7 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 [Source: context, data and code](examples/kestrel/) · [decisions I made](examples/kestrel/RUN.md#decisions-i-made-and-what-i-turned-down)
 
-![Kestrel's analytics and configuration page: monthly projection based on current settings](examples/kestrel/design/1-overview.png)
+![Kestrel's analytics and configuration page: monthly projection per current settings](examples/kestrel/design/1-overview.png)
 
 > **The example in [`examples/kestrel/`](examples/kestrel/) is FICTIONAL.** Kestrel, Gusta and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
 
@@ -17,7 +17,7 @@ Kestrel's analytics and configuration page, for Gusta's Head of Customer Support
 
 | Part | What it shows |
 |---|---|
-| Monthly projection based on current settings | **58.1%** of tickets handled solely by AI (1,734 of 2,982) · **309** support hours saved (10 minutes per ticket fully handled by AI, 5 per ticket partially handled by AI) · **0** wrong answers on high-risk type tickets reaching customers. Recalculates as settings change; each change flashes green or red and shows the difference from Kestrel's recommendation |
+| Monthly projection per current settings | **58.1%** of tickets handled solely by AI (1,734 of 2,982) · **309** support hours saved (10 minutes per ticket fully handled by AI, 5 per ticket partially handled by AI) · **0** wrong answers on high-risk type tickets reaching customers. Recalculates as settings change; each change flashes green or red and shows the difference from Kestrel's recommendation |
 | Settings | **AI**: Kestrel replies and resolves (recommended at 98%+ accuracy and risk Low or Medium) · **AI-assisted human**: Kestrel drafts, a support agent approves or edits (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human**: routed to a human agent (everything else) |
 | The table | 15 ticket types: tickets a month, live accuracy (refreshed on load, each change shown in green or red), risk if wrong, Kestrel's recommendation with its reason, and the setting Gusta controls |
 | Adjustments | Risk and setting are both editable. Changing a risk shows "Adjusted by user" and re-runs the recommendation; changing a setting shows "Overridden" and warns when it gives Kestrel more autonomy than recommended. A confirmation appears after each change. The page opens with one override (Add a new employee moved up to AI); "Apply all recommendations" resets it |
