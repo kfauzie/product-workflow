@@ -16,6 +16,8 @@ description: "Look at a customer's data before and during discovery to find the 
 - Mark anything guessed (meanings, units, intent) as a guess.
 - Stay generic: look for patterns, not for a known story.
 - The data may not be perfect. Flag quality issues briefly; only dig in if a gap is big enough to change the findings.
+- Say where each measure comes from (live use, a test sample, an estimate) and how big the base is. A figure from a small test and one from a full month of real use should never look the same.
+- Be suspicious of numbers that are too neat: every value round, or totals that add up perfectly. Real data rarely looks like that; if synthetic data has to stand in, make it believable and label it.
 
 ## Step 1: Initial review (before the interview)
 - **Input:** the data file and the customer's ask, word for word. Start with `python3 tools/lens.py profile <csv>` if the file is a wide export with one row per item and columns per scenario and year; otherwise analyse by hand.

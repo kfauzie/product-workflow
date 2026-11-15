@@ -16,7 +16,7 @@ description: "Turn the discovery notes and data findings into a solution concept
 - **Output:** either "no gaps that change the idea", or questions for the customer.
 - **Happy path:** no gap big enough to change which idea wins or the main workflow; carry on.
 - **Edge cases:** a gap that would change the idea or the workflow (who the user is, what the job is): show me the questions and wait. Detail choices (defaults, settings, method options) don't stop the work: assume, state it, move on.
-- **Acceptance criteria:** only questions that could change the idea or the workflow are asked.
+- **Acceptance criteria:** only questions that could change the idea or the workflow are asked. Before Step 1, write the problem in one sentence in your own words: who the customer is (the person you solve for, not their audience), and the one thing that stops them. Every later section must serve that sentence.
 - **Handoff:** Step 1.
 
 ## Step 1: Write the concept
@@ -34,5 +34,8 @@ description: "Turn the discovery notes and data findings into a solution concept
 - **Edge cases:**
   - Money decisions today (cost, payback): use the nearest year in the data, and show how it changes later. A far-off year alone suggests the problem can wait.
   - Notes are paraphrase (recording failed): say so at the top of the evidence.
+  - The customer's usual workaround ("we'd just do X instead"): cost it honestly. Workarounds often carry a cost nobody counts.
+  - The real fix may be a process change, not a product: say so in the ideas, even if a product is still recommended.
+  - Judge an AI's output by the harm that reaches the end customer, not by accuracy alone: a small error rate on a high-stakes task can outweigh a big saving.
 - **Acceptance criteria:** every claim has a quote or a number; say how, never "seamless" or "met by design"; test cases have computed answers.
 - **Handoff:** give me the link; add it to the run notes; `pm-4-solution-design` reads it fresh.
