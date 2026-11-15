@@ -23,7 +23,7 @@ Kestrel's analytics and configuration page, for Gusta's Head of Customer Support
 | Adjustments | Risk and setting are both editable. Changing a risk shows "Adjusted by user" and re-runs the recommendation; changing a setting shows "Overridden" and warns when it gives Kestrel more autonomy than recommended. A confirmation appears after each change. The page opens with one override (Change bank details kept with a human); "Apply all recommendations" resets it |
 | Example tickets | 3 under each ticket type: customer message, what Kestrel proposed, the customer support rule, and the grading AI's verdict |
 
-Accuracy is live. Where Kestrel is used, it is measured on all Gusta tickets from the last 30 days; where it isn't, on a test run of 50 recent tickets. Each answer is checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
+Accuracy is live, from all Gusta tickets in the last 30 days. A separate grading AI checks each answer against Gusta's support playbook, with two overrides: an AI-assisted ticket counts as wrong if the support agent changes Kestrel's draft, and an AI ticket counts as wrong if the customer asks for a human. Types routed to a human are measured on a test run of 50 recent tickets. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
 
 ## My AI stack
 

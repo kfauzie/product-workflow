@@ -10,7 +10,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const txt = s => p.textContent(s);
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   t('no top bar', !(await p.$('#topbar')));
-  const hd = await txt('#header'); t('header: Kestrel first, then this page', hd.indexOf('An AI agent that answers support tickets') < hd.indexOf('Its analytics and configuration page') && hd.includes('Its analytics and configuration page'));
+  const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.indexOf('An AI agent that answers support tickets') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
+  t('accuracy line explains the overrides', (await txt('#measure')).includes('counts as wrong if the support agent changes') && (await txt('#measure')).includes('asks for a human'));
   t('headline', (await txt('#headline')) === 'Monthly projection based on current settings');
   t('default: 1 override (Change bank details set to Human)', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await p.inputValue('select[data-i="5"]')) === 'human' && (await txt('tr.row[data-i="5"]')).includes('Overridden'));
   t('default projection: 49.7%, 275 hours, 0', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '275' && (await txt('#sumHigh')) === '0');

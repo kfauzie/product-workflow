@@ -7,6 +7,8 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
 main{max-width:1240px;margin:0 auto;padding:24px 24px 36px}
+.intro{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:15px;margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.intro b{color:var(--head);margin-right:8px}.intro span{color:var(--text)}
 .header{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:15px;margin:0 0 20px;padding:16px 18px;background:#eaf1f8;border:1px solid #d3e0ee;border-radius:8px}
 .header dt{color:#3f5b78;font-weight:600}.header dd{margin:0;color:var(--head)}
 h1{font-size:28px;color:var(--head);margin:0 0 16px}
@@ -65,6 +67,7 @@ footer{margin-top:24px;color:var(--mute);font-size:12px;border-top:1px solid var
 @media (max-width:900px){.summary,.exgrid{grid-template-columns:1fr}.hide-sm{display:none}main{padding:16px}.header{grid-template-columns:1fr}.bar{flex-direction:column;align-items:flex-start}}
 </style></head><body>
 <main>
+<div class="intro" id="intro"></div>
 <dl class="header" id="header"></dl>
 <h1 id="headline"></h1>
 <div class="dash-head" id="dashHead"></div>
@@ -107,9 +110,9 @@ const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}));
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
+  document.getElementById('intro').innerHTML = `<div><b>${K}</b><span>An AI agent that answers support tickets in ${G}'s in-app chat</span></div>
+    <div><b>This page</b><span>Its analytics and configuration page</span></div>`;
   document.getElementById('header').innerHTML = `
-    <dt>${K}</dt><dd>An AI agent that answers support tickets in ${G}'s in-app chat</dd>
-    <dt>This page</dt><dd>Its analytics and configuration page</dd>
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>User</dt><dd>${G}'s Head of Customer Support</dd>
     <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;
@@ -119,7 +122,7 @@ function staticParts(){
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
-  document.getElementById('measure').textContent = `Accuracy is live. Where ${K} is used, it is measured on all ${G} tickets from the last 30 days; where it isn't, on a test run of 50 recent ${G} tickets. Each answer is checked against ${G}'s support playbook by a separate grading AI.`;
+  document.getElementById('measure').textContent = `Accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against ${G}'s support playbook, with two overrides: an AI-assisted ticket counts as wrong if the support agent changes ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Types routed to a human are measured on a test run of 50 recent tickets.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
