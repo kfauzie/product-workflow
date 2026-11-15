@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kestrel logo (fictional)">
-  <!-- FICTIONAL product mark: a hovering kestrel seen from below (pointed wings, fanned tail), copper on deep navy -->
+  <!-- FICTIONAL product mark: a hovering kestrel seen from below (pointed wings, fanned tail), copper on dark green -->
   <defs>
-    <linearGradient id="kt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#18294f"/><stop offset="1" stop-color="#0a1428"/></linearGradient>
+    <linearGradient id="kt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#145a3e"/><stop offset="1" stop-color="#08291c"/></linearGradient>
     <linearGradient id="kw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc870"/><stop offset="1" stop-color="#e2651c"/></linearGradient>
   </defs>
   <rect width="64" height="64" rx="17" fill="url(#kt)"/>
