@@ -12,7 +12,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('no top bar', !(await p.$('#topbar')));
   t('header names the page, not the agent itself', (await txt('#header')).includes("Kestrel's analytics and configuration page (not the agent itself)"));
   t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
-  t('summary: 49.7%, 231 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '231' && (await txt('#sumWrong')) === '9');
+  t('summary: 49.7%, 288 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumWrong')) === '9');
   t('dashboard: recommended settings, 0 on High-risk types', (await txt('#state')) === 'Recommended settings' && (await txt('#sumHigh')) === '0 on High-risk ticket types');
   t('rules before the table', await p.evaluate(() => !!(document.querySelector('#rules').compareDocumentPosition(document.querySelector('#types')) & Node.DOCUMENT_POSITION_FOLLOWING)));
   t('15 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 15 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));

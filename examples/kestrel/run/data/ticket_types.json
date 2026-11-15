@@ -3,8 +3,8 @@
  "product": "Kestrel",
  "customer": "Gusta",
  "channel": "In-app chat",
- "minutes_ai": 8,
- "minutes_assisted": 4,
+ "minutes_ai": 10,
+ "minutes_assisted": 5,
  "test_tickets_per_type": 50,
  "types": [
   {

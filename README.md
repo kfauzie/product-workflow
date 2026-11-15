@@ -17,7 +17,7 @@ Kestrel's analytics and configuration page (not the agent itself), for Gusta's H
 
 | Part | What it shows |
 |---|---|
-| Three numbers | **49.7%** of tickets handled by AI (1,483 of 2,982 a month) · **231** support hours saved a month (8 minutes per AI ticket, 4 per AI-assisted ticket) · **9** wrong answers reaching customers a month, **0** on High-risk ticket types |
+| Three numbers | **49.7%** of tickets handled by AI (1,483 of 2,982 a month) · **288** support hours saved a month (10 minutes per AI ticket, 5 per AI-assisted ticket) · **9** wrong answers reaching customers a month, **0** on High-risk ticket types |
 | Decision rules | **AI** (98%+ accurate, risk Low or Medium) · **AI-assisted human** (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human** (everything else) |
 | The table | 15 ticket types in in-app chat: tickets a month, accuracy, risk if wrong, Kestrel's recommendation with its reason, and a setting Gusta controls |
 | Overrides | Changing a setting shows "Overridden", warns when it gives Kestrel more autonomy than recommended, and updates the three numbers live, with the change against the recommendation |

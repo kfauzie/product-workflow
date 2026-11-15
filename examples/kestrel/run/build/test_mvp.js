@@ -18,7 +18,7 @@ BRIEF.forEach(([name, tk, k, risk, rec], i) => { const x = D.types[i];
 const rec = D.types.map(x => C.recommend(x, n)), s = C.summary(D, rec);
 t('tickets a month', s.all === 2982, s.all);
 t('handled by AI: 49.7%', (s.aiShare * 100).toFixed(1) === '49.7', (s.aiShare * 100).toFixed(2));
-t('hours saved: 1,483 × 8 min + 493 × 4 min = 231', Math.round(s.hours) === 231 && s.ai === 1483 && s.assisted === 493, s.hours.toFixed(1));
+t('hours saved: 1,483 × 10 min + 493 × 5 min = 288', Math.round(s.hours) === 288 && s.ai === 1483 && s.assisted === 493, s.hours.toFixed(1));
 t('wrong answers: 268 × 2% + 177 × 2% = 8.9', Math.abs(s.wrong - 8.9) < 0.001, s.wrong.toFixed(2));
 // overriding Refund request to AI: more autonomy, so a warning, and the numbers move
 const o = rec.slice(); o[6] = 'resolve'; const so = C.summary(D, o);

@@ -88,7 +88,7 @@ REASON = {
  "Pension deduction question": "Only 88% accurate",
 }
 out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",
-       "product": "Kestrel", "customer": "Gusta", "channel": "In-app chat", "minutes_ai": 8, "minutes_assisted": 4, "test_tickets_per_type": 50,
+       "product": "Kestrel", "customer": "Gusta", "channel": "In-app chat", "minutes_ai": 10, "minutes_assisted": 5, "test_tickets_per_type": 50,
        "types": [{"name": n, "tickets": v, "correct": k, "risk": c, "risk_example": ce, "reason": REASON[n],
                   "examples": [{"message": a, "proposed": b, "rule": rl, "correct": ok, "verdict_reason": rs} for a, b, rl, ok, rs in ex]}
                  for n, v, k, c, ce, mm, ex in T]}
