@@ -7,7 +7,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
 main{max-width:1240px;margin:0 auto;padding:24px 24px 36px}
-.header{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:13px;margin:0 0 18px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:8px}
+.header{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:15px;margin:0 0 20px;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:8px}
 .header dt{color:var(--mute)}.header dd{margin:0;color:var(--head)}
 h1{font-size:28px;color:var(--head);margin:0 0 16px}
 .dash-head{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-size:13px;color:var(--mute)}
@@ -42,6 +42,8 @@ tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var
 select{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head);cursor:pointer}
 select.s-resolve{background:var(--ai-bg);color:var(--ai);border-color:#a8dcc0}select.s-draft{background:var(--mix-bg);color:var(--mix);border-color:#f2d39b}select.s-human{background:var(--hum-bg);color:var(--hum);border-color:#f5b5bd}
 select option{background:#fff;color:var(--head);font-weight:400}
+select.rk-Low{color:var(--ai);border-color:#a8dcc0}select.rk-Medium{color:var(--mix);border-color:#f2d39b}select.rk-High{color:var(--hum);border-color:#f5b5bd}
+.adjusted{font-size:12px;color:var(--mix);font-weight:600;margin-top:5px}
 .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;background:#eef0f2;color:var(--mute);margin-top:4px}
 .warn{font-size:12px;color:var(--hum);margin-top:4px}
 tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
@@ -91,7 +93,8 @@ if (typeof module !== 'undefined') module.exports = {accuracy, recommend, summar
 
 <script>
 const LABEL = {resolve: 'AI', draft: 'AI-assisted human', human: 'Human'};
-let D, settings = [], open = new Set([0]);
+let D, settings = [], risks = [], open = new Set([0]);
+const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}));
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
   const K = D.product, G = D.customer, n = D.test_tickets_per_type;
@@ -111,8 +114,8 @@ function staticParts(){
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
-  const n = D.test_tickets_per_type, s = summary(D, settings), K = D.product;
-  const recSet = D.types.map(t => recommend(t, n)), r = summary(D, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
+  const n = D.test_tickets_per_type, E = eff(), DE = Object.assign({}, D, {types: E}), s = summary(DE, settings), K = D.product;
+  const recSet = E.map(t => recommend(t, n)), r = summary(DE, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
   const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs recommended</div>`; };
   document.getElementById('dashHead').innerHTML = `<b>Expected per month</b><span id="state" class="state ${overrides ? 'state-over">' + overrides + (overrides === 1 ? ' override' : ' overrides') : 'state-rec">Recommended settings'}</span>`;
@@ -121,16 +124,16 @@ function render(){
     <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min per AI ticket, ${D.minutes_assisted} per AI-assisted ticket)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
     <div class="card"><b id="sumWrong">${fmt(s.wrong)}</b><span>wrong answers reaching customers (AI-handled types: tickets × error rate)</span>
       <span id="sumHigh" class="hi ${s.wrongHigh >= 0.5 ? 'hi-bad">' + fmt(s.wrongHigh) : 'hi-ok">0'} on High-risk ticket types</span>${delta(s.wrong, r.wrong, v => fmt(v), false)}</div>`;
-  const rows = D.types.map((t, i) => {
-    const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = Math.round(accuracy(t, n) * 100);
+  const rows = E.map((t, i) => {
+    const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = Math.round(accuracy(t, n) * 100), adj = t.risk !== D.types[i].risk;
     const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';
     const warn = aboveRecommended(t, n, set) ? `<div class="warn">Above recommended: ${p}% accurate on a ${t.risk}-risk type</div>` : '';
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
       <td class="n">${p}% <span class="sub">(${t.correct}/${n})</span></td>
-      <td><span class="risk risk-${t.risk}">${t.risk}</span><div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div></td>
-      <td><span class="chip c-${rec}">${LABEL[rec]}</span><div class="reason">${t.reason}</div></td>
+      <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
+      <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Example tickets: ${t.name} (3 of the ${n} tested)</div><div class="exgrid">${t.examples.map(e => `<div class="exbox">
@@ -143,8 +146,11 @@ function render(){
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 function setMode(i, m){ settings[i] = m; render(); }
-function applyAll(){ settings = D.types.map(t => recommend(t, D.test_tickets_per_type)); render(); }
-fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; staticParts(); applyAll(); document.body.dataset.ready = '1'; })
+// changing risk re-runs the recommendation; the setting follows it only if it was still on the old recommendation
+function setRisk(i, v){ const n = D.test_tickets_per_type, before = recommend(eff()[i], n); risks[i] = v;
+  if (settings[i] === before) settings[i] = recommend(eff()[i], n); render(); }
+function applyAll(){ settings = eff().map(t => recommend(t, D.test_tickets_per_type)); render(); }
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts(); applyAll(); document.body.dataset.ready = '1'; })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>

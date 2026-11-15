@@ -19,7 +19,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const det = await txt('tr.detail');
   t('each expanded row has an Example tickets heading', det.includes('Example tickets: Password reset (3 of the 50 tested)'));
   t('examples use the four labels', ['Customer message', 'Kestrel proposed', 'Customer support rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
-  await p.click('tr.row:has-text("Refund request")');
+  await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
   await p.selectOption('select[data-i="6"]', 'resolve');
   const row = await txt('tr.row[data-i="6"]');
@@ -30,6 +30,15 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const row0 = await txt('tr.row[data-i="0"]');
   t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));
   await p.click('#applyAll');
+  // risk: Password reset Low -> High moves it to AI-assisted human; the setting follows because it was on the recommendation
+  await p.selectOption('select[data-risk="0"]', 'High');
+  let r0 = await txt('tr.row[data-i="0"]');
+  t('risk adjusted: "Adjusted by user", recommendation and setting follow', r0.includes('Adjusted by user') && r0.includes('AI-assisted human') && (await p.inputValue('select[data-i="0"]')) === 'draft' && !r0.includes('Overridden'));
+  // an overridden setting does not follow a risk change
+  await p.selectOption('select[data-i="1"]', 'human'); await p.selectOption('select[data-risk="1"]', 'High');
+  t('overridden setting stays when risk changes', (await p.inputValue('select[data-i="1"]')) === 'human');
+  await p.selectOption('select[data-risk="0"]', 'Low'); await p.selectOption('select[data-risk="1"]', 'Low'); await p.click('#applyAll');
+  t('back to the original: 49.7%', (await txt('#sumShare')) === '49.7%' && !(await txt('#types')).includes('Adjusted by user'));
   t('Apply all recommendations resets everything', (await txt('#sumShare')) === '49.7%' && !(await txt('#types')).includes('Overridden'));
   t('rules are one table with 3 coloured rows', (await p.$$('#rules tr.r-resolve, #rules tr.r-draft, #rules tr.r-human')).length === 3 && (await p.$$('#rules .chip')).length === 3);
   t('setting dropdown is coloured by its value', (await p.getAttribute('select[data-i="0"]', 'class')) === 's-resolve' && (await p.getAttribute('select[data-i="6"]', 'class')) === 's-human');
