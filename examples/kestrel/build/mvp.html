@@ -273,8 +273,8 @@ function tick(){
   return true; }
 window.tick = tick;
 fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); liveCorrect = D.types.map(t => t.correct); staticParts();
-  // saved settings: one override (Add a new employee moved up to AI)
-  settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Add a new employee')] = 'resolve'; render();
+  // saved settings: one setting override, a cautious one (Update company address moved down from AI to AI-assisted human)
+  settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Update company address')] = 'draft'; render();
   document.body.dataset.ready = '1';
   // live accuracy: every 5 seconds from load, one ticket type updates (off with ?static=1, for checks and screenshots)
   if (new URLSearchParams(location.search).has('static')) document.body.classList.add('static'); else setInterval(tick, 5000); })
