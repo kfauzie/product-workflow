@@ -1,0 +1,35 @@
+// FICTIONAL example. Headless check (~10s): page loads, main flow clicks through, no errors. Run: node check_mvp.js
+const { chromium } = require('playwright'); const http = require('http'), fs = require('fs'), path = require('path');
+const root = path.resolve(__dirname, '..');
+const srv = http.createServer((q, r) => { const f = path.join(root, decodeURIComponent(q.url.split('?')[0]));
+  fs.readFile(f, (e, b) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200, { 'Content-Type': f.endsWith('.json') ? 'application/json' : 'text/html' }); r.end(b); }); });
+(async () => {
+  await new Promise(ok => srv.listen(0, ok)); const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1440, height: 900 }, acceptDownloads: true });
+  const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => m.type() === 'error' && errs.push(m.text()));
+  const t = (label, ok) => { console.log((ok ? 'PASS ' : 'FAIL ') + label); if (!ok) errs.push(label); };
+  await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
+  t('1 setup shows 14 of 14 sites', (await p.textContent('#s1')).includes('14 of 14 sites'));
+  await p.click('#s1 .btn.primary');
+  t('2 brief opens on the defended case: £19m', (await p.textContent('#headline')).startsWith('£19m'));
+  t('defence evidence shown (tidal barrier)', (await p.textContent('#s2')).includes('tidal barrier'));
+  t('premiums over the hold shown', (await p.textContent('#premTotal')).includes('£31.6m'));
+  await p.click('#headline .num'); t('methodology opens from the number', await p.isVisible('#howDrawer.open')); await p.click('#howDrawer .btn');
+  await p.click('#ragBtn'); t('status legend opens', await p.isVisible('#ragLegend'));
+  t('other deals marked unavailable', (await p.textContent('#deals')).includes('Not available in prototype'));
+  t('deal terms drafted', (await p.textContent('.terms')).includes('Condition before closing'));
+  t('one page: breakdown closed by default', !(await p.evaluate(()=>document.getElementById('more').open)));
+  const dl = p.waitForEvent('download'); await p.click('#csv'); t('yearly costs download', (await dl).suggestedFilename().endsWith('.csv'));
+  await p.click('#defOff'); t('undefended → £58m', (await p.textContent('#headline')).startsWith('£58m'));
+  await p.selectOption('#hold', '4'); t('4-year hold → £39m', (await p.textContent('#headline')).startsWith('£39m')); await p.selectOption('#hold', '6');
+  const openAll = () => p.evaluate(()=>{document.getElementById('more').open=true;document.getElementById('assume').open=true});
+  await openAll(); await p.check('input[value="leased"]'); t('preset leased → £16m', (await p.textContent('#headline')).startsWith('£16m'));
+  await openAll(); await p.check('input[value="all"]'); await openAll();
+  await p.fill('#freeText', 'there is a sea wall and we hold for 5 years'); await p.click('#interpret'); await p.click('#applyFree');
+  t('free text → defended + 5 years', (await p.textContent('#headline')).startsWith('£15m') || ((await p.inputValue('#hold'))==='5' && await p.evaluate(()=>st.defended)));
+  await p.evaluate(()=>{st.preset='all';st.years=6;st.defended=false;render()});
+  await p.click('#s2 .siteLink'); t('3 site detail: Port Avelin office with defences', (await p.textContent('#s3')).includes('Flood defences at this site'));
+  await p.click('#example'); await p.click('#applyDoc'); t('site document applied → site £31m', (await p.textContent('#siteAfter')).startsWith('£31m'));
+  await p.click('#s3 > .wrap .btn.secondary'); t('brief uses the site document → £47m', (await p.textContent('#headline')).startsWith('£47m'));
+  await p.click('#toSend'); await p.click('#send'); t('4 sent', await p.isVisible('#sentOk'));
+  console.log(errs.length ? 'ERRORS: ' + errs.join(' | ') : 'All checks pass, no errors'); await b.close(); srv.close(); process.exit(errs.length ? 1 : 0);
+})();

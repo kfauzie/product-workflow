@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deal Climate Brief · Riskline (fictional)</title>
+<style>
+
+:root{--red:#4338ca;--g6:#343a40;--g7:#212529;--bg:#f9f9fa;--line:#e6e8eb;--mute:#6c757d;--jade:#15803d;
+--amber-bg:#fff4e0;--amber:#b06a00;--blue-bg:#eaf2fd;--blue:#1d5fbf;--green-bg:#e7f6ee}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--g6);font-size:14px}
+.screen{width:1440px;min-height:900px;background:var(--bg)}
+.ribbon{background:#1d5fbf;color:#fff;display:flex;gap:48px;align-items:center;padding:14px 32px;font-size:18px}
+.ribbon b{font-weight:700}.ribbon .ic{font-size:22px}
+.steps{display:flex;padding:12px 32px;gap:4px;background:#fff;border-bottom:1px solid var(--line)}
+.step{padding:8px 26px 8px 20px;background:#eef0f2;color:var(--mute);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,0 100%,12px 50%);font-size:13px;cursor:pointer}
+.step.on{background:var(--g7);color:#fff}.step.done{background:var(--green-bg);color:#1c7a4f}
+.app{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:#fff;border-bottom:1px solid var(--line)}
+.logo{font-weight:700;letter-spacing:.5px;color:var(--g6)}.logo span{color:var(--red)}
+.crumb{color:var(--mute);font-size:13px}
+.wrap{padding:24px 32px;display:grid;grid-template-columns:1fr 340px;gap:24px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 24px}
+h1{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--mute);margin:0 0 10px;font-weight:600}
+.top{display:flex;gap:28px;align-items:flex-start}
+.rag{background:var(--amber-bg);color:var(--amber);border:1px solid #f2d39b;border-radius:6px;padding:6px 10px;font-weight:700;font-size:13px;white-space:nowrap}
+.big{font-size:44px;font-weight:700;color:var(--g7);line-height:1.05}
+.big small{font-size:18px;font-weight:600;color:var(--g6)}
+.sub{font-size:16px;margin-top:8px}
+.why{margin-top:14px;font-size:15px;line-height:1.5}
+.act{margin-top:14px;background:var(--blue-bg);border-left:3px solid var(--blue);padding:10px 14px;border-radius:4px;font-size:14px}
+.compare{display:grid;grid-template-columns:150px 1fr 90px;gap:8px 12px;align-items:center;margin-top:18px;font-size:13px}
+.bar{height:14px;border-radius:3px;background:#cfd4da}.bar.cur{background:var(--g6)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--mute);font-weight:600;font-size:12px;border-bottom:1px solid var(--line);padding:8px 6px}
+td{padding:10px 6px;border-bottom:1px solid var(--line)}td.n{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.t-def{background:#eef0f2;color:var(--mute)}.t-deal{background:var(--blue-bg);color:var(--blue)}.t-pref{background:var(--green-bg);color:#1c7a4f}
+.ctl{margin-bottom:18px}.ctl label{display:block;font-weight:600;color:var(--g7);margin-bottom:6px;font-size:13px}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg div{flex:1;text-align:center;padding:7px 4px;font-size:12px;border-right:1px solid var(--line);background:#fff;cursor:pointer}
+.seg div:last-child{border-right:0}.seg .on{background:var(--g7);color:#fff}
+.field{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;display:flex;justify-content:space-between}
+.hint{font-size:12px;color:var(--mute);margin-top:5px;line-height:1.4}
+.warn{font-size:12px;background:var(--amber-bg);color:var(--amber);padding:6px 8px;border-radius:4px;margin-top:6px}
+.btn{display:block;width:100%;text-align:center;padding:12px;border-radius:6px;font-weight:600;font-size:14px;margin-top:10px}
+.primary{background:var(--red);color:#fff}.secondary{border:1px solid var(--g6);color:var(--g6);background:#fff}
+a{color:var(--blue);text-decoration:none}.foot{font-size:12px;color:var(--mute);margin-top:14px}
+.grade{font-size:12px;color:var(--mute)}
+.deals{display:flex;gap:8px;padding:12px 32px;background:#fff;border-bottom:1px solid var(--line);align-items:center;font-size:13px}
+.deal{border:1px solid var(--line);border-radius:6px;padding:7px 12px;background:#fff;cursor:pointer}
+.deal.on{border-color:var(--g7);box-shadow:inset 0 -3px 0 var(--red);font-weight:600;color:var(--g7)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.next{background:#eaf2fd;border:1px solid #c7dbf7;border-radius:10px;padding:18px 22px;margin-top:20px}
+.next h1{color:var(--blue)}.next li{margin:8px 0;font-size:14px;line-height:1.4}.next ul{list-style:none;padding:0;margin:0}
+.next li:before{content:"☐  ";color:var(--blue)}
+.recon{margin-top:14px;font-size:13px;background:#f4f5f7;border-radius:6px;padding:10px 12px;line-height:1.5}
+.stack{display:flex;height:22px;border-radius:4px;overflow:hidden;margin:8px 0 6px}
+.stack div{height:100%}.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px}
+.legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:var(--c)}
+.moves td{font-size:13px}
+.flag{background:#fde8ea;color:#b4232f;font-size:11px;padding:2px 6px;border-radius:4px;font-weight:600;margin-left:6px}
+.t-ans{background:#e7f6ee;color:#1c7a4f}.t-assume{background:#fff4e0;color:var(--amber)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.kv td:first-child{color:var(--mute);width:42%}
+.note{background:#fff4e0;border-left:3px solid #e0a100;padding:10px 14px;border-radius:4px;font-size:13px;margin-top:12px}
+.ok{background:var(--green-bg);border-left:3px solid var(--jade);padding:10px 14px;border-radius:4px;font-size:13px;margin-top:12px}
+.drop{border:2px dashed #c7cdd4;border-radius:8px;padding:18px;text-align:center;color:var(--mute);font-size:13px;margin-top:10px}
+.mail{border:1px solid var(--line);border-radius:8px;padding:18px 20px;font-size:14px;line-height:1.55;background:#fff}
+.chg td.old{color:var(--mute);text-decoration:line-through}.up{color:#1c7a4f;font-weight:600}
+.map{height:150px;border-radius:8px;background:linear-gradient(135deg,#dbe8f5,#c2d8ee 60%,#e9eef3);position:relative;font-size:12px;color:var(--blue)}
+.pin{position:absolute;left:55%;top:40%;background:var(--red);color:#fff;border-radius:12px;padding:3px 8px;font-size:11px}
+
+.screen{display:none;min-height:auto}.screen.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.frame{position:sticky;top:0;z-index:5}
+.step{border:0;font:inherit}
+.seg div.on{background:var(--g7);color:#fff}
+.btn{cursor:pointer;border:0}.secondary{border:1px solid var(--g6)}
+.synth{font-size:11px;color:var(--amber);background:var(--amber-bg);padding:1px 6px;border-radius:4px;margin-left:6px}
+select,input[type=number]{font:inherit;border:0;background:transparent;width:100%}
+.field select{appearance:none}
+.bench{display:flex;gap:3px;align-items:flex-end;height:46px;margin-top:8px}
+.bench div{flex:1;background:#cfd4da;border-radius:2px 2px 0 0}.bench div.me{background:var(--red)}
+.kpis{display:flex;gap:28px;margin-top:12px}.kpis div{display:flex;flex-direction:column}.kpis b{font-size:22px;color:var(--g7)}.kpis span{font-size:12px;color:var(--mute)}
+.basis{margin-top:16px;font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
+.collapse{display:none}.collapse.open{display:block}.legendbox{margin-top:12px;background:#f4f5f7;border-radius:6px;padding:10px 12px;font-size:13px}.legendbox td{padding:4px 6px;border:0}
+button.rag{cursor:pointer;font:inherit;font-weight:700;font-size:13px}
+.issue{border-left:4px solid #e0a100}
+details>summary{cursor:pointer;list-style:none;color:var(--blue);font-size:13px;margin-top:10px}details>summary::-webkit-details-marker{display:none}
+details.panel>summary{color:inherit;margin:0}details.qs ul{margin-top:8px}
+.radio{display:block;font-weight:400!important;padding:5px 0;cursor:pointer}
+.deal.off{opacity:.55;cursor:not-allowed}
+.num{cursor:pointer;border-bottom:1px dotted #adb5bd}.num sup{font-size:10px;color:var(--blue);margin-left:2px}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;background:#fff;box-shadow:-8px 0 24px rgba(0,0,0,.12);padding:24px;transform:translateX(100%);transition:transform .25s;z-index:20;overflow:auto}.drawer.open{transform:none;visibility:visible}.drawer{visibility:hidden}
+.kpis span.num{font-size:inherit;color:inherit}.big small{display:inline-block;max-width:560px;vertical-align:baseline}
+.casebar{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.pbars{display:flex;gap:10px;align-items:flex-end;height:96px;margin:6px 0}.pbars>div{flex:1;text-align:center;font-size:11px;color:var(--mute)}
+.pb{background:#f2b8bf;border-radius:3px 3px 0 0;display:flex;align-items:flex-end}.pb>div{width:100%;background:var(--red);border-radius:3px 3px 0 0}
+.terms p{margin:8px 0;font-size:14px;line-height:1.45}.terms [contenteditable]{outline:none}
+.basis{display:flex;gap:18px;align-items:center;flex-wrap:wrap}select.inline{width:auto;border:1px solid var(--line);border-radius:5px;padding:3px 6px;font:inherit;font-size:13px;color:var(--g7);background:#fff;margin-left:4px}
+.links{text-align:center;margin-top:12px;font-size:13px}
+@media print{.frame,.btn,.deals,.no-print{display:none!important}.screen{display:none!important}#s2{display:block!important}.wrap{grid-template-columns:1fr!important}}
+</style></head><body>
+<!-- FICTIONAL example: Corvane, Riskline, Ashgrove Partners and Project Lantern are invented. All data is synthetic. -->
+<div class="frame">
+  <div class="ribbon"><span class="ic">👤</span><span><b>User:</b> Head of Sustainability, Ashgrove Partners</span><span><b>Job to be done:</b> get the deal team to act on climate risk before IC</span></div>
+  <div class="steps" id="steps"></div>
+</div>
+<div class="app"><div class="logo">CORVANE &nbsp;<span style="color:var(--g6);font-weight:400">Riskline</span></div><div class="crumb" id="crumb"></div></div>
+<div class="deals" id="deals"></div>
+<div id="screens">
+  <div class="screen" id="s1" data-screen="1-setup"></div>
+  <div class="screen" id="s2" data-screen="2-brief"></div>
+  <div class="screen" id="s3" data-screen="3-site"></div>
+  <div class="screen" id="s4" data-screen="4-send"></div>
+  </div>
+
+<script id="calc">
+// ---- Every number is calculated here. Plain functions, tested in test_mvp.js ----
+const HAZ_DAMAGE = ['River Flood','Surface Flood','Coastal Flood','Subsidence','Landslide','Wildfires','Storms','Tropical Cyclones','Hail'];
+function interp(points, year){ // points: {year: value}
+  const ys = Object.keys(points).map(Number).sort((a,b)=>a-b);
+  if (year <= ys[0]) return points[ys[0]];
+  for (let i=1;i<ys.length;i++) if (year <= ys[i]) { const a=ys[i-1], b=ys[i]; return points[a] + (points[b]-points[a])*(year-a)/(b-a); }
+  return points[ys[ys.length-1]];
+}
+// £ loss a year for one site, one hazard, one year (interpolated between Riskline's projection years)
+function hazardLoss(site, scen, hazard, year){
+  const pts = {}; for (const [y,r] of Object.entries(site.risk[scen])) pts[y] = (r.hazards[hazard] && r.hazards[hazard].loss) || 0;
+  return interp(pts, year);
+}
+// opts: {scen, start, years, defended, insurance:[{site,hazard,excess,lastYear}], leasedOut:[siteIds], costFactor}
+function siteYearLoss(site, year, opts){
+  let byH = {}, total = 0;
+  for (const h of HAZ_DAMAGE){
+    let v = hazardLoss(site, opts.scen, h, year);
+    if (opts.defended && h === 'Coastal Flood') v = 0;   // approximation: defended = coastal flood damage removed
+    for (const ins of [].concat(opts.insurance || []))   // one or more policies, each tied to a site
+      if (ins.site === site.id && ins.hazard === h && year <= ins.lastYear) v = Math.min(v, ins.excess); // insurer pays above the excess (assumes at most one event a year)
+    if (opts.leasedOut && opts.leasedOut.includes(site.id)) v = 0;
+    v *= (opts.costFactor || 1);
+    byH[h] = v; total += v;
+  }
+  return {total, byH};
+}
+function holdYears(opts){ return Array.from({length: opts.years}, (_,i)=>opts.start+i); }
+function brief(data, opts){
+  const years = holdYears(opts), bySite = [], byHazard = {}; let total = 0;
+  for (const s of data.sites){
+    let st = 0, sh = {};
+    for (const y of years){ const r = siteYearLoss(s, y, opts); st += r.total; for (const [h,v] of Object.entries(r.byH)) sh[h]=(sh[h]||0)+v; }
+    for (const [h,v] of Object.entries(sh)) byHazard[h]=(byHazard[h]||0)+v;
+    const main = Object.entries(sh).sort((a,b)=>b[1]-a[1])[0];
+    bySite.push({site: s, hold: st, annual: st/years.length, mainHazard: main && main[1]>0 ? main[0] : null, byHazard: sh});
+    total += st;
+  }
+  bySite.sort((a,b)=>b.hold-a.hold);
+  bySite.forEach(x => x.share = total ? x.hold/total : 0);
+  return {total, annual: total/years.length, bySite, byHazard, years};
+}
+function ragStatus(total, ev){ const p = total/ev; return p >= 0.25 ? 'Red' : p >= 0.05 ? 'Amber' : 'Green'; } // rule: share of EV over the hold
+function premium(aal, p){ return {low: aal*p.loading_low, high: aal*p.loading_high, claimLow: aal*p.loading_low*p.after_claim_low, claimHigh: aal*p.loading_high*p.after_claim_high}; }
+function benchmark(pct, past){ const all = past.concat([pct]).sort((a,b)=>a-b); const sorted = past.slice().sort((a,b)=>a-b);
+  const median = sorted.length%2 ? sorted[(sorted.length-1)/2] : (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+  return {rank: all.indexOf(pct)+1, of: all.length, median, higherThan: past.filter(x=>x<pct).length}; }
+function siteEbitdaPct(annual, ebitda){ return ebitda ? annual/ebitda : null; }
+// premiums each year: AAL × loading, rising by yearly_rise from the first hold year (assumptions, not data)
+function premiumPath(aalByYear, p, startYear){ const low=[], high=[];
+  aalByYear.forEach((a,i)=>{ const g=Math.pow(1+p.yearly_rise,i); low.push(a*p.loading_low*g); high.push(a*p.loading_high*g); });
+  return {low, high, total:[low.reduce((x,y)=>x+y,0), high.reduce((x,y)=>x+y,0)]}; }
+if (typeof module !== 'undefined') module.exports = {interp, hazardLoss, siteYearLoss, brief, ragStatus, premium, premiumPath, benchmark, siteEbitdaPct, HAZ_DAMAGE};
+</script>
+
+<script>
+// ---- UI ----
+const STEPS = ['Set up the deal','The brief','Site detail','Send to the deal team'];
+const SCEN = [['ssp126','Low','SSP1-2.6: low emissions'],['ssp245','Middle','SSP2-4.5: the path the world is roughly on'],['ssp370','High','SSP3-7.0: high emissions'],['ssp585','Very high','SSP5-8.5: very high emissions']];
+const TYPE = {OFFICE:'office',PARKING:'car park',HIGH_ST:'retail',SINGLE_RES:'homes',MANUFACTURING:'factory',TRANSPORT:'transport site',MIXED_USE:'mixed-use building'};
+const CITY = {};
+// who-pays presets: the default plus ready-made alternatives; free text is matched to these (see parseAssumption)
+const PRESETS = [
+  {id:'all', label:'Lantern pays for all of it', def:true},
+  {id:'leased', label:'The top site is leased: the landlord pays for damage'},
+  {id:'insured', label:'The top site is insured for flood (example policy)'},
+];
+let D, S, st = {step:1, scen:'ssp245', years:6, defended:true, preset:'all', docs:{}, siteId:null, sent:false, ev:null, freeText:'', freeResult:null};
+const M = v => { const a=Math.abs(v); return (v<0?'−':'')+'£'+(a>=1e9?(a/1e9).toFixed(2)+'bn':a>=1e6?(a/1e6).toFixed(a>=1e7?0:1).replace(/\.0$/,'')+'m':a>=1e3?Math.round(a/1e3)+'k':Math.round(a)); };
+const M1 = v => '£'+(v/1e6).toFixed(1)+'m';
+const pct = (v,d=0) => (v*100).toFixed(d)+'%';
+const name = s => `${CITY[s.city]||s.city||s.country} ${TYPE[s.type]||s.type.toLowerCase()}`;
+const topId = () => brief(D, baseOpts()).bySite[0].site.id;
+const policyFor = id => { const P = S.example_policy; return {site:id, hazard:P.hazard, excess:P.excess_per_event, lastYear:P.last_covered_year}; };
+function baseOpts(o={}){ // what the brief uses: controls + documents attached to sites
+  const ins = Object.entries(st.docs).filter(([id,d])=>d.applied).map(([id])=>policyFor(id));
+  return Object.assign({scen:st.scen, start:S.deal.hold_start, years:st.years, defended:st.defended, insurance:ins, leasedOut:[]}, o);
+}
+function opts(o={}){ // adds the chosen who-pays preset
+  const t = topId(), x = baseOpts();
+  if (st.preset==='leased') x.leasedOut = [t];
+  if (st.preset==='insured') x.insurance = x.insurance.concat([policyFor(t)]);
+  return Object.assign(x, o);
+}
+const ev = () => st.ev || S.deal.ev;
+const totE = () => Object.values(S.ebitda_by_site).reduce((a,c)=>a+c,0);
+
+// free-text assumption → closest thing the brief can model (shown to the user to confirm, never applied silently)
+function parseAssumption(t){
+  t = t.toLowerCase(); const out = [];
+  const y = t.match(/(\d+)\s*(-|\s)?year/); if (y && +y[1]>=3 && +y[1]<=10) out.push({k:'years', v:+y[1], txt:`Hold period ${y[1]} years`});
+  if (/\bno (sea wall|flood wall|defen)|undefended|without defen/.test(t)) out.push({k:'defended', v:false, txt:'Undefended case'});
+  else if (/defen|sea wall|flood wall|barrier/.test(t)) out.push({k:'defended', v:true, txt:'Defended case'});
+  if (/lease|landlord|rent/.test(t)) out.push({k:'preset', v:'leased', txt:PRESETS[1].label});
+  else if (/insur|policy|cover/.test(t)) out.push({k:'preset', v:'insured', txt:PRESETS[2].label});
+  if (/worst|very high|ssp5|8\.5/.test(t)) out.push({k:'scen', v:'ssp585', txt:'Very high scenario (SSP5-8.5)'});
+  else if (/\bhigh\b|ssp3|7\.0/.test(t)) out.push({k:'scen', v:'ssp370', txt:'High scenario (SSP3-7.0)'});
+  else if (/\blow\b|ssp1|2\.6/.test(t)) out.push({k:'scen', v:'ssp126', txt:'Low scenario (SSP1-2.6)'});
+  return out;
+}
+
+function frame(){
+  document.getElementById('steps').innerHTML = STEPS.map((t,i)=>`<button class="step ${i+1<st.step?'done':i+1===st.step?'on':''}" onclick="go(${i+1})">${i+1<st.step?'✓ ':''}${i+1}. ${t}</button>`).join('');
+  const site = st.siteId && D.sites.find(s=>s.id===st.siteId);
+  const crumbs = ['Set up the deal','Deal climate brief · Draft','Deal climate brief / '+(site?name(site):''),'Send to the deal team'];
+  document.getElementById('crumb').textContent = 'Deals in diligence / Project Lantern / '+crumbs[st.step-1];
+  const r = ragStatus(brief(D,opts()).total, ev());
+  const dot = {Red:'var(--red)',Amber:'#e0a100',Green:'var(--jade)'}[r];
+  document.getElementById('deals').innerHTML = `<span style="color:var(--mute);margin-right:4px">Deals in diligence (3):</span>
+   <div class="deal on"><span class="dot" style="background:${dot}"></span>${S.deal.name} · IC in 4 weeks</div>`+
+   S.other_deals.map(d=>`<div class="deal off" title="Example deal: not available in this prototype"><span class="dot" style="background:#ced4da"></span>${d.name} · ${d.status} <span class="tag t-def">Not available in prototype</span></div>`).join('');
+}
+function go(n){ st.step=n; render(); window.scrollTo(0,0); }
+window.showScreen = k => go(Number(String(k)[0]));
+function render(){
+  if (st.step===3 && !st.siteId) st.siteId = topId();
+  frame();
+  document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('on', i+1===st.step));
+  [s1,s2,s3,s4][st.step-1]();
+}
+function tag(kind){ return {deal:'<span class="tag t-deal">From deal record</span>',pref:'<span class="tag t-pref">Your team\'s preference</span>',def:'<span class="tag t-def">Default</span>',assume:'<span class="tag t-assume">Assumed, not in the data</span>',riskline:'<span class="tag t-def">Riskline</span>',ans:'<span class="tag t-ans">From an uploaded document</span>',synth:'<span class="synth">Synthetic for this prototype</span>'}[kind]; }
+const RAG_LEGEND = `<div class="legendbox"><b>What the status means</b> · expected damage over the hold as a share of EV
+  <table><tr><td><span class="dot" style="background:var(--jade)"></span>Green</td><td>under 5%</td><td>no action before IC</td></tr>
+  <tr><td><span class="dot" style="background:#e0a100"></span>Amber</td><td>5% to 25%</td><td>check before IC: could change price or terms</td></tr>
+  <tr><td><span class="dot" style="background:var(--red)"></span>Red</td><td>25% or more</td><td>material for IC</td></tr></table>
+  <div class="hint">Source: thresholds set by your team in Riskline settings <span class="tag t-def">Default</span>. Calculated by the product, never typed in.</div></div>`;
+
+// ---------- 1. Set up: the inputs only, nothing calculated yet ----------
+function s1(){
+  const n = D.sites.length, noCity = D.sites.filter(s=>!s.city);
+  const byC = {}; D.sites.forEach(s=>byC[s.country]=(byC[s.country]||0)+1);
+  document.getElementById('s1').innerHTML = `<div class="wrap" style="grid-template-columns:1fr 400px"><div class="panel">
+   <h1>Step 1 of 4 · Check the inputs for ${S.deal.name}</h1>
+   <div style="font-size:22px;font-weight:700;color:var(--g7);margin:4px 0 4px">${n} of ${n} sites found in Riskline ✓</div>
+   <div class="hint">This step only collects the inputs. The brief (step 2) gives the answer.</div>
+   <table class="kv" style="margin-top:16px">
+    <tr><td>EV (price of the whole company, incl. debt)</td><td><b>${M(ev())}</b> ${tag('deal')}</td></tr>
+    <tr><td>Hold period</td><td><b>${st.years} years, ${S.deal.hold_start}–${S.deal.hold_start+st.years-1}</b> ${tag('deal')}</td></tr>
+    <tr><td>EBITDA by site</td><td><b>${M(totE())} across ${Object.keys(S.ebitda_by_site).length} sites</b> <span class="tag t-deal">From your financial model</span>${tag('synth')}</td></tr>
+    <tr><td>Benchmark</td><td><b>Ashgrove Partners's ${S.past_deals_aal_pct_ebitda.length} past assessments</b>${tag('synth')}</td></tr>
+    <tr><td>IC date</td><td><b>${S.deal.ic_date}</b> (in 4 weeks) ${tag('deal')}</td></tr>
+   </table>
+   ${noCity.length?`<div class="note"><b>Warning: ${noCity.length} sites have no street address</b> (${noCity.map(s=>s.country).join(', ')}). They're placed by map coordinates.</div>`:''}
+  </div><div>
+   <div class="panel"><h1>Sites</h1><div class="hint">${n} sites in ${Object.keys(byC).length} countries: offices, car parks, retail, homes, a factory and a transport site.</div></div>
+   <button class="btn primary" onclick="go(2)">Create the brief</button>
+  </div></div>`;
+}
+
+// ---------- "How it's calculated": one click from every number ----------
+function howText(key){
+  const sc = SCEN.find(x=>x[0]===st.scen), yrs = `${S.deal.hold_start}–${S.deal.hold_start+st.years-1}`, P = S.premium;
+  const caseTxt = st.defended ? 'Defended: coastal flood damage at sites with confirmed or suggested defences is removed (prototype approximation of Riskline\'s defended model).' : 'Undefended: no flood defences anywhere (Riskline\'s default).';
+  const common = `<tr><td>Scenario</td><td>${sc[1]} (${sc[2]})</td></tr><tr><td>Model</td><td>Riskline: hazard × building vulnerability × rebuild cost = average annual loss (AAL), per site and hazard. Projection years 2020–2100, values between them interpolated</td></tr><tr><td>Case</td><td>${caseTxt}</td></tr><tr><td>Who pays</td><td>${PRESETS.find(p=>p.id===st.preset).label}</td></tr>`;
+  const T = {
+    total: ['Expected damage over the hold', `Sum of each year's AAL across all ${D.sites.length} sites, ${yrs}.`],
+    ev: ['Share of EV', 'Expected damage over the hold ÷ EV from the deal record.'],
+    ebitda: ['Share of EBITDA', 'Average AAL a year ÷ total EBITDA by site (synthetic for this prototype).'],
+    premium: ['Insurance premiums over the hold', `Premium each year = AAL × ${P.loading_low}–${P.loading_high} (insurer's loading), rising ${pct(P.yearly_rise)} a year. Assumptions to check with a broker, not data.`],
+    site: ['Site figures', 'The same method for one site. Its overall grade ranks damage as a share of rebuild cost, not in £.'],
+  }[key] || ['Calculation',''];
+  return `<h1>How it's calculated · ${T[0]}</h1><div class="why" style="margin-top:0">${T[1]}</div><table class="kv" style="margin-top:8px">${common}</table>`;
+}
+function how(key){ const d = document.getElementById('howDrawer'); d.innerHTML = howText(key)+'<button class="btn secondary" style="margin-top:12px" onclick="this.parentNode.classList.remove(\'open\')">Close</button>'; d.classList.add('open'); }
+const N = (txt, key, id='') => `<span class="num" ${id?`id="${id}"`:''} onclick="how('${key}')" title="How it's calculated">${txt}<sup>ⓘ</sup></span>`;
+function premiumYears(b){ return b.years.map(y => brief(D, opts({start:y, years:1})).total); }
+function csvDownload(){
+  const d = brief(D,opts({defended:true})), u = brief(D,opts({defended:false})), P = S.premium;
+  const dy = premiumYears(d).map((v,i)=>[v,d.years[i]]), rows = [['Year','Expected damage, defended (£)','Expected damage, undefended (£)','Premium low, defended (£)','Premium high, defended (£)']];
+  d.years.forEach((y,i)=>{ const dd = brief(D,opts({defended:true,start:y,years:1})).total, uu = brief(D,opts({defended:false,start:y,years:1})).total, pp = premiumPath([dd], P, y);
+    rows.push([y, Math.round(dd), Math.round(uu), Math.round(pp.low[0]), Math.round(pp.high[0])]); });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'})); a.download = 'Lantern climate costs by year.csv'; a.click();
+}
+
+// ---------- 2. The brief: one page. The answer, why, the defences, the deal terms ----------
+function s2(){
+  const b = brief(D,opts()), E = ev(), r = ragStatus(b.total,E);
+  const other = brief(D,opts({defended:!st.defended}));
+  // the site whose defences make the difference between the two cases
+  const swing = b.bySite.map(x=>({x, d:Math.abs(x.hold - other.bySite.find(y=>y.site.id===x.site.id).hold)})).sort((a,c)=>c.d-a.d)[0];
+  const ts = swing.x.site, und = (st.defended?other:b).bySite.find(y=>y.site.id===ts.id), undTotal = (st.defended?other:b).total;
+  const next = b.bySite.find(x=>x.site.id!==ts.id);
+  const ePct = b.annual/totE();
+  const pp = premiumPath(premiumYears(b), S.premium, S.deal.hold_start);
+  const yrs = `${S.deal.hold_start}–${S.deal.hold_start+st.years-1}`, scenName = SCEN.find(x=>x[0]===st.scen);
+  const ragCls = {Amber:'',Red:'style="background:#fde8ea;color:#b4232f;border-color:#f5b5bd"',Green:'style="background:var(--green-bg);color:#1c7a4f;border-color:#a8dcc0"'}[r];
+  const dv = S.defences[ts.id], maxP = Math.max(...pp.high);
+  document.getElementById('s2').innerHTML = `<div class="wrap"><div>
+   <div class="panel">
+    <h1>${S.deal.name} · ${S.deal.company} · climate summary for IC</h1>
+    <div class="top"><div style="flex:1">
+      <div class="casebar"><div class="seg" style="width:340px"><div id="defOn" class="${st.defended?'on':''}" onclick="st.defended=true;render()">Defended case</div><div id="defOff" class="${st.defended?'':'on'}" onclick="st.defended=false;render()">Undefended case</div></div>
+       <span class="hint">${st.defended?`Undefended: ${M(other.total)}`:`Defended: ${M(other.total)}`}</span></div>
+      <div class="big" id="headline">${N(M(b.total),'total')} <small>expected climate damage to Lantern's buildings over the ${st.years}-year hold</small></div>
+      <div class="kpis"><div><b>${N(pct(b.total/E),'ev')}</b><span>of ${M(E)} EV</span></div><div><b>${N(M1(pp.total[0])+'–'+M1(pp.total[1]),'premium','premTotal')}</b><span>in premiums if insured instead</span></div></div>
+     </div>
+     <div><button class="rag" id="ragBtn" ${ragCls} onclick="document.getElementById('ragLegend').classList.toggle('open')">${r==='Green'?'✓':'⚠'} ${r.toUpperCase()}${r==='Amber'?': check before IC':''} ⓘ</button></div></div>
+    <div id="ragLegend" class="collapse">${RAG_LEGEND}</div>
+    <div class="basis">
+     <span>Hold <select id="hold" class="inline" onchange="st.years=+this.value;render()">${[3,4,5,6,7,8,9,10].map(y=>`<option value="${y}" ${y===st.years?'selected':''}>${y} years · ${S.deal.hold_start}–${S.deal.hold_start+y-1}</option>`).join('')}</select></span>
+     <span>Scenario <select id="scen" class="inline" onchange="st.scen=this.value;render()">${SCEN.map(x=>`<option value="${x[0]}" ${x[0]===st.scen?'selected':''}>${x[1]} (${x[2].split(':')[0]})</option>`).join('')}</select></span>
+     <span><b>${PRESETS.find(p=>p.id===st.preset).label}</b></span>
+     <a href="#" onclick="how('total');return false">How it's calculated ›</a>
+    </div>
+   </div>
+
+   <div class="panel issue" style="margin-top:20px">
+    <h1>Why: it depends on the defences at one site · ${name(ts)}</h1>
+    <div class="why" style="margin-top:0">The two cases differ by <b>${M(swing.d)}</b>, all from the ${name(ts)} (${ts.street}). With no defences Riskline models coastal flood up to ${ts.risk[st.scen]['2030'].hazards['Coastal Flood'].sev}m deep there, ${pct(und.hold/undTotal)} of the undefended total.</div>
+    ${dv?`<table style="margin-top:10px"><tr><th>Defence</th><th>Who provides it</th><th>Standard</th></tr>${dv.items.map(i=>`<tr><td>${i.what}</td><td>${i.who}</td><td><span class="tag t-assume">${i.standard}</span></td></tr>`).join('')}</table>
+     <div class="hint">${dv.status}. ${tag('synth')} <a href="#" class="siteLink" onclick="st.siteId='${ts.id}';go(3);return false">Site detail and documents ›</a></div>`:''}
+   </div>
+
+   <details class="panel" id="more" style="margin-top:20px"><summary><h1 style="display:inline">Full breakdown ›</h1> <span class="hint">premiums by year, sites, assumptions</span></summary>
+    <div style="margin-top:14px;font-weight:600;font-size:13px">Insurance premiums by year (${st.defended?'defended':'undefended'} case) ${tag('assume')}</div>
+    <div class="pbars">${b.years.map((y,i)=>`<div><div class="pb" style="height:${pp.high[i]/maxP*70}px"><div style="height:${pp.low[i]/pp.high[i]*100}%"></div></div><span>${y}</span></div>`).join('')}</div>
+    <div class="hint">${M1(pp.low[0])}–${M1(pp.high[0])} in ${S.deal.hold_start}, rising to ${M1(pp.low[pp.low.length-1])}–${M1(pp.high[pp.high.length-1])} by ${b.years[b.years.length-1]}: insurers charge ${S.premium.loading_low}–${S.premium.loading_high}× expected loss, rising ${pct(S.premium.yearly_rise)} a year (assumed).</div>
+    <div style="margin-top:16px;font-weight:600;font-size:13px">Where it comes from</div>
+    <table>${b.bySite.slice(0,3).map(x=>`<tr><td><b>${name(x.site)}</b> <span class="hint">${x.mainHazard||''}</span></td><td class="n">${N(M(x.hold),'site')}</td><td class="n" style="width:70px">${pct(x.share)}</td><td style="width:110px"><a href="#" onclick="st.siteId='${x.site.id}';go(3);return false">Site detail ›</a></td></tr>`).join('')}
+     <tr><td>${b.bySite.length-3} other sites</td><td class="n">${M(b.bySite.slice(3).reduce((a,x)=>a+x.hold,0))}</td><td class="n">${pct(b.bySite.slice(3).reduce((a,x)=>a+x.share,0))}</td><td></td></tr></table>
+    <div class="hint" style="margin-top:8px">${pct(ePct)} of Lantern's EBITDA a year ${tag('synth')}</div>
+    <details id="assume" style="margin-top:10px"><summary>Change assumptions ›</summary>
+     <div class="ctl" style="margin-top:10px"><label>Who pays for damage</label>
+      ${PRESETS.map(p=>`<label class="radio"><input type="radio" name="preset" value="${p.id}" ${st.preset===p.id?'checked':''} onchange="st.preset='${p.id}';render()"> ${p.label} ${p.def?tag('def'):''} <span class="hint">→ ${M(brief(D,Object.assign(baseOpts(), p.id==='leased'?{leasedOut:[ts.id]}:p.id==='insured'?{insurance:baseOpts().insurance.concat([policyFor(ts.id)])}:{})).total)}</span></label>`).join('')}</div>
+     <div class="ctl"><label>Or describe another assumption</label>
+      <div class="field"><input id="freeText" style="width:100%;border:0;font:inherit" placeholder='e.g. "no sea wall and we hold for 5 years"' value="${st.freeText.replace(/"/g,'&quot;')}"></div>
+      <button class="btn secondary" style="width:auto;padding:6px 14px;display:inline-block" id="interpret" onclick="st.freeText=document.getElementById('freeText').value;st.freeResult=parseAssumption(st.freeText);st.openMore=true;render()">Interpret</button>
+      ${st.freeResult?(st.freeResult.length?`<div class="ok">Understood as: <b>${st.freeResult.map(x=>x.txt).join(' · ')}</b>. <a href="#" id="applyFree" onclick="st.freeResult.forEach(x=>st[x.k]=x.v);st.freeResult=null;render();return false">Apply</a></div>`:`<div class="note">Warning: can't model this yet. The closest options are the ones above, the case, the hold period and the scenario.</div>`):''}</div>
+     <table><tr><th>Other assumptions</th><th>Used now</th><th>Source</th></tr>
+      <tr><td>Rebuild cost per site</td><td>Riskline estimate (${M(D.sites.reduce((a,s)=>a+s.replacement_cost,0))})</td><td>${tag('riskline')}</td></tr>
+      <tr><td>Premium loading and rise</td><td>${S.premium.loading_low}–${S.premium.loading_high}×, +${pct(S.premium.yearly_rise)} a year</td><td>${tag('assume')}</td></tr>
+      <tr><td>Status thresholds</td><td>5% and 25% of EV</td><td>${tag('def')}</td></tr></table>
+    </details>
+   </details>
+  </div><div>
+   <div class="next terms"><h1>In deal terms · drafted, edit before sending</h1>
+    <div contenteditable="true">
+     <p><b>Price:</b> cost to carry the risk over the hold: ${M(b.total)} expected damage if Lantern bears it, or ${M1(pp.total[0])}–${M1(pp.total[1])} in premiums if insured.</p>
+     <p><b>Condition before closing:</b> confirm the ${name(ts)}'s flood defences (${dv?dv.items.map(i=>i.what.split(' (')[0]).join(', '):'type and standard'}) and its flood cover.</p>
+     <p><b>100-day plan:</b> resilience measures at the ${name(ts)} (Retrofit Planner shows cost and return) and the insurance renewal; ${(next.mainHazard||'').toLowerCase()} at the ${name(next.site)}.</p>
+    </div></div>
+   <button class="btn primary" id="toSend" onclick="go(4)">Review and send to deal team</button>
+   <div class="links"><a href="#" id="csv" onclick="csvDownload();return false">Yearly costs for your model (CSV)</a> · <a href="#" onclick="window.print();return false">PDF</a></div>
+  </div></div>
+  <div id="howDrawer" class="drawer"></div>`;
+  if (st.openMore || st.freeResult){ document.getElementById('more').open = true; document.getElementById('assume').open = true; st.openMore = false; }
+}
+
+// ---------- 3. Site detail ----------
+function s3(){
+  if (!st.siteId) st.siteId = topId();
+  const b = brief(D,opts()), x = b.bySite.find(y=>y.site.id===st.siteId), s = x.site, r30 = s.risk[st.scen]['2030'];
+  const other = brief(D,opts({defended:!st.defended})).bySite.find(y=>y.site.id===s.id);
+  const hz = Object.entries(x.byHazard).filter(h=>h[1]>0).sort((a,c)=>c[1]-a[1]);
+  const main = x.mainHazard, sev = main && r30.hazards[main].sev, eb = S.ebitda_by_site[s.id];
+  const yearly = x.site && b.years.map(y => brief({sites:[s]}, opts({start:y,years:1})).total), pp = premiumPath(yearly, S.premium, S.deal.hold_start);
+  const dist = (a,c)=>{const R=6371,t=Math.PI/180,dl=(c.lat-a.lat)*t,dn=(c.lon-a.lon)*t;const h=Math.sin(dl/2)**2+Math.cos(a.lat*t)*Math.cos(c.lat*t)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
+  const near = D.sites.filter(o=>o.id!==s.id).map(o=>({o,km:dist(s,o)})).sort((a,c)=>a.km-c.km)[0];
+  const nearH = main ? near.o.risk[st.scen]['2030'].hazards[main] : {grade:'—',loss:0};
+  const doc = st.docs[s.id], P = S.example_policy, dv = S.defences[s.id];
+  const without = brief(D,Object.assign(opts(),{insurance:opts().insurance.filter(i=>i.site!==s.id)}));
+  const withDoc = brief(D,Object.assign(opts(),{insurance:opts().insurance.filter(i=>i.site!==s.id).concat([policyFor(s.id)])}));
+  const sWithout = without.bySite.find(y=>y.site.id===s.id), sWith = withDoc.bySite.find(y=>y.site.id===s.id);
+  document.getElementById('s3').innerHTML = `<div class="wrap"><div>
+   <div class="panel"><h1>${name(s)} · ${s.street||s.country} · one of Lantern's ${D.sites.length} sites</h1>
+    <div class="casebar"><div class="seg" style="width:340px"><div class="${st.defended?'on':''}" onclick="st.defended=true;render()">Defended case</div><div class="${st.defended?'':'on'}" onclick="st.defended=false;render()">Undefended case</div></div><span class="hint">${st.defended?'Undefended':'Defended'}: ${M1(other.annual)} a year</span></div>
+    <div class="big">${N(M1(x.annual),'site')} <small>average annual loss (AAL) · ${pct(x.share)} of Lantern's total</small></div>
+    <div class="kpis"><div><b>${M(x.hold)}</b><span>over the ${st.years}-year hold</span></div><div><b>${pct(x.annual/eb)}</b><span>of the site's ${M(eb)} EBITDA ${tag('synth')}</span></div><div><b>${N(M1(pp.total[0])+'–'+M1(pp.total[1]),'premium')}</b><span>premiums over the hold if insured</span></div></div>
+    <div class="why"><b>Why:</b> ${main && /Flood/.test(main)?`${st.defended?'with defences in place, the remaining damage is mainly '+main.toLowerCase()+'.':`with no defences the model floods the site up to <b>${sev}m deep</b>.`}`:`${main?main.toLowerCase():'no hazard'} is the main hazard here.`} The building costs ${M(s.replacement_cost)} to rebuild${s.floors?` (${s.floors} floors)`:''}. Its overall grade is ${r30.grade} because grades rank damage as a share of rebuild cost (${pct(r30.loss_pct,1)} a year), not in £.</div>
+    <table style="margin-top:12px"><tr><th>Hazard</th><th>Grade</th><th class="n">AAL a year</th></tr>
+     ${hz.map(([h,v])=>`<tr><td>${h}</td><td>${r30.hazards[h].grade||'—'}</td><td class="n">${M1(v/st.years)}</td></tr>`).join('')}</table>
+   </div>
+   ${dv?`<div class="panel issue" style="margin-top:20px"><h1>Flood defences at this site</h1>
+    <table><tr><th>Defence</th><th>Who provides it</th><th>Standard</th></tr>${dv.items.map(i=>`<tr><td>${i.what}</td><td>${i.who}</td><td><span class="tag t-assume">${i.standard}</span></td></tr>`).join('')}</table>
+    <div class="hint">${dv.status}. Attach a defence survey or letter from the defence authority to confirm. ${tag('synth')}</div></div>`:''}
+   <details class="panel" style="margin-top:20px"><summary><h1 style="display:inline">More detail ›</h1> <span class="hint">asset or area, what would change it</span></summary>
+    <table class="kv" style="margin-top:12px">
+     <tr><td>Asset or area?</td><td>Nearest Lantern site: ${name(near.o)}, ${near.km.toFixed(1)}km away: ${main?main.toLowerCase():''} grade ${nearH.grade||'—'}, ${M(nearH.loss||0)} a year. The risk is this building's spot, not the whole area.</td></tr>
+     <tr><td>${st.defended?'If undefended':'If defended'}</td><td>${M1(other.annual)} a year, ${M(other.hold)} over the hold</td></tr>
+     <tr><td>If leased and the landlord pays</td><td>£0 to Lantern</td></tr></table>
+   </details>
+  </div><div>
+   <div class="panel"><h1>Documents for this site</h1>
+    ${doc?`<table class="kv"><tr><td>${P.file}</td><td>${doc.applied?'<span class="tag t-ans">✓ Applied</span>':'<span class="tag t-assume">Check, then apply</span>'}</td></tr></table>
+     <div class="hint" style="margin:8px 0 4px">Read from the document${tag('synth')}:</div>
+     <table class="kv"><tr><td>Covers</td><td>${P.hazard.toLowerCase()} · p.${P.pages.covers}</td></tr><tr><td>Excess per event</td><td>${M(P.excess_per_event)} · p.${P.pages.excess}</td></tr><tr><td>Valid until</td><td>${P.valid_until} · p.${P.pages.valid}</td></tr></table>
+     <table class="chg" style="margin-top:10px"><tr><th>This site, over the hold</th><th class="n">Before</th><th class="n">After</th></tr>
+      <tr><td>Damage Lantern bears</td><td class="n old">${M(sWithout.hold)}</td><td class="n up" id="siteAfter">${M(sWith.hold)}</td></tr>
+      <tr><td>Deal total</td><td class="n old">${M(without.total)}</td><td class="n up">${M(withDoc.total)}</td></tr></table>
+     <div class="hint"><b>Why:</b> the insurer pays above the ${M(P.excess_per_event)} excess until ${P.valid_until}; the premium is still a cost. Assumes at most one flood a year.</div>
+     ${doc.applied?'':`<button class="btn primary" id="applyDoc" onclick="st.docs['${s.id}'].applied=true;render()">Apply to this site</button>`}`
+    :`<label class="drop" style="display:block;cursor:pointer">Attach a document for this site: defence survey, insurance policy, lease<input type="file" style="display:none" onchange="st.docs['${s.id}']={applied:false};render()"></label>
+     <div class="hint" style="margin-top:8px">Prototype: <a href="#" id="example" onclick="st.docs['${s.id}']={applied:false};render();return false">attach the example policy</a> (synthetic)</div>`}
+   </div>
+   <details class="next qs" style="margin-top:20px"><summary><b>Questions for the deal team about the ${name(s)} ›</b></summary><ul>
+    <li>Which flood defences protect the ${name(s)}, and to what standard?</li>
+    <li>Does Lantern own or lease it, and which floors?</li>
+    <li>Is it insured for flood, and what is the premium today?</li></ul></details>
+   <button class="btn secondary" onclick="go(2)">Back to the brief</button>
+  </div></div>
+  <div id="howDrawer" class="drawer"></div>`;
+}
+
+function s4(){
+  const b = brief(D,opts()), E = ev(), r = ragStatus(b.total,E), top = b.bySite[0], def = brief(D,opts({defended:true}));
+  document.getElementById('s4').innerHTML = `<div class="wrap"><div>
+   <div class="panel"><h1>Message to the deal team · drafted for you, edit before sending</h1>
+    <table class="kv"><tr><td>To</td><td>Lantern deal lead; Lantern deal team</td></tr><tr><td>Subject</td><td>${S.deal.name}: climate risk for IC${r==='Amber'?', one site to check':''}</td></tr></table>
+    <div class="mail" contenteditable="true" style="margin-top:12px">
+     <b>${r}${r==='Amber'?': check before IC':''}.</b> Lantern's buildings face about <b>${M(b.total)} of climate damage over the ${st.years}-year hold (${pct(b.total/E)} of the ${M(E)} EV)</b>.<br><br>
+     ${pct(top.share)} comes from one site, the ${name(top.site)} on ${top.site.street}, from ${(top.mainHazard||'').toLowerCase()}. ${st.defended?'That figure assumes flood defences.':`That figure assumes no flood defences. If the site is defended it falls to <b>${M(def.total)} (${pct(def.total/E)} of EV)</b>.`}<br><br>
+     Before IC, could you confirm three things about the ${name(top.site)}:<br>
+     1. Its flood defences &nbsp; 2. Owned or leased, and which floors &nbsp; 3. Its flood insurance (please share the policy)<br><br>
+     The one-page brief is attached, with every number and the assumption behind it.</div>
+    <div class="hint">Wording drafted from the brief's numbers. Every number in it comes from the brief.</div></div>
+  </div><div>
+   <div class="panel"><h1>What gets sent</h1>
+    <table class="kv"><tr><td>Attachment</td><td>Lantern climate brief.pdf (1 page)</td></tr>
+     <tr><td>Status</td><td><span class="rag" style="padding:2px 6px">⚠ ${r}</span></td></tr>
+     <tr><td>Open questions</td><td>3; attach answers on each site's page</td></tr></table>
+    <div class="ok">✓ Every number matches the brief. No question is left without an owner.</div></div>
+   ${st.sent?'<div class="ok" id="sentOk">✓ Sent to the Lantern deal team. Attach their answers on each site\'s page.</div><button class="btn primary" onclick="go(2)">Back to the brief</button>':'<button class="btn primary" id="send" onclick="st.sent=true;render()">Send to the deal team</button>'}
+   <button class="btn secondary" onclick="go(2)">Back to the brief</button>
+  </div></div>`;
+}
+
+Promise.all([fetch('../data/sites.json').then(r=>r.json()), fetch('../data/synthetic_inputs.json').then(r=>r.json())])
+ .then(([d,s])=>{ D=d; S=s; st.years=S.deal.hold_years; S.deal.ev=S.deal.ev; render(); document.body.dataset.ready='1'; })
+ .catch(e=>{ document.getElementById('screens').innerHTML='<div class="wrap"><div class="note"><b>Couldn\'t load the data.</b> Open this page with tools/open_run.sh, not by double-clicking the file.</div></div>'; });
+</script>
+</body></html>

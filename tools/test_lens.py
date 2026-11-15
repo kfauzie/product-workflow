@@ -1,0 +1,63 @@
+"""Self-test for lens on a tiny synthetic file with known answers (no run data).
+
+python3 tools/test_lens.py
+"""
+import os, sys, tempfile
+import pandas as pd
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import lens as lx
+
+rows = []
+# p1 has two loans (shared entity); p2 has one loan with a missing flood 2050 block
+for loan, prop, seg, bal, val in [('L1', 'p1', 'A', 50, 100), ('L2', 'p1', 'A', 20, 100), ('L3', 'p2', 'B', 100, 200)]:
+    r = {'loan_id': loan, 'property_id': prop, 'segment': seg, 'balance_gbp': bal, 'property_value_gbp': val}
+    for h, pct in [('flood', 1.0), ('wind', 0.5)]:
+        for s, k in [('ssp126', 1), ('ssp245', 2), ('ssp585', 4)]:
+            for y, t in [('2030', 1), ('2050', 2)]:
+                p = pct * k * t / 10
+                r[f'{h}_{s}_{y}_damage_pct'] = p
+                r[f'{h}_{s}_{y}_loss_gbp'] = p / 100 * val
+                r[f'{h}_{s}_{y}_rating'] = 'A' if p < 0.2 else ('C' if p < 0.8 else 'E')
+    rows.append(r)
+df = pd.DataFrame(rows)
+for m in ('damage_pct', 'loss_gbp', 'rating'):
+    for s in ('ssp126', 'ssp245', 'ssp585'):
+        df.loc[df.loan_id == 'L3', f'flood_{s}_2050_{m}'] = None
+
+with tempfile.TemporaryDirectory() as tmp:
+    path = os.path.join(tmp, 't.csv'); df.to_csv(path, index=False)
+    d = lx.load(path)
+    assert (d.row_id, d.entity_id, d.value_col, d.balance_col) == ('loan_id', 'property_id', 'property_value_gbp', 'balance_gbp')
+    assert d.scenarios == ['ssp126', 'ssp245', 'ssp585'] and d.defaults['scenario'] == 'ssp245' and d.defaults['year'] == '2050'
+    # p1 loss at ssp245 2050: flood 0.4% of 100 + wind 0.2% of 100 = 0.6; p2: wind only 0.2% of 200 = 0.4
+    assert abs(lx.total(d) - 1.0) < 1e-9
+    assert abs(lx.total(d, dedup=False) - 1.6) < 1e-9          # p1 counted twice
+    assert abs(lx.total(d, weight='ltv') - (0.6 * .5 + 0.6 * .2 + 0.4 * .5)) < 1e-9
+    tr = lx.trust(d)
+    assert tr['loss_recompute']['cells_off_by_more_than_1'] == 0 and tr['loss_recompute']['basis'] == 'pct/100'
+    assert tr['ordering']['violations'] == 0
+    assert tr['missing']['rows_with_missing'] == 1 and tr['missing']['by_hazard_year'] == {'flood 2050': 1}
+    assert tr['shared_entities']['extra_rows'] == 1
+    t, v = lx.swing(d, lx.total, 'scenario')
+    assert list(t.answer.round(9)) == [0.5, 1.0, 2.0] and '3 different answers' in v
+    assert 'Same answer' in lx.verdict([4, 4, 4])
+    assert '2 values give the same answer' in lx.verdict([4, 4, 8])
+    # shape error on a file without the wide pattern
+    bad = os.path.join(tmp, 'bad.csv'); pd.DataFrame({'a': [1], 'b': [2]}).to_csv(bad, index=False)
+    try:
+        lx.load(bad); raise AssertionError('expected ShapeError')
+    except lx.ShapeError:
+        pass
+    # multi-word hazards (flood_river, flood_surface) are read as hazards, not categories
+    mw = pd.DataFrame({'loan_id': ['a', 'b'], 'property_value_gbp': [100.0, 200.0],
+                       **{f'{h}_ssp245_{y}_{m}': [1.0, 2.0] if m != 'rating' else ['A', 'B']
+                          for h in ['flood_river', 'flood_surface', 'subsidence'] for y in ['2030', '2050'] for m in ['rating', 'loss_gbp']}})
+    p2 = os.path.join(tmp, 'mw.csv'); mw.to_csv(p2, index=False)
+    assert sorted(lx.load(p2).hazards) == ['flood_river', 'flood_surface', 'subsidence']
+    # a risk-looking column that doesn't fit the layout stops the analysis instead of being misread
+    odd = mw.assign(**{'Flood-River_2050_x': [1, 2]}); p3 = os.path.join(tmp, 'odd.csv'); odd.to_csv(p3, index=False)
+    try:
+        lx.load(p3); raise AssertionError('expected ShapeError')
+    except lx.ShapeError:
+        pass
+print('lens self-test: all passed')
