@@ -4,7 +4,7 @@ A discovery-to-prototype workflow for B2B products, run as Claude Code skills in
 
 ## Active context and run
 - **Context folder:** `examples/kestrel/context/` (FICTIONAL example). Point this at your own company's folder, or leave it empty and let the skills pull context through MCP.
-- **Run folder:** `examples/kestrel/run/`. Change both lines when you start real work.
+- **Run folder:** `examples/kestrel/`. Change both lines when you start real work.
 
 ## Rules
 - Company, product, customer and design facts come from the context skills (`company-context`, `product-glossary`, `customer-personas`, `design-system`), which read the context folder, then Notion, Slack and Figma via MCP, then ask me. Never from the model's memory

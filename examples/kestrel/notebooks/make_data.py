@@ -3,7 +3,7 @@
 Writes data/ticket_types.json: 15 ticket types with monthly volume (in-app chat), results on 50 test tickets,
 risk if wrong, a one-line reason, and 3 example tickets. Each example has the customer's
 message, what Kestrel proposed, the customer support rule that applies, and the grading AI's verdict with a reason.
-Run from examples/kestrel/run:  python3 notebooks/make_data.py
+Run from examples/kestrel:  python3 notebooks/make_data.py
 """
 import json
 # name, tickets a month, correct of 50, cost, cost example, moves money,

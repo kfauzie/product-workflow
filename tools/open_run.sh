@@ -1,10 +1,10 @@
 #!/bin/bash
 # Open a run's prototype in the browser, from any folder inside the repo.
-# Usage: tools/open_run.sh                       (the fictional example: examples/kestrel/run)
+# Usage: tools/open_run.sh                       (the fictional example: examples/kestrel)
 #        tools/open_run.sh path/to/run           (any run folder with build/mvp.html)
 set -e
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || { echo "Run this from inside the repo folder."; exit 1; }
-DIR="${1:-examples/kestrel/run}"
+DIR="${1:-examples/kestrel}"
 case "$DIR" in /*) ;; *) DIR="$ROOT/$DIR" ;; esac
 [ -f "$DIR/build/mvp.html" ] || { echo "No prototype at $DIR/build/mvp.html"; exit 1; }
 PORT=8000; while lsof -i :$PORT >/dev/null 2>&1; do PORT=$((PORT+1)); done   # first free port
