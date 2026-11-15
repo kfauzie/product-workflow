@@ -111,7 +111,7 @@ function staticParts(){
     <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;
   document.getElementById('headline').textContent = 'Monthly projection based on current settings';
   document.getElementById('rules').innerHTML = `<table>
-    <tr><th>Outcome</th><th>What happens</th><th>When</th></tr>
+    <tr><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
