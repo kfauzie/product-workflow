@@ -10,7 +10,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const txt = s => p.textContent(s);
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   t('no top bar', !(await p.$('#topbar')));
-  const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.indexOf('An AI agent that answers support tickets') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
+  const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.includes('An AI agent that answers customer support tickets') && it.indexOf('An AI agent') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
   t('accuracy line explains the overrides', (await txt('#measure')).includes('counts as wrong if the support agent changes') && (await txt('#measure')).includes('asks for a human'));
   t('headline', (await txt('#headline')) === 'Monthly projection based on current settings');
   t('default: 1 override (Add a new employee set to AI, above recommended)', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await p.inputValue('select[data-i="4"]')) === 'resolve' && (await txt('tr.row[data-i="4"]')).includes('Above recommended'));

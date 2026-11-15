@@ -113,7 +113,7 @@ const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}, l
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
-  document.getElementById('intro').innerHTML = `<div><b>${K}</b><span>An AI agent that answers support tickets in ${G}'s in-app chat</span></div>
+  document.getElementById('intro').innerHTML = `<div><b>${K}</b><span>An AI agent that answers customer support tickets</span></div>
     <div><b>This page</b><span>Its analytics and configuration page</span></div>`;
   document.getElementById('header').innerHTML = `
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
