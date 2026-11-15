@@ -4,7 +4,11 @@
 
 How I go from a customer's ask to a tested, working prototype with Claude Code: discovery notes, research synthesis, spec, design, prototype, then hand-off to engineering. Each step is a skill in [`.claude/commands/`](.claude/commands/), grounded in company, customer and design context pulled through MCP.
 
-**[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)** · [the worked example, step by step](examples/relaywise/run/RUN.md) · [decisions I made](examples/relaywise/run/RUN.md#decisions-i-made-and-what-i-turned-down)
+**[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)**
+
+**The use case (fictional):** Pellmore's Head of Support Operations must cut agent hours without risking bad answers; Relay Agent, an AI that resolves support tickets, shows her which ticket types it can safely handle on its own, the net saving after mistakes, and a rollout plan she can send for approval.
+
+[The worked example, step by step](examples/relaywise/run/RUN.md) · [decisions I made](examples/relaywise/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
 ![The automation brief, built end to end with this workflow](examples/relaywise/run/design/2-brief.png)
 
