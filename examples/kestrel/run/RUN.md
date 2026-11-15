@@ -4,7 +4,7 @@
 
 **The question:** which ticket types can the AI support agent resolve on its own?
 **Scope:** support tickets only, in in-app chat.
-**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type (message, Kestrel's proposal, the playbook rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
+**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type (message, Kestrel's proposal, the customer support rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
 
 | Step | Skill | Output |
 |---|---|---|
@@ -26,4 +26,4 @@
 | Any High-risk type needs 98%+ even for AI-assisted human | A wrong refund or a missed payroll costs the customer real money | Treating money like any other answer |
 | Count wrong answers that reach customers, not just accuracy | Leadership asks "what could go wrong"; 9 a month, all on low or medium-cost tickets, is an answer they can sign | Showing accuracy alone |
 | Recommend, but let her decide: a setting per row, with a warning above the recommendation | She owns the call; the dashboard shows what an override costs in wrong answers | Locking the recommendation |
-| One page: rules, a table, three numbers, examples | The decision is the table; each example shows the playbook rule and the grading AI's verdict, so anyone can check Kestrel | A dashboard with filters and charts |
+| One page: rules, a table, three numbers, examples | The decision is the table; each example shows the customer support rule and the grading AI's verdict, so anyone can check Kestrel | A dashboard with filters and charts |

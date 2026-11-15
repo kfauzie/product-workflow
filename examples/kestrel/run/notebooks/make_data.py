@@ -2,12 +2,12 @@
 
 Writes data/ticket_types.json: 15 ticket types with monthly volume (in-app chat), results on 50 test tickets,
 risk if wrong, a one-line reason, and 3 example tickets. Each example has the customer's
-message, what Kestrel proposed, the playbook rule that applies, and the grading AI's verdict with a reason.
+message, what Kestrel proposed, the customer support rule that applies, and the grading AI's verdict with a reason.
 Run from examples/kestrel/run:  python3 notebooks/make_data.py
 """
 import json
 # name, tickets a month, correct of 50, cost, cost example, moves money,
-# examples: (customer message, AI agent proposed, playbook rule, correct, one-line reason)
+# examples: (customer message, AI agent proposed, customer support rule, correct, one-line reason)
 T = [
  ("Password reset", 468, 50, "Low", "Low: customer stays locked out a little longer", False, [
    ("I've forgotten my password and the reset email isn't arriving.", "Send a new reset link and ask them to check spam for an email from Gusta.", "Resend the reset link once; point to the spam folder.", True, "Followed the rule."),

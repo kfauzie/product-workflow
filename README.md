@@ -23,7 +23,7 @@ Kestrel's configuration and analytics dashboard (not the agent itself), for Gust
 | Decision rules | **AI** (98%+ accurate, risk Low or Medium) · **AI-assisted human** (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human** (everything else) |
 | The table | 15 ticket types in in-app chat: tickets a month, accuracy, risk if wrong, Kestrel's recommendation, a setting Gusta controls, reason |
 | Overrides | Changing a setting shows "Overridden", warns when it gives Kestrel more autonomy than recommended, and updates the three numbers live |
-| Examples | 3 tickets under each row: customer message, what Kestrel proposed, the playbook rule, and the grading AI's verdict |
+| Examples | 3 tickets under each row: customer message, what Kestrel proposed, the customer support rule, and the grading AI's verdict |
 
 Accuracy comes from running Kestrel on 50 past tickets per type, each checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
 

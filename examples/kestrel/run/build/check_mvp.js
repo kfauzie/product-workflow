@@ -16,7 +16,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('rules before the table', await p.evaluate(() => !!(document.querySelector('#rules').compareDocumentPosition(document.querySelector('#types')) & Node.DOCUMENT_POSITION_FOLLOWING)));
   t('15 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 15 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
   const det = await txt('tr.detail');
-  t('examples use the four labels', ['Customer message', 'Kestrel proposed', 'Playbook rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
+  t('examples use the four labels', ['Customer message', 'Kestrel proposed', 'Customer support rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request")');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
   await p.selectOption('select[data-i="6"]', 'resolve');

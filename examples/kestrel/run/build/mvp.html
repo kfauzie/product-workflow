@@ -122,7 +122,7 @@ function render(){
     const det = isOpen ? `<tr class="detail"><td colspan="7"><div class="exgrid">${t.examples.map(e => `<div class="exbox">
       <p><span class="lbl">Customer message</span>“${e.message}”</p>
       <p><span class="lbl">${K} proposed</span>${e.proposed}</p>
-      <p><span class="lbl">Playbook rule</span>${e.rule}</p>
+      <p><span class="lbl">Customer support rule</span>${e.rule}</p>
       <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
   document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th><th class="hide-sm">Reason</th></tr>${rows}`;
