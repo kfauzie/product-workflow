@@ -23,7 +23,7 @@
 |---|---|---|
 | Decide per ticket type, not one setting for all | Accuracy runs from 86% to 100% across types; one setting is wrong for most of them | A single confidence threshold |
 | Three outcomes, not two | "AI-assisted human" keeps a support agent on the 9 types that are good but not safe to send unchecked | Only "on" or "off" |
-| AI-assisted human from 85% at any risk; Human only below that | A support agent checks every draft, so risk decides only what can go out unchecked; below 85% a draft costs more time to fix than it saves | Sending High-risk types to a human by default, which wastes the drafts that are right 9 times in 10 |
+| AI-assisted human from 60% at any risk; Human only below that | A support agent checks every draft, so risk decides only what can go out unchecked; below 60% a draft costs more time to fix than it saves, and can mislead the support agent | Sending High-risk types to a human by default, which wastes the drafts that are right 9 times in 10 |
 | Count wrong answers that reach customers, not just accuracy | Leadership asks "what could go wrong"; 9 a month, all on low or medium-cost tickets, is an answer they can sign | Showing accuracy alone |
 | Recommend, but let her decide: a setting per row, with a warning above the recommendation | She owns the call; the dashboard shows what an override costs in wrong answers | Locking the recommendation |
 | One page: rules, a table, three numbers, examples | The decision is the table; each example shows the customer support rule and the grading AI's verdict, so anyone can check Kestrel | A dashboard with filters and charts |

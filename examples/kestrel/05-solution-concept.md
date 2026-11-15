@@ -6,8 +6,8 @@
 
 ## The rule
 - **AI:** accuracy 98% or more, and risk Low or Medium.
-- **AI-assisted human:** accuracy 85% or more, any risk: a support agent checks every draft.
-- **Human:** accuracy below 85%, where a draft would not save a support agent time.
+- **AI-assisted human:** accuracy 60% or more, any risk: a support agent checks every draft.
+- **Human:** accuracy below 60%, where a draft would not save a support agent time and may confuse them instead.
 
 ## What AI, code and people do
 - **AI:** Kestrel answers or drafts; a separate grading AI checks test answers against the playbook.

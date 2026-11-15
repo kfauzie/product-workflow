@@ -25,7 +25,7 @@ t('override adds 121 AI tickets', so.ai === 1604, so.ai);
 t('recommended settings: 0 wrong answers on High-risk types', s.wrongHigh === 0, s.wrongHigh);
 t('Refund request on AI: wrong answers on High-risk types = 121 - 111 = 10', Math.abs(so.wrongHigh - 10) < 1e-9, so.wrongHigh.toFixed(2));
 t('only one type is recommended Human, and most of the rest are AI-assisted human or AI', rec.filter(r => r === 'human').length === 1 && rec[15] === 'human' && rec.filter(r => r === 'draft').length === 9 && rec.filter(r => r === 'resolve').length === 6);
-t('85% is the line for an AI-assisted draft at any risk', C.recommend({correct: 85, tested: 100, risk: 'High'}, n) === 'draft' && C.recommend({correct: 84, tested: 100, risk: 'Low'}, n) === 'human');
+t('60% is the line for an AI-assisted draft at any risk', C.recommend({correct: 60, tested: 100, risk: 'High'}, n) === 'draft' && C.recommend({correct: 59, tested: 100, risk: 'Low'}, n) === 'human');
 t('lowering autonomy is not a warning', !C.aboveRecommended(D.types[0], n, 'human'));
 const text = JSON.stringify(D) + html;
 t('no em dashes', !text.includes('—'));
