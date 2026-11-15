@@ -1,19 +1,27 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Product workflow · live demo</title>
+<title>From customer need to tested prototype in an hour</title>
 <style>
 body{margin:0;font-family:Inter,Arial,sans-serif;background:#f9f9fa;color:#343a40}
-main{max-width:760px;margin:64px auto;padding:0 16px}
-h1{color:#212529;margin:0 0 8px}p{line-height:1.55}
-.note{background:#fff4e0;color:#8a5300;padding:10px 14px;border-radius:6px;font-size:14px}
-a.btn{display:inline-block;background:#4338ca;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin:12px 12px 0 0}
+main{max-width:1200px;margin:56px auto 40px;padding:0 16px}
+.intro{max-width:760px}
+h1{color:#212529;margin:0 0 10px;font-size:34px;line-height:1.2}p{line-height:1.55;font-size:17px;margin:8px 0}
+.links{margin:18px 0 24px}
+a.btn{display:inline-block;background:#0f766e;color:#fff;text-decoration:none;padding:11px 16px;border-radius:6px;font-weight:600;margin:0 10px 10px 0}
 a.sec{background:#fff;color:#343a40;border:1px solid #343a40}
-img{width:100%;border:1px solid #e6e8eb;border-radius:8px;margin-top:28px}
+.demo{border:1px solid #e6e8eb;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+iframe{display:block;width:100%;height:920px;border:0}
+@media (max-width:700px){iframe{height:700px}h1{font-size:26px}}
 </style></head><body><main>
-<h1>Product workflow</h1>
-<p>How I go from a customer's ask to a tested, working prototype with Claude Code, custom skills and MCP. This is the prototype the workflow produced for a worked example.</p>
-<p class="note"><b>Fictional example.</b> Corvane, Riskline, Ashgrove Partners and Project Lantern are invented; all data is synthetic.</p>
-<a class="btn" href="examples/corvane/run/build/mvp.html">Open the prototype</a>
+<div class="intro">
+<h1>From customer need to tested prototype in an hour</h1>
+<p>How I do it with Claude Code, custom skills and MCPs.</p>
+<p>Below is the prototype it produced for a fictional use case. All data is synthetic.</p>
+<div class="links">
+<a class="btn" href="examples/relaywise/run/build/mvp.html">Open full screen</a>
 <a class="btn sec" href="https://github.com/kfauzie/product-workflow">See the skills on GitHub</a>
-<img src="examples/corvane/run/design/2-brief.png" alt="The deal climate brief screen from the prototype">
+<a class="btn sec" href="https://github.com/kfauzie/product-workflow/blob/main/examples/relaywise/run/RUN.md">The worked example, step by step</a>
+</div>
+</div>
+<div class="demo"><iframe src="examples/relaywise/run/build/mvp.html" title="Prototype: automation brief (fictional)"></iframe></div>
 </main></body></html>

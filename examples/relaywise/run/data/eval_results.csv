@@ -1,0 +1,11 @@
+category,sample,correct,wrong_minor,wrong_major,escalated
+Password and login,400,388,6,0,6
+Order status,400,381,10,1,8
+Billing disputes,300,252,22,14,12
+Shipment exceptions,250,214,18,5,13
+API errors,200,158,20,6,16
+Account changes,300,289,6,1,4
+Integrations setup,80,64,8,3,5
+Invoices and receipts,300,294,4,0,2
+Contract and pricing,40,31,4,3,2
+Data export requests,120,112,5,1,2

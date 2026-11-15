@@ -3,7 +3,7 @@
   "private": true,
   "description": "Checks for the fictional example prototype",
   "scripts": {
-    "test": "node examples/corvane/run/build/test_mvp.js && node examples/corvane/run/build/check_mvp.js"
+    "test": "node examples/relaywise/run/build/test_mvp.js && node examples/relaywise/run/build/check_mvp.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

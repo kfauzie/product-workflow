@@ -1,0 +1,121 @@
+month,category,tickets,avg_handle_min
+2026-01,Password and login,2322,6.0
+2026-02,Password and login,2434,6.0
+2026-03,Password and login,2379,6.1
+2026-04,Password and login,2340,6.0
+2026-05,Password and login,2450,6.2
+2026-06,Password and login,2370,5.9
+2026-07,Password and login,2393,6.2
+2026-08,Password and login,2537,5.7
+2026-09,Password and login,2621,6.3
+2026-10,Password and login,2580,6.1
+2026-11,Password and login,2504,5.7
+2026-12,Password and login,2606,5.7
+2026-01,Order status,2010,6.8
+2026-02,Order status,2004,7.0
+2026-03,Order status,2093,7.2
+2026-04,Order status,2127,7.1
+2026-05,Order status,2145,7.1
+2026-06,Order status,2159,6.8
+2026-07,Order status,2275,7.3
+2026-08,Order status,2270,7.1
+2026-09,Order status,2199,6.8
+2026-10,Order status,2217,6.7
+2026-11,Order status,2326,6.9
+2026-12,Order status,2364,6.9
+2026-01,Billing disputes,1765,18.6
+2026-02,Billing disputes,1651,17.5
+2026-03,Billing disputes,1794,17.9
+2026-04,Billing disputes,1822,17.8
+2026-05,Billing disputes,1712,18.2
+2026-06,Billing disputes,1830,17.6
+2026-07,Billing disputes,1748,17.7
+2026-08,Billing disputes,1894,18.5
+2026-09,Billing disputes,1788,17.5
+2026-10,Billing disputes,1803,17.2
+2026-11,Billing disputes,1926,17.4
+2026-12,Billing disputes,1909,17.9
+2026-01,Shipment exceptions,1311,22.5
+2026-02,Shipment exceptions,1318,22.3
+2026-03,Shipment exceptions,1329,21.8
+2026-04,Shipment exceptions,1353,21.5
+2026-05,Shipment exceptions,1452,22.7
+2026-06,Shipment exceptions,1391,22.8
+2026-07,Shipment exceptions,1394,21.8
+2026-08,Shipment exceptions,1482,22.3
+2026-09,Shipment exceptions,1409,23.1
+2026-10,Shipment exceptions,1437,21.5
+2026-11,Shipment exceptions,1518,21.6
+2026-12,Shipment exceptions,1476,21.1
+2026-01,API errors,713,25.2
+2026-02,API errors,766,25.3
+2026-03,API errors,820,24.9
+2026-04,API errors,911,25.0
+2026-05,API errors,937,25.9
+2026-06,API errors,962,24.1
+2026-07,API errors,1080,25.8
+2026-08,API errors,1087,24.2
+2026-09,API errors,1198,26.1
+2026-10,API errors,1216,26.1
+2026-11,API errors,1361,25.3
+2026-12,API errors,1391,24.0
+2026-01,Account changes,950,9.4
+2026-02,Account changes,975,9.2
+2026-03,Account changes,986,9.3
+2026-04,Account changes,1024,8.8
+2026-05,Account changes,999,9.2
+2026-06,Account changes,1001,8.8
+2026-07,Account changes,1052,9.3
+2026-08,Account changes,1067,8.8
+2026-09,Account changes,1103,8.7
+2026-10,Account changes,1037,8.8
+2026-11,Account changes,1084,8.6
+2026-12,Account changes,1072,8.9
+2026-01,Integrations setup,811,28.9
+2026-02,Integrations setup,806,31.2
+2026-03,Integrations setup,855,30.5
+2026-04,Integrations setup,844,30.3
+2026-05,Integrations setup,815,28.6
+2026-06,Integrations setup,815,31.2
+2026-07,Integrations setup,870,31.4
+2026-08,Integrations setup,832,30.4
+2026-09,Integrations setup,872,30.7
+2026-10,Integrations setup,869,31.5
+2026-11,Integrations setup,861,30.1
+2026-12,Integrations setup,917,31.2
+2026-01,Invoices and receipts,776,5.1
+2026-02,Invoices and receipts,788,5.2
+2026-03,Invoices and receipts,768,5.1
+2026-04,Invoices and receipts,810,5.2
+2026-05,Invoices and receipts,788,5.1
+2026-06,Invoices and receipts,824,5.0
+2026-07,Invoices and receipts,817,4.9
+2026-08,Invoices and receipts,822,5.1
+2026-09,Invoices and receipts,797,5.1
+2026-10,Invoices and receipts,866,5.2
+2026-11,Invoices and receipts,857,4.9
+2026-12,Invoices and receipts,866,5.0
+2026-01,Contract and pricing,446,20.7
+2026-02,Contract and pricing,438,20.5
+2026-03,Contract and pricing,440,20.2
+2026-04,Contract and pricing,461,19.5
+2026-05,Contract and pricing,474,20.0
+2026-06,Contract and pricing,475,20.8
+2026-07,Contract and pricing,466,19.0
+2026-08,Contract and pricing,473,20.4
+2026-09,Contract and pricing,474,19.3
+2026-10,Contract and pricing,506,20.3
+2026-11,Contract and pricing,493,20.8
+2026-12,Contract and pricing,493,20.3
+2026-01,Data export requests,394,11.9
+2026-02,Data export requests,417,12.5
+2026-03,Data export requests,424,11.9
+2026-04,Data export requests,418,11.8
+2026-05,Data export requests,408,12.0
+2026-06,Data export requests,435,12.4
+2026-07,Data export requests,435,12.5
+2026-08,Data export requests,425,11.6
+2026-09,Data export requests,435,11.7
+2026-10,Data export requests,431,11.9
+2026-11,Data export requests,450,12.0
+2026-12,Data export requests,443,12.4

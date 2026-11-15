@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automation brief · Relay Agent (fictional)</title>
+<style>
+
+
+:root{--red:#0f766e;--g6:#343a40;--g7:#212529;--bg:#f9f9fa;--line:#e6e8eb;--mute:#6c757d;--jade:#15803d;
+--amber-bg:#fff4e0;--amber:#b06a00;--blue-bg:#eaf2fd;--blue:#1d5fbf;--green-bg:#e7f6ee}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--g6);font-size:14px}
+.screen{width:1440px;min-height:900px;background:var(--bg)}
+.ribbon{background:#1d5fbf;color:#fff;display:flex;gap:48px;align-items:center;padding:14px 32px;font-size:18px}
+.ribbon b{font-weight:700}.ribbon .ic{font-size:22px}
+.steps{display:flex;padding:12px 32px;gap:4px;background:#fff;border-bottom:1px solid var(--line)}
+.step{padding:8px 26px 8px 20px;background:#eef0f2;color:var(--mute);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,0 100%,12px 50%);font-size:13px;cursor:pointer}
+.step.on{background:var(--g7);color:#fff}.step.done{background:var(--green-bg);color:#1c7a4f}
+.app{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:#fff;border-bottom:1px solid var(--line)}
+.logo{font-weight:700;letter-spacing:.5px;color:var(--g6)}.logo span{color:var(--red)}
+.crumb{color:var(--mute);font-size:13px}
+.wrap{padding:24px 32px;display:grid;grid-template-columns:1fr 340px;gap:24px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 24px}
+h1{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--mute);margin:0 0 10px;font-weight:600}
+.top{display:flex;gap:28px;align-items:flex-start}
+.rag{background:var(--amber-bg);color:var(--amber);border:1px solid #f2d39b;border-radius:6px;padding:6px 10px;font-weight:700;font-size:13px;white-space:nowrap}
+.big{font-size:44px;font-weight:700;color:var(--g7);line-height:1.05}
+.big small{font-size:18px;font-weight:600;color:var(--g6)}
+.sub{font-size:16px;margin-top:8px}
+.why{margin-top:14px;font-size:15px;line-height:1.5}
+.act{margin-top:14px;background:var(--blue-bg);border-left:3px solid var(--blue);padding:10px 14px;border-radius:4px;font-size:14px}
+.compare{display:grid;grid-template-columns:150px 1fr 90px;gap:8px 12px;align-items:center;margin-top:18px;font-size:13px}
+.bar{height:14px;border-radius:3px;background:#cfd4da}.bar.cur{background:var(--g6)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--mute);font-weight:600;font-size:12px;border-bottom:1px solid var(--line);padding:8px 6px}
+td{padding:10px 6px;border-bottom:1px solid var(--line)}td.n{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.t-def{background:#eef0f2;color:var(--mute)}.t-deal{background:var(--blue-bg);color:var(--blue)}.t-pref{background:var(--green-bg);color:#1c7a4f}
+.ctl{margin-bottom:18px}.ctl label{display:block;font-weight:600;color:var(--g7);margin-bottom:6px;font-size:13px}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg div{flex:1;text-align:center;padding:7px 4px;font-size:12px;border-right:1px solid var(--line);background:#fff;cursor:pointer}
+.seg div:last-child{border-right:0}.seg .on{background:var(--g7);color:#fff}
+.field{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;display:flex;justify-content:space-between}
+.hint{font-size:12px;color:var(--mute);margin-top:5px;line-height:1.4}
+.warn{font-size:12px;background:var(--amber-bg);color:var(--amber);padding:6px 8px;border-radius:4px;margin-top:6px}
+.btn{display:block;width:100%;text-align:center;padding:12px;border-radius:6px;font-weight:600;font-size:14px;margin-top:10px}
+.primary{background:var(--red);color:#fff}.secondary{border:1px solid var(--g6);color:var(--g6);background:#fff}
+a{color:var(--blue);text-decoration:none}.foot{font-size:12px;color:var(--mute);margin-top:14px}
+.grade{font-size:12px;color:var(--mute)}
+.deals{display:flex;gap:8px;padding:12px 32px;background:#fff;border-bottom:1px solid var(--line);align-items:center;font-size:13px}
+.deal{border:1px solid var(--line);border-radius:6px;padding:7px 12px;background:#fff;cursor:pointer}
+.deal.on{border-color:var(--g7);box-shadow:inset 0 -3px 0 var(--red);font-weight:600;color:var(--g7)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.next{background:#eaf2fd;border:1px solid #c7dbf7;border-radius:10px;padding:18px 22px;margin-top:20px}
+.next h1{color:var(--blue)}.next li{margin:8px 0;font-size:14px;line-height:1.4}.next ul{list-style:none;padding:0;margin:0}
+.next li:before{content:"☐  ";color:var(--blue)}
+.recon{margin-top:14px;font-size:13px;background:#f4f5f7;border-radius:6px;padding:10px 12px;line-height:1.5}
+.stack{display:flex;height:22px;border-radius:4px;overflow:hidden;margin:8px 0 6px}
+.stack div{height:100%}.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px}
+.legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:var(--c)}
+.moves td{font-size:13px}
+.flag{background:#fde8ea;color:#b4232f;font-size:11px;padding:2px 6px;border-radius:4px;font-weight:600;margin-left:6px}
+.t-ans{background:#e7f6ee;color:#1c7a4f}.t-assume{background:#fff4e0;color:var(--amber)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.kv td:first-child{color:var(--mute);width:42%}
+.note{background:#fff4e0;border-left:3px solid #e0a100;padding:10px 14px;border-radius:4px;font-size:13px;margin-top:12px}
+.ok{background:var(--green-bg);border-left:3px solid var(--jade);padding:10px 14px;border-radius:4px;font-size:13px;margin-top:12px}
+.drop{border:2px dashed #c7cdd4;border-radius:8px;padding:18px;text-align:center;color:var(--mute);font-size:13px;margin-top:10px}
+.mail{border:1px solid var(--line);border-radius:8px;padding:18px 20px;font-size:14px;line-height:1.55;background:#fff}
+.chg td.old{color:var(--mute);text-decoration:line-through}.up{color:#1c7a4f;font-weight:600}
+.map{height:150px;border-radius:8px;background:linear-gradient(135deg,#dbe8f5,#c2d8ee 60%,#e9eef3);position:relative;font-size:12px;color:var(--blue)}
+.pin{position:absolute;left:55%;top:40%;background:var(--red);color:#fff;border-radius:12px;padding:3px 8px;font-size:11px}
+
+.screen{display:none;min-height:auto}.screen.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.frame{position:sticky;top:0;z-index:5}
+.step{border:0;font:inherit}
+.seg div.on{background:var(--g7);color:#fff}
+.btn{cursor:pointer;border:0}.secondary{border:1px solid var(--g6)}
+.synth{font-size:11px;color:var(--amber);background:var(--amber-bg);padding:1px 6px;border-radius:4px;margin-left:6px}
+select,input[type=number]{font:inherit;border:0;background:transparent;width:100%}
+.field select{appearance:none}
+.bench{display:flex;gap:3px;align-items:flex-end;height:46px;margin-top:8px}
+.bench div{flex:1;background:#cfd4da;border-radius:2px 2px 0 0}.bench div.me{background:var(--red)}
+.kpis{display:flex;gap:28px;margin-top:12px}.kpis div{display:flex;flex-direction:column}.kpis b{font-size:22px;color:var(--g7)}.kpis span{font-size:12px;color:var(--mute)}
+.basis{margin-top:16px;font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
+.collapse{display:none}.collapse.open{display:block}.legendbox{margin-top:12px;background:#f4f5f7;border-radius:6px;padding:10px 12px;font-size:13px}.legendbox td{padding:4px 6px;border:0}
+button.rag{cursor:pointer;font:inherit;font-weight:700;font-size:13px}
+.issue{border-left:4px solid #e0a100}
+details>summary{cursor:pointer;list-style:none;color:var(--blue);font-size:13px;margin-top:10px}details>summary::-webkit-details-marker{display:none}
+details.panel>summary{color:inherit;margin:0}details.qs ul{margin-top:8px}
+.radio{display:block;font-weight:400!important;padding:5px 0;cursor:pointer}
+.deal.off{opacity:.55;cursor:not-allowed}
+.num{cursor:pointer;border-bottom:1px dotted #adb5bd}.num sup{font-size:10px;color:var(--blue);margin-left:2px}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;background:#fff;box-shadow:-8px 0 24px rgba(0,0,0,.12);padding:24px;transform:translateX(100%);transition:transform .25s;z-index:20;overflow:auto}.drawer.open{transform:none;visibility:visible}.drawer{visibility:hidden}
+.kpis span.num{font-size:inherit;color:inherit}.big small{display:inline-block;max-width:560px;vertical-align:baseline}
+.casebar{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.pbars{display:flex;gap:10px;align-items:flex-end;height:96px;margin:6px 0}.pbars>div{flex:1;text-align:center;font-size:11px;color:var(--mute)}
+.pb{background:#f2b8bf;border-radius:3px 3px 0 0;display:flex;align-items:flex-end}.pb>div{width:100%;background:var(--red);border-radius:3px 3px 0 0}
+.terms p{margin:8px 0;font-size:14px;line-height:1.45}.terms [contenteditable]{outline:none}
+.basis{display:flex;gap:18px;align-items:center;flex-wrap:wrap}select.inline{width:auto;border:1px solid var(--line);border-radius:5px;padding:3px 6px;font:inherit;font-size:13px;color:var(--g7);background:#fff;margin-left:4px}
+.links{text-align:center;margin-top:12px;font-size:13px}
+@media print{.frame,.btn,.deals,.no-print{display:none!important}.screen{display:none!important}#s2{display:block!important}.wrap{grid-template-columns:1fr!important}}
+
+</style></head><body>
+<!-- FICTIONAL example: Relaywise, Relay Agent, Pellmore and every number here are invented. All data is synthetic. -->
+<div class="frame">
+  <div class="ribbon"><span class="ic">👤</span><span><b>User:</b> Head of Support Operations, Pellmore</span><span><b>Job to be done:</b> decide which ticket types the AI can resolve on its own</span></div>
+  <div class="steps" id="steps"></div>
+</div>
+<div class="app"><div class="logo">RELAYWISE &nbsp;<span style="color:var(--g6);font-weight:400">Relay Agent</span></div><div class="crumb" id="crumb"></div></div>
+<div class="deals" id="deals"></div>
+<div id="screens">
+  <div class="screen" id="s1" data-screen="1-setup"></div>
+  <div class="screen" id="s2" data-screen="2-brief"></div>
+  <div class="screen" id="s3" data-screen="3-category"></div>
+  <div class="screen" id="s4" data-screen="4-send"></div>
+</div>
+
+<script id="calc">
+// ---- Every number is calculated here. Plain functions, tested in test_mvp.js ----
+function wilsonLow(k, n, z = 1.96){ if (!n) return 0; const p = k/n, d = 1 + z*z/n;
+  return (p + z*z/(2*n) - z*Math.sqrt(p*(1-p)/n + z*z/(4*n*n))) / d; }
+// rates on the tickets the AI answered (it escalates the rest to an agent)
+function rates(c){ const answered = c.sample - c.escalated;
+  return {answered, esc: c.escalated/c.sample, acc: c.correct/answered, accLow: wilsonLow(c.correct, answered),
+          minor: c.wrong_minor/answered, major: c.wrong_major/answered}; }
+function recommend(c, t){ const r = rates(c);
+  if (c.sample >= t.min_sample && r.accLow >= t.auto_min_accuracy_low && r.major <= t.auto_max_major_rate) return 'auto';
+  if (r.accLow >= t.review_min_accuracy_low) return 'review';
+  return 'human'; }
+// one category, one mode, per month
+function modeResult(c, mode, k){ const r = rates(c), handled = c.tickets_month * (1 - r.esc);
+  if (mode === 'human') return {hours:0, minor:0, major:0, errorCost:0, net:0};
+  const share = mode === 'auto' ? 1 : k.review_saves_share, leak = mode === 'auto' ? 1 : k.review_misses_share;
+  const hours = handled * c.handle_min / 60 * share, minor = handled * r.minor * leak, major = handled * r.major * leak;
+  const errorCost = minor * k.wrong_minor_gbp + major * k.wrong_major_gbp;
+  return {hours, minor, major, errorCost, net: hours * k.agent_hour_gbp - errorCost}; }
+// a plan: 'recommended' | 'review' (review everywhere) | 'auto' (auto everywhere)
+function plan(cats, which, k, t){ let hours=0, minor=0, major=0, net=0; const rows = cats.map(c => {
+    const mode = which === 'recommended' ? recommend(c, t) : which; const m = modeResult(c, mode, k);
+    hours += m.hours; minor += m.minor; major += m.major; net += m.net; return Object.assign({c, mode, rec: recommend(c, t)}, m); });
+  return {rows, hours, minor, major, monthly: net, annual: net*12, fte: hours/140}; }
+if (typeof module !== 'undefined') module.exports = {wilsonLow, rates, recommend, modeResult, plan};
+</script>
+
+<script>
+const STEPS = ['Set up','The brief','Category detail','Send for approval'];
+const PLANS = [['recommended','Recommended'],['review','Review everything'],['auto','Auto everything']];
+const MODE = {auto:'Auto-resolve', review:'AI drafts, agent approves', human:'Agents only'};
+let I, st = {step:1, plan:'recommended', cat:null, labelled:{}, sent:false, costMajor:null, costHour:null};
+const M = v => { const a=Math.abs(v), s=v<0?'−':''; return s+'£'+(a>=1e6?(a/1e6).toFixed(2)+'m':a>=1e4?Math.round(a/1e3)+'k':a>=1e3?(a/1e3).toFixed(1)+'k':Math.round(a)); };
+const pct = (v,d=0) => (v*100).toFixed(d)+'%';
+const N0 = v => Math.round(v).toLocaleString('en-GB');
+const costs = () => Object.assign({}, I.costs, st.costMajor!=null?{wrong_major_gbp:st.costMajor}:{}, st.costHour!=null?{agent_hour_gbp:st.costHour}:{});
+const cats = () => I.categories.map(c => st.labelled[c.name] ? Object.assign({}, c, st.labelled[c.name]) : c);
+const P = (which=st.plan) => plan(cats(), which, costs(), I.thresholds);
+function tag(k){ return {src:'<span class="tag t-deal">From your helpdesk</span>',fin:'<span class="tag t-deal">From finance</span>',def:'<span class="tag t-def">Default</span>',est:'<span class="tag t-assume">Your estimate</span>',ans:'<span class="tag t-ans">From an uploaded file</span>',synth:'<span class="synth">Synthetic for this prototype</span>'}[k]; }
+const N = (txt, key, id='') => `<span class="num" ${id?`id="${id}"`:''} onclick="how('${key}')" title="How it's calculated">${txt}<sup>ⓘ</sup></span>`;
+function how(key){ const k = costs(), t = I.thresholds;
+  const T = {
+    net: ['Net saving a year', `Agent hours saved × ${M(k.agent_hour_gbp)} an hour, minus the cost of wrong answers that reach customers (${M(k.wrong_minor_gbp)} for a minor one, ${M(k.wrong_major_gbp)} for a serious one), × 12. Ticket volumes are this month's.`],
+    hours: ['Agent hours saved', `Tickets the AI handles (it escalates the ones it isn't sure about) × average handle time. Auto-resolve saves all of it; AI drafts with agent approval saves ${pct(k.review_saves_share)}. 140 hours = one agent a month.`],
+    wrong: ['Wrong answers reaching customers', `From the shadow-mode check: wrong answers ÷ tickets the AI answered, per category. With agent approval, ${pct(k.review_misses_share)} of wrong drafts still get through.`],
+    acc: ['Accuracy', `Correct answers ÷ tickets the AI answered in the shadow-mode check. "At least" is the lower end of a 95% confidence range, so small samples count for less.`],
+    rule: ['How a category is assigned', `Auto-resolve when at least ${t.min_sample} tickets were checked, accuracy is at least ${pct(t.auto_min_accuracy_low)} (lower end) and serious errors are at most ${pct(t.auto_max_major_rate,1)}. AI drafts with approval when accuracy is at least ${pct(t.review_min_accuracy_low)}. Otherwise agents only.`],
+  }[key];
+  const d = document.getElementById('howDrawer'); d.innerHTML = `<h1>How it's calculated · ${T[0]}</h1><div class="why" style="margin-top:0">${T[1]}</div><button class="btn secondary" style="margin-top:12px" onclick="this.parentNode.classList.remove('open')">Close</button>`; d.classList.add('open'); }
+
+function frame(){
+  document.getElementById('steps').innerHTML = STEPS.map((t,i)=>`<button class="step ${i+1<st.step?'done':i+1===st.step?'on':''}" onclick="go(${i+1})">${i+1<st.step?'✓ ':''}${i+1}. ${t}</button>`).join('');
+  document.getElementById('crumb').textContent = 'Automation / Support Operations / '+['Set up','Automation brief · Draft','Automation brief / '+(st.cat||''),'Send for approval'][st.step-1];
+  document.getElementById('deals').innerHTML = `<span style="color:var(--mute);margin-right:4px">Teams (3):</span><div class="deal on"><span class="dot" style="background:var(--jade)"></span>${I.customer.team} · ${I.customer.agents} agents</div>`+
+    I.other_teams.map(d=>`<div class="deal off" title="Example team: not available in this prototype"><span class="dot" style="background:#ced4da"></span>${d.name} · ${d.status} <span class="tag t-def">Not available in prototype</span></div>`).join('');
+}
+function go(n){ st.step=n; render(); window.scrollTo(0,0); }
+function render(){
+  if (st.step===3 && !st.cat) st.cat = swingCat().c.name;
+  frame(); document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('on', i+1===st.step)); [s1,s2,s3,s4][st.step-1]();
+}
+// the category where auto-everything costs most against the recommended plan: the reason not to switch everything on
+function swingCat(){ const a = P('auto').rows, r = P('recommended').rows; return a.map((x,i)=>({c:x.c, d:r[i].net - x.net, x, r:r[i]})).sort((p,q)=>q.d-p.d)[0]; }
+
+function s1(){
+  const cs = cats(), tot = cs.reduce((a,c)=>a+c.tickets_month,0), checked = cs.reduce((a,c)=>a+c.sample,0), small = cs.filter(c=>c.sample<I.thresholds.min_sample);
+  document.getElementById('s1').innerHTML = `<div class="wrap" style="grid-template-columns:1fr 400px"><div class="panel">
+   <h1>Step 1 of 4 · Check the inputs for ${I.customer.name} ${I.customer.team}</h1>
+   <div style="font-size:22px;font-weight:700;color:var(--g7);margin:4px 0">${N0(tot)} tickets in ${I.customer.month}, ${cs.length} categories ✓</div>
+   <div class="hint">This step only collects the inputs. The brief (step 2) gives the answer. ${tag('synth')}</div>
+   <table class="kv" style="margin-top:16px">
+    <tr><td>Tickets checked in shadow mode</td><td><b>${N0(checked)}</b> past tickets: the AI answered, agents graded ${tag('src')}</td></tr>
+    <tr><td>Agent cost</td><td><b>${M(costs().agent_hour_gbp)} an hour</b> ${tag('fin')}</td></tr>
+    <tr><td>Cost of a wrong answer</td><td><b>${M(I.costs.wrong_minor_gbp)}</b> minor (customer contacts again) · <b>${M(costs().wrong_major_gbp)}</b> serious (refund, escalation) ${tag('est')}</td></tr>
+    <tr><td>When to auto-resolve</td><td>At least ${I.thresholds.min_sample} tickets checked, ${pct(I.thresholds.auto_min_accuracy_low)} accurate, ${pct(I.thresholds.auto_max_major_rate,1)} serious errors ${tag('def')}</td></tr>
+   </table>
+   ${small.length?`<div class="note"><b>Warning: ${small.length} categories have fewer than ${I.thresholds.min_sample} checked tickets</b> (${small.map(c=>c.name).join(', ')}). They stay with agents until more are checked.</div>`:''}
+  </div><div>
+   <div class="panel"><h1>Categories</h1><div class="hint">${cs.map(c=>c.name).join(' · ')}</div></div>
+   <button class="btn primary" onclick="go(2)">Create the brief</button>
+  </div></div>`;
+}
+
+function s2(){
+  const p = P(), rec = P('recommended'), auto = P('auto'), sw = swingCat(), k = costs();
+  const by = m => p.rows.filter(r=>r.mode===m), vol = rs => rs.reduce((a,r)=>a+r.c.tickets_month,0), tot = vol(p.rows);
+  const autoCats = rec.rows.filter(r=>r.rec==='auto').map(r=>r.c.name), revCats = rec.rows.filter(r=>r.rec==='review').map(r=>r.c.name), humCats = rec.rows.filter(r=>r.rec==='human').map(r=>r.c.name);
+  const sr = rates(sw.c);
+  document.getElementById('s2').innerHTML = `<div class="wrap"><div>
+   <div class="panel">
+    <h1>${I.customer.name} · ${I.customer.team} · automation brief</h1>
+    <div class="casebar"><div class="seg" style="width:460px">${PLANS.map(x=>`<div id="plan-${x[0]}" class="${st.plan===x[0]?'on':''}" onclick="st.plan='${x[0]}';render()">${x[1]}</div>`).join('')}</div></div>
+    <div class="big" id="headline">${N(M(p.annual),'net')} <small>net saving a year${st.plan==='recommended'?' with the recommended plan':st.plan==='review'?' if agents approve every AI answer':' if the AI answers everything on its own'}</small></div>
+    <div class="kpis"><div><b>${N(N0(p.hours),'hours')}</b><span>agent hours saved a month (${p.fte.toFixed(1)} agents)</span></div><div><b>${N(N0(p.minor+p.major),'wrong','wrongTotal')}</b><span>wrong answers reaching customers a month, ${N0(p.major)} serious</span></div></div>
+    <div class="basis"><span>Plan: <b>${PLANS.find(x=>x[0]===st.plan)[1]}</b></span><span>Volumes: <b>${I.customer.month}</b></span><a href="#" onclick="how('rule');return false">How categories are assigned ›</a></div>
+   </div>
+
+   <div class="panel issue" style="margin-top:20px">
+    <h1>Why not auto-resolve everything · ${sw.c.name}</h1>
+    <div class="why" style="margin-top:0">Auto-resolving every category would net <b>${M(auto.annual)}</b> a year, <b>${M(rec.annual-auto.annual)}</b> less than the recommended plan, because of wrong answers. The biggest cost is <b>${sw.c.name}</b>: ${pct(sr.acc,1)} accurate (at least ${pct(sr.accLow,1)}), with ${pct(sr.major,1)} serious errors at ${M(k.wrong_major_gbp)} each.</div>
+    <table style="margin-top:10px"><tr><th>Recommended</th><th>Categories</th><th class="n">Share of tickets</th></tr>
+     <tr><td><b>${MODE.auto}</b></td><td>${autoCats.join(', ')||'—'}</td><td class="n">${pct(vol(rec.rows.filter(r=>r.rec==='auto'))/tot)}</td></tr>
+     <tr><td><b>${MODE.review}</b></td><td>${revCats.join(', ')||'—'}</td><td class="n">${pct(vol(rec.rows.filter(r=>r.rec==='review'))/tot)}</td></tr>
+     <tr><td><b>${MODE.human}</b></td><td>${humCats.join(', ')||'—'}</td><td class="n">${pct(vol(rec.rows.filter(r=>r.rec==='human'))/tot)}</td></tr></table>
+    <div class="hint">${tag('synth')} <a href="#" class="catLink" onclick="st.cat='${sw.c.name}';go(3);return false">Category detail and labelled tickets ›</a></div>
+   </div>
+
+   <details class="panel" id="more" style="margin-top:20px"><summary><h1 style="display:inline">Full breakdown ›</h1> <span class="hint">every category, assumptions</span></summary>
+    <table style="margin-top:12px"><tr><th>Category</th><th class="n">Tickets a month</th><th class="n">Accuracy (at least)</th><th>Mode in this plan</th><th class="n">Net a year</th><th></th></tr>
+     ${p.rows.map(r=>{const q=rates(r.c);return `<tr><td>${r.c.name}${st.labelled[r.c.name]?' '+tag('ans'):''}</td><td class="n">${N0(r.c.tickets_month)}</td><td class="n">${pct(q.acc,1)} (${pct(q.accLow,1)})</td><td>${MODE[r.mode]}</td><td class="n">${M(r.net*12)}</td><td><a href="#" onclick="st.cat='${r.c.name}';go(3);return false">Detail ›</a></td></tr>`}).join('')}</table>
+    <div class="ctl" style="margin-top:14px"><label>Cost of a serious wrong answer ${tag('est')}</label><div class="field"><span>£</span><input id="costMajor" type="number" value="${k.wrong_major_gbp}" onchange="st.costMajor=+this.value;st.openMore=true;render()"></div></div>
+    <div class="ctl"><label>Agent cost an hour ${tag('fin')}</label><div class="field"><span>£</span><input id="costHour" type="number" value="${k.agent_hour_gbp}" onchange="st.costHour=+this.value;st.openMore=true;render()"></div></div>
+    <div class="hint">Other assumptions: minor wrong answer ${M(k.wrong_minor_gbp)} ${tag('est')}; agent approval saves ${pct(k.review_saves_share)} of handle time and lets ${pct(k.review_misses_share)} of wrong drafts through ${tag('def')}.</div>
+   </details>
+  </div><div>
+   <div class="next terms"><h1>Rollout plan · drafted, edit before sending</h1>
+    <div contenteditable="true">
+     <p><b>Pilot:</b> auto-resolve ${autoCats.join(', ')||'no categories yet'}; AI drafts with agent approval for ${revCats.join(', ')||'none'}.</p>
+     <p><b>Guardrail:</b> auto-resolve switches off for a category if ${I.guardrail.max_reversed} of its last ${I.guardrail.window} answers are reversed by a customer or an agent.</p>
+     <p><b>Review:</b> a weekly sample of auto answers; re-check ${humCats.join(', ')||'any agents-only category'} once at least ${I.thresholds.min_sample} tickets are graded.</p>
+    </div></div>
+   <button class="btn primary" id="toSend" onclick="go(4)">Review and send for approval</button>
+   <div class="links"><a href="#" onclick="window.print();return false">PDF</a></div>
+  </div></div>
+  <div id="howDrawer" class="drawer"></div>`;
+  if (st.openMore){ document.getElementById('more').open = true; st.openMore = false; }
+}
+
+function s3(){
+  const c = cats().find(x=>x.name===st.cat), base = I.categories.find(x=>x.name===st.cat), q = rates(c), k = costs(), t = I.thresholds;
+  const modes = ['auto','review','human'].map(m=>({m, r:modeResult(c, m, k)})), rec = recommend(c, t), L = I.example_labelled_set, has = st.labelled[c.name];
+  const before = plan(I.categories.map(x=>x.name===c.name?Object.assign({},x,st.labelled[x.name]?{}:{}):(st.labelled[x.name]?Object.assign({},x,st.labelled[x.name]):x)), 'recommended', k, t);
+  const withL = L.category===c.name ? plan(cats().map(x=>x.name===c.name?Object.assign({},base,{sample:L.sample,correct:L.correct,wrong_minor:L.wrong_minor,wrong_major:L.wrong_major,escalated:L.escalated}):x),'recommended',k,t) : null;
+  const without = plan(cats().map(x=>x.name===c.name?base:x),'recommended',k,t);
+  document.getElementById('s3').innerHTML = `<div class="wrap"><div>
+   <div class="panel"><h1>${c.name} · one of ${I.categories.length} categories</h1>
+    <div class="big">${N(pct(q.acc,1),'acc')} <small>of the AI's answers were correct (at least ${pct(q.accLow,1)})</small></div>
+    <div class="kpis"><div><b>${N0(c.tickets_month)}</b><span>tickets a month, ${c.handle_min} min each</span></div><div><b>${pct(q.major,1)}</b><span>serious errors</span></div><div><b>${MODE[rec]}</b><span>recommended</span></div></div>
+    <div class="why"><b>Why:</b> ${N0(c.sample)} past tickets checked; the AI escalated ${pct(q.esc)} and answered the rest. ${c.sample<t.min_sample?`Fewer than ${t.min_sample} checked, so it stays with agents until more are graded.`:rec==='auto'?'It clears every auto-resolve threshold.':`It misses the auto-resolve bar: accuracy at least ${pct(q.accLow,1)} against ${pct(t.auto_min_accuracy_low)}${q.major>t.auto_max_major_rate?`, and serious errors ${pct(q.major,1)} against ${pct(t.auto_max_major_rate,1)}`:''}.`}</div>
+    <table style="margin-top:12px"><tr><th>If this category is…</th><th class="n">Agent hours a month</th><th class="n">Wrong answers a month</th><th class="n">Net a year</th></tr>
+     ${modes.map(x=>`<tr><td>${MODE[x.m]}${x.m===rec?' <span class="tag t-pref">Recommended</span>':''}</td><td class="n">${N0(x.r.hours)}</td><td class="n">${N0(x.r.minor+x.r.major)}</td><td class="n">${M(x.r.net*12)}</td></tr>`).join('')}</table>
+   </div>
+  </div><div>
+   <div class="panel"><h1>Labelled tickets for this category</h1>
+    ${has?`<table class="kv"><tr><td>${L.file}</td><td><span class="tag t-ans">✓ Applied</span></td></tr></table>`:
+     L.category===c.name&&st.showL?`<table class="kv"><tr><td>${L.file}</td><td><span class="tag t-assume">Check, then apply</span></td></tr></table>
+      <div class="hint" style="margin:8px 0">${N0(L.sample)} tickets graded by agents · ${L.note} ${tag('synth')}</div>
+      <table class="chg"><tr><th></th><th class="n">Before</th><th class="n">After</th></tr>
+       <tr><td>Accuracy (at least)</td><td class="n old">${pct(rates(base).accLow,1)}</td><td class="n up">${pct(rates(Object.assign({},base,L)).accLow,1)}</td></tr>
+       <tr><td>Recommended</td><td class="n">${MODE[recommend(base,t)]}</td><td class="n" id="recAfter">${MODE[recommend(Object.assign({},base,L),t)]}</td></tr>
+       <tr><td>Plan, net a year</td><td class="n old">${M(without.annual)}</td><td class="n up" id="netAfter">${M(withL.annual)}</td></tr></table>
+      <button class="btn primary" id="applyL" onclick="st.labelled['${c.name}']={sample:${L.sample},correct:${L.correct},wrong_minor:${L.wrong_minor},wrong_major:${L.wrong_major},escalated:${L.escalated}};render()">Apply to this category</button>`:
+     `<label class="drop" style="display:block;cursor:pointer">Attach tickets your agents have graded for this category (CSV)<input type="file" style="display:none" onchange="st.showL=true;render()"></label>
+      ${L.category===c.name?`<div class="hint" style="margin-top:8px">Prototype: <a href="#" id="example" onclick="st.showL=true;render();return false">attach the example file</a> (synthetic)</div>`:''}`}
+   </div>
+   <button class="btn secondary" onclick="go(2)">Back to the brief</button>
+  </div></div>
+  <div id="howDrawer" class="drawer"></div>`;
+}
+
+function s4(){
+  const p = P(), rec = p.rows.filter(r=>r.mode==='auto').map(r=>r.c.name);
+  document.getElementById('s4').innerHTML = `<div class="wrap"><div>
+   <div class="panel"><h1>Message for approval · drafted for you, edit before sending</h1>
+    <table class="kv"><tr><td>To</td><td>VP Customer Experience; Finance business partner</td></tr><tr><td>Subject</td><td>Relay Agent: pilot plan for ${I.customer.team}</td></tr></table>
+    <div class="mail" contenteditable="true" style="margin-top:12px">
+     Proposed plan: <b>${M(p.annual)} net saving a year</b>, about <b>${N0(p.hours)} agent hours a month</b> (${p.fte.toFixed(1)} agents' worth), with ${N0(p.minor+p.major)} wrong answers a month expected to reach customers (${N0(p.major)} serious).<br><br>
+     The AI would resolve ${rec.join(', ')||'no categories'} on its own. Other categories stay with agents, or the AI drafts and an agent approves.<br><br>
+     Guardrail: auto-resolve switches off for a category if ${I.guardrail.max_reversed} of its last ${I.guardrail.window} answers are reversed.<br><br>
+     Could you approve a 4-week pilot? The brief is attached with every number and how it was worked out.</div>
+    <div class="hint">Every number in the message comes from the brief.</div></div>
+  </div><div>
+   <div class="panel"><h1>What gets sent</h1><table class="kv"><tr><td>Attachment</td><td>Automation brief.pdf (1 page)</td></tr><tr><td>Plan</td><td>${PLANS.find(x=>x[0]===st.plan)[1]}</td></tr></table>
+    <div class="ok">✓ Every number matches the brief.</div></div>
+   ${st.sent?'<div class="ok" id="sentOk">✓ Sent for approval.</div><button class="btn primary" onclick="go(2)">Back to the brief</button>':'<button class="btn primary" id="send" onclick="st.sent=true;render()">Send for approval</button>'}
+   <button class="btn secondary" onclick="go(2)">Back to the brief</button>
+  </div></div>`;
+}
+
+fetch('../data/inputs.json').then(r=>r.json()).then(d=>{ I=d; render(); document.body.dataset.ready='1'; })
+ .catch(()=>{ document.getElementById('screens').innerHTML='<div class="wrap"><div class="note"><b>Couldn\'t load the data.</b> Open this page through a web server (tools/open_run.sh), not by double-clicking the file.</div></div>'; });
+</script>
+</body></html>

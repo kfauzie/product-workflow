@@ -10,7 +10,7 @@ CLI:
     python3 tools/lens.py profile <csv> [--out report.md]
 Python:
     import sys; sys.path.insert(0, 'tools'); import lens as lx
-    d = lx.load('examples/corvane/run/data/sites.csv')
+    d = lx.load('path/to/export.csv')
     lx.total(d, scenario='ssp245', year='2050')
     lx.count(d, where={'loan_type': 'Commercial real estate'}, hazard='flood', rating_at_least='E')
     lx.swing(d, lx.total, 'scenario')      # one dimension varied, the rest held at defaults

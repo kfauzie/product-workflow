@@ -3,8 +3,8 @@
 A discovery-to-prototype workflow for B2B products, run as Claude Code skills in `.claude/commands/`.
 
 ## Active context and run
-- **Context folder:** `examples/corvane/context/` (FICTIONAL example). Point this at your own company's folder, or leave it empty and let the skills pull context through MCP.
-- **Run folder:** `examples/corvane/run/`. Change both lines when you start real work.
+- **Context folder:** `examples/relaywise/context/` (FICTIONAL example). Point this at your own company's folder, or leave it empty and let the skills pull context through MCP.
+- **Run folder:** `examples/relaywise/run/`. Change both lines when you start real work.
 
 ## Rules
 - Company, product, customer and design facts come from the context skills (`company-context`, `product-glossary`, `customer-personas`, `design-system`), which read the context folder, then Notion, Slack and Figma via MCP, then ask me. Never from the model's memory

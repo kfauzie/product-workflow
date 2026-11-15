@@ -14,7 +14,7 @@ description: "The product glossary: each term the product, its data and its cust
 3. Labels already used in the product, from Figma via MCP
 4. Ask me
 
-**Tone:** plain words first, the term second ("average yearly loss (AAL)"). One line per term.
+**Tone:** plain words first, the term second ("tickets solved on first reply (FCR)"). One line per term.
 
 ## Step 1: Load or extend
 - **Input:** the glossary file; any new terms the calling skill has met (data column names, words from interview notes).
