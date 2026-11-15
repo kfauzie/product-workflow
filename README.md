@@ -6,7 +6,7 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 **[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)**
 
-[Decisions I made](examples/kestrel/run/RUN.md#decisions-i-made-and-what-i-turned-down)
+[Source: context, data and code](examples/kestrel/) · [decisions I made](examples/kestrel/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
 ![Kestrel's dashboard: which tickets can Kestrel handle on its own?](examples/kestrel/run/design/1-overview.png)
 
