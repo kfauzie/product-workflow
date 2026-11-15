@@ -8,7 +8,7 @@ A discovery-to-prototype workflow for B2B products, run as Claude Code skills in
 
 ## Rules
 - Company, product, customer and design facts come from the context skills (`company-context`, `product-glossary`, `customer-personas`, `design-system`), which read the context folder, then Notion, Slack and Figma via MCP, then ask me. Never from the model's memory
-- Follow `pm-standard` for everything a reader sees
+- Follow `0-pm-standard` for everything a reader sees
 - Work only in the active run folder; read its `RUN.md` first. Nothing carries over between runs: numbers, findings, defaults or customer context
 - Every number is calculated by code and can be traced; synthetic data is labelled as synthetic on screen
 - Skills hold general method only. Case details go in the run's `RUN.md`

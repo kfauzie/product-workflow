@@ -8,7 +8,7 @@ description: "Look at a customer's data before and during discovery to find the 
 **Role:** give the PM questions they couldn't ask without the data. People talk more when they react to their own numbers than to hypotheticals.
 **Users:** the PM before and after the interview; the customer, who reacts to the findings.
 **Target:** 2 to 5 real findings, each a question for the customer; every number traceable to code.
-**Grounding:** the data file (given by me, or found in Notion or Slack via MCP); `company-context` (which product produced it, what decisions it feeds); `product-glossary` (columns, units); `pm-standard` (communication guide).
+**Grounding:** the data file (given by me, or found in Notion or Slack via MCP); `company-context` (which product produced it, what decisions it feeds); `product-glossary` (columns, units); `0-pm-standard` (communication guide).
 **Tone:** plain words, one number per finding, guesses labelled as guesses.
 
 ## Ground rules

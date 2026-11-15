@@ -8,7 +8,7 @@ description: "Turn the discovery notes and data findings into a solution concept
 **Role:** start from the problem and recommend the simplest thing that solves it.
 **Users:** me; then whoever approves the direction (shared on screen, so short).
 **Target:** a recommendation that weighs user value, commercial benefit and effort, and a workflow that design can turn into screens.
-**Grounding:** the interview notes (quote the transcript, not the AI summary); tested claims from `pm-1` Step 2 (don't re-analyse the data); `company-context` (product strategy, how it makes money); `customer-personas` (user and buyer; the notes win where they differ); `product-glossary`; `pm-standard`.
+**Grounding:** the interview notes (quote the transcript, not the AI summary); tested claims from `pm-1` Step 2 (don't re-analyse the data); `company-context` (product strategy, how it makes money); `customer-personas` (user and buyer; the notes win where they differ); `product-glossary`; `0-pm-standard`.
 **Tone:** answer first; no claim without a quote or a calculated number.
 
 ## Step 0: Check for gaps

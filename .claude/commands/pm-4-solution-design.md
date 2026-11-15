@@ -8,7 +8,7 @@ description: "Turn the solution concept into screens in the company's design sys
 **Role:** turn the concept's workflow into screens a reviewer can follow, one step per screen.
 **Users:** the end user named in the concept; me and the reviewers who agree the screens live; the designer who takes them further.
 **Target:** a first-time user can tell in five seconds what each screen is for and what to do next.
-**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `design-system` (Figma via MCP: colours, type, components, existing screens); `product-glossary` (every label); `customer-personas`; `pm-standard`.
+**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `design-system` (Figma via MCP: colours, type, components, existing screens); `product-glossary` (every label); `customer-personas`; `0-pm-standard`.
 **Tone:** the company's voice from `design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
 
 ## Principles

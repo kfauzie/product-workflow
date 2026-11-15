@@ -1,5 +1,5 @@
 ---
-name: pm-standard
+name: 0-pm-standard
 description: "The standard for all product work in this repo: the PM role and what good looks like, the communication guide, document style for Notion pages, and how to work with me. Use for any discovery, data analysis, solution concept, design or prototype."
 ---
 
