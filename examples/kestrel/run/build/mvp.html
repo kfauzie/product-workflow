@@ -112,9 +112,9 @@ function staticParts(){
 function render(){
   const n = D.test_tickets_per_type, s = summary(D, settings), K = D.product;
   const recSet = D.types.map(t => recommend(t, n)), r = summary(D, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
-  const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return `<div class="delta d-none">Same as recommended</div>`;
+  const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs recommended</div>`; };
-  document.getElementById('dashHead').innerHTML = `<b>Expected per month with current settings</b><span id="state" class="state ${overrides ? 'state-over">' + overrides + (overrides === 1 ? ' override' : ' overrides') : 'state-rec">Recommended settings'}</span>`;
+  document.getElementById('dashHead').innerHTML = `<b>Expected per month</b><span id="state" class="state ${overrides ? 'state-over">' + overrides + (overrides === 1 ? ' override' : ' overrides') : 'state-rec">Recommended settings'}</span>`;
   document.getElementById('summary').innerHTML = `
     <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
     <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min per AI ticket, ${D.minutes_assisted} per AI-assisted ticket)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
