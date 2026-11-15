@@ -117,7 +117,7 @@
    "tested": 97,
    "correct": 96,
    "risk": "Medium",
-   "risk_example": "Medium: company details wrong in Gusta or with HMRC, so letters go astray",
+   "risk_example": "Medium: company details wrong in Gusta or with HMRC (the UK tax authority), so letters go astray",
    "reason": "99.0% accurate and a wrong call is easy to fix",
    "examples": [
     {
