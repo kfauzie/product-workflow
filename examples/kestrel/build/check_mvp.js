@@ -36,7 +36,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('16 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 16 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
   const det = await txt('tr.detail');
   t('each expanded row has an Example tickets heading', det.includes('Example tickets'));
-  t('the conversation sits in a chat window; the rule and verdict sit outside it', await p.$eval('tr.detail .exbox', b => !!b.querySelector('.chat .msg-in') && !!b.querySelector('.chat .msg-out') && !b.querySelector('.chat .rulebox') && !b.querySelector('.chat .verdict') && !!b.querySelector('.rulebox')));
+  t('the conversation sits in a chat window; the rule sits inside the verdict box, outside the chat', await p.$eval('tr.detail .exbox', b => !!b.querySelector('.chat .msg-in') && !!b.querySelector('.chat .msg-out') && !b.querySelector('.chat .rulebox') && !b.querySelector('.chat .verdict') && !!b.querySelector('.verdict .rulebox')));
   t('examples use the four labels', ['Customer request', 'Kestrel proposed', 'Customer support rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
