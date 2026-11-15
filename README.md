@@ -84,7 +84,9 @@ The aim is that the next person, or the next skill, knows exactly what they rece
 ## Principles behind it
 - I start with the persona and the job they need to get done, and go simplest first.
 - I choose based on user insight, commercial benefit to the company, and implementation effort.
-- If it follows fixed logic, it's code. If it needs judgment, it's AI. Every number on a screen is calculated, never written by the model.
+- If it follows fixed logic, it's code. If it needs judgment, it's AI. Every number on a screen is calculated, never written by the model, and labelled for what it really measures.
+- Everything can be checked: examples are built from their source (a policy, a rulebook), quote it by ID and link to it.
+- I write every message as the user reading it: what it means for their customers, team, time or money.
 - I go after the why behind the why.
 
 ## How I use this at work
