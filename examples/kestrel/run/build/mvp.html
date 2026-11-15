@@ -115,7 +115,7 @@ function staticParts(){
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
-  document.getElementById('measure').textContent = `How accuracy is measured: ${K} was run on ${n} past ${G} tickets per type. Each answer was checked against ${G}'s support playbook by a separate grading AI.`;
+  document.getElementById('measure').textContent = `Accuracy is live: ${K} is re-tested regularly on ${n} recent ${G} tickets per type, and each answer is checked against ${G}'s support playbook by a separate grading AI. The figures change as new tickets are tested.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
@@ -135,7 +135,7 @@ function render(){
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
-      <td class="n">${p}% <span class="sub">(${t.correct}/${n})</span></td>
+      <td class="n">${p}%</td>
       <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
@@ -146,7 +146,7 @@ function render(){
       <p><span class="lbl">Customer support rule</span>${e.rule}</p>
       <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
-  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
+  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy (live)</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 let toastTimer;

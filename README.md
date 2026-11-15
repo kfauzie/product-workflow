@@ -8,22 +8,22 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 [Source: context, data and code](examples/kestrel/) · [decisions I made](examples/kestrel/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
-![Kestrel's dashboard: which tickets can Kestrel handle on its own?](examples/kestrel/run/design/1-overview.png)
+![Kestrel's analytics and configuration page: monthly projection based on current settings](examples/kestrel/run/design/1-overview.png)
 
 > **The example in [`examples/kestrel/`](examples/kestrel/) is FICTIONAL.** Kestrel, Gusta and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
 
 ## What the demo shows
-Kestrel's analytics and configuration page (not the agent itself), for Gusta's Head of Customer Support:
+Kestrel's analytics and configuration page, for Gusta's Head of Customer Support. Kestrel is an AI agent that answers support tickets in Gusta's in-app chat.
 
 | Part | What it shows |
 |---|---|
-| Monthly projection | With the default settings (one override: Change bank details kept with a human): **49.7%** of tickets handled by AI (1,483 of 2,982 a month) · **275** support hours saved a month (10 minutes per ticket fully handled by AI, 5 per ticket partially handled by AI) · **0** wrong answers on high-risk type tickets reaching customers a month |
-| Decision rules | **AI** (98%+ accurate, risk Low or Medium) · **AI-assisted human** (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human** (everything else) |
-| The table | 15 ticket types in in-app chat: tickets a month, accuracy, risk if wrong, Kestrel's recommendation with its reason, and a setting Gusta controls |
-| Overrides | Risk and setting are both adjustable. Changing a risk re-runs the recommendation ("Adjusted by user"); changing a setting shows "Overridden" and warns when it gives Kestrel more autonomy than recommended. The three numbers update live, with the change against the recommendation |
-| Examples | 3 tickets under each row: customer message, what Kestrel proposed, the customer support rule, and the grading AI's verdict |
+| Monthly projection based on current settings | **49.7%** of tickets handled by AI (1,483 of 2,982) · **275** support hours saved (10 minutes per ticket fully handled by AI, 5 per ticket partially handled by AI) · **0** wrong answers on high-risk type tickets reaching customers. Recalculates as settings change, and shows the change against Kestrel's recommendation |
+| Settings | **AI**: Kestrel replies and resolves (recommended at 98%+ accuracy and risk Low or Medium) · **AI-assisted human**: Kestrel drafts, a support agent approves or edits (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human**: routed to a human agent (everything else) |
+| The table | 15 ticket types: tickets a month, live accuracy, risk if wrong, Kestrel's recommendation with its reason, and the setting Gusta controls |
+| Adjustments | Risk and setting are both editable. Changing a risk shows "Adjusted by user" and re-runs the recommendation; changing a setting shows "Overridden" and warns when it gives Kestrel more autonomy than recommended. A confirmation appears after each change. The page opens with one override (Change bank details kept with a human); "Apply all recommendations" resets it |
+| Example tickets | 3 under each ticket type: customer message, what Kestrel proposed, the customer support rule, and the grading AI's verdict |
 
-Accuracy comes from running Kestrel on 50 past tickets per type, each checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
+Accuracy is live: Kestrel is re-tested regularly on 50 recent tickets per type, each checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
 
 ## My AI stack
 
