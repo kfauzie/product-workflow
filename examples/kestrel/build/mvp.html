@@ -7,8 +7,12 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
 main{max-width:1240px;margin:0 auto;padding:24px 24px 14px}
-.intro{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:15px;margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.intro b{color:var(--head);margin-right:8px;display:inline-flex;align-items:center;gap:6px}.intro span{color:var(--text)}.intro .ic{color:#1f6f63}.intro>div{display:flex;align-items:center}
+.intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 14px}
+.idc{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.tile{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff}
+.tile .ic{width:19px;height:19px;stroke-width:2}
+.t-k{background:linear-gradient(135deg,#0f766e,#22a06b)}.t-p{background:linear-gradient(135deg,#3b5b8c,#6a7fd1)}
+.idc b{display:block;color:var(--head);font-size:15px;line-height:1.25}.idc div>span{display:block;color:var(--mute);font-size:13px;line-height:1.35}
 .header{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:15px;margin:0 0 20px;padding:16px 18px;background:#eaf1f8;border:1px solid #d3e0ee;border-radius:8px}
 .header dt{color:#3f5b78;font-weight:600;display:flex;align-items:center;gap:8px}.header dd{margin:0;color:var(--head)}
 .ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -93,7 +97,7 @@ footer{margin-top:20px;margin-bottom:0;color:var(--mute);font-size:12px;border-t
 /* phone and tablet: the tables become cards; everything fits the screen width */
 @media (max-width:860px){
   main{padding:14px 12px 10px}
-  .intro{font-size:14px}.intro>div{display:block}.intro b{display:inline;margin-right:6px}.intro b .ic{vertical-align:-3px;margin-right:5px}
+  .intro{grid-template-columns:1fr;gap:8px}.idc{padding:9px 12px}
   .header{padding:12px 14px;font-size:14px}.header dd{margin-bottom:6px}
   h2,#headline{font-size:22px}
   [data-label]::before{content:attr(data-label);display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--mute);margin:0 0 3px}
@@ -175,8 +179,8 @@ const ICON = {
 const ic = k => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICON[k]}</svg>`;
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
-  document.getElementById('intro').innerHTML = `<div><b>${ic('bot')}${K}</b><span>An AI agent that answers customer support tickets</span></div>
-    <div><b>${ic('page')}This page</b><span>Its analytics and configuration page</span></div>`;
+  document.getElementById('intro').innerHTML = `<div class="idc"><span class="tile t-k">${ic('bot')}</span><div><b>${K}</b><span>An AI agent that answers customer support tickets</span></div></div>
+    <div class="idc"><span class="tile t-p">${ic('page')}</span><div><b>This page</b><span>Its analytics and configuration page</span></div></div>`;
   document.getElementById('header').innerHTML = `
     <dt>${ic('customer')}Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>${ic('user')}User</dt><dd>${G}'s Head of Customer Support</dd>
