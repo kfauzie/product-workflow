@@ -15,7 +15,7 @@ h1{font-size:28px;color:var(--head);margin:0 0 16px}
 .state{font-size:12px;font-weight:600;padding:2px 8px;border-radius:5px}.state-rec{background:var(--ai-bg);color:var(--ai)}.state-over{background:var(--mix-bg);color:var(--mix)}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
 .delta{font-size:12px;font-weight:600;margin-top:4px}.d-up{color:var(--ai)}.d-bad{color:var(--hum)}.d-none{color:var(--mute);font-weight:400}
-.hi{display:block;font-size:13px;font-weight:600;margin-top:4px}.hi-ok{color:var(--ai)}.hi-bad{color:var(--hum)}
+.card b.hi-bad{color:var(--hum)}
 .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .card b{display:block;font-size:28px;color:var(--head);font-variant-numeric:tabular-nums}
 .card span{color:var(--mute);font-size:13px}
@@ -118,12 +118,11 @@ function render(){
   const recSet = E.map(t => recommend(t, n)), r = summary(DE, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
   const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs recommended</div>`; };
-  document.getElementById('dashHead').innerHTML = `<b>Expected per month</b><span id="state" class="state ${overrides ? 'state-over">' + overrides + (overrides === 1 ? ' override' : ' overrides') : 'state-rec">Recommended settings'}</span>`;
+  document.getElementById('dashHead').innerHTML = `<b>Monthly projection</b><span id="state" class="state ${overrides ? 'state-over">' + overrides + (overrides === 1 ? ' override' : ' overrides') : 'state-rec">Recommended settings'}</span>`;
   document.getElementById('summary').innerHTML = `
     <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
-    <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min per AI ticket, ${D.minutes_assisted} per AI-assisted ticket)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
-    <div class="card"><b id="sumWrong">${fmt(s.wrong)}</b><span>wrong answers reaching customers (AI-handled types: tickets × error rate)</span>
-      <span id="sumHigh" class="hi ${s.wrongHigh >= 0.5 ? 'hi-bad">' + fmt(s.wrongHigh) : 'hi-ok">0'} on High-risk ticket types</span>${delta(s.wrong, r.wrong, v => fmt(v), false)}</div>`;
+    <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min saved per ticket fully handled by AI, ${D.minutes_assisted} per ticket partially handled by AI)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
+    <div class="card"><b id="sumHigh" class="${s.wrongHigh >= 0.5 ? 'hi-bad' : ''}">${fmt(s.wrongHigh)}</b><span>wrong answers on high-risk type tickets reaching customers</span>${delta(s.wrongHigh, r.wrongHigh, v => fmt(v), false)}</div>`;
   const rows = E.map((t, i) => {
     const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = Math.round(accuracy(t, n) * 100), adj = t.risk !== D.types[i].risk;
     const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';

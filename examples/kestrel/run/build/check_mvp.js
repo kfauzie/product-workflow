@@ -12,8 +12,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('no top bar', !(await p.$('#topbar')));
   const hd = await txt('#header'); t('header: Kestrel first, then this page', hd.indexOf('An AI agent that answers support tickets') < hd.indexOf('Its analytics and configuration page') && hd.includes('Its analytics and configuration page'));
   t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
-  t('summary: 49.7%, 288 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumWrong')) === '9');
-  t('dashboard: recommended settings, 0 on High-risk types', (await txt('#state')) === 'Recommended settings' && (await txt('#sumHigh')) === '0 on High-risk ticket types');
+  t('monthly projection: 49.7%, 288 hours, 0 high-risk wrong answers', (await txt('.dash-head b')) === 'Monthly projection' && (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumHigh')) === '0');
+  t('dashboard: recommended settings', (await txt('#state')) === 'Recommended settings');
   t('rules before the table', await p.evaluate(() => !!(document.querySelector('#rules').compareDocumentPosition(document.querySelector('#types')) & Node.DOCUMENT_POSITION_FOLLOWING)));
   t('15 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 15 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
   const det = await txt('tr.detail');
@@ -24,8 +24,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.selectOption('select[data-i="6"]', 'resolve');
   const row = await txt('tr.row[data-i="6"]');
   t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Above recommended: 92% accurate on a High-risk type'));
-  t('summary updates: 53.8%, 19 wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumWrong')) === '19');
-  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10 on High-risk ticket types' && (await txt('#summary')).includes('+10 vs recommended'));
+  t('summary updates: 53.8%, 10 high-risk wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumHigh')) === '10');
+  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs recommended'));
   await p.selectOption('select[data-i="0"]', 'human');
   const row0 = await txt('tr.row[data-i="0"]');
   t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));
