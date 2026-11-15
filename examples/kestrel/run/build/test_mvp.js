@@ -24,6 +24,8 @@ t('wrong answers: 268 × 2% + 177 × 2% = 8.9', Math.abs(s.wrong - 8.9) < 0.001,
 const o = rec.slice(); o[6] = 'resolve'; const so = C.summary(D, o);
 t('override Refund request to AI is above recommended', C.aboveRecommended(D.types[6], n, 'resolve'));
 t('override adds 121 AI tickets and 9.7 wrong answers', so.ai === 1604 && Math.abs(so.wrong - (8.9 + 121 * 0.08)) < 0.001, `${so.ai}, ${so.wrong.toFixed(2)}`);
+t('recommended settings: 0 wrong answers on High-risk types', s.wrongHigh === 0, s.wrongHigh);
+t('Refund request on AI: 9.7 wrong answers on High-risk types', Math.abs(so.wrongHigh - 121 * 0.08) < 0.001, so.wrongHigh.toFixed(2));
 t('lowering autonomy is not a warning', !C.aboveRecommended(D.types[0], n, 'human'));
 const text = JSON.stringify(D) + html;
 t('no em dashes', !text.includes('—'));
