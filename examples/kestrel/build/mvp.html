@@ -133,7 +133,7 @@ function render(){
   const n = 0, E = eff(), DE = Object.assign({}, D, {types: E}), s = summary(DE, settings), K = D.product;
   const recSet = E.map(t => recommend(t, n)), r = summary(DE, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
   const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
-    const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs recommended</div>`; };
+    const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs. recommended</div>`; };
   document.getElementById('dashHead').innerHTML = overrides ? `<span id="state" class="state state-over">${overrides} ${overrides === 1 ? 'override' : 'overrides'}</span>` : '';
   document.getElementById('summary').innerHTML = `
     <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled solely by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
