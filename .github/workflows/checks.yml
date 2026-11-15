@@ -11,12 +11,12 @@ jobs:
       - name: Data tool self-test
         run: python3 tools/test_lens.py
       - name: Synthetic data is reproducible
-        working-directory: examples/relaywise/run
+        working-directory: examples/palmer/run
         run: python3 notebooks/make_data.py && git diff --exit-code -- data/
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
       - run: npm install --no-audit --no-fund && npx playwright install --with-deps chromium
       - name: Prototype known-answer tests
-        run: node examples/relaywise/run/build/test_mvp.js
+        run: node examples/palmer/run/build/test_mvp.js
       - name: Prototype headless click-through
-        run: node examples/relaywise/run/build/check_mvp.js
+        run: node examples/palmer/run/build/check_mvp.js

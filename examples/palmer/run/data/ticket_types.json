@@ -1,0 +1,429 @@
+{
+ "label": "FICTIONAL and SYNTHETIC: Palmer example, not real data",
+ "company": "Palmer",
+ "channel": "In-app chat",
+ "minutes_per_ticket": 8,
+ "test_tickets_per_type": 50,
+ "types": [
+  {
+   "name": "Password reset",
+   "tickets": 468,
+   "correct": 50,
+   "cost": "Low",
+   "cost_example": "Low: customer stays locked out a little longer",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "I've forgotten my password and the reset email isn't arriving.",
+     "reply": "Sent a new reset link and asked them to check spam for an email from Palmer.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Can you reset my password? I changed jobs and lost access to my old email.",
+     "reply": "Explained that the account owner must change the login email first, and how to ask them.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Reset link says expired.",
+     "reply": "Sent a fresh link and explained links expire after 30 minutes.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Can't log in",
+   "tickets": 268,
+   "correct": 49,
+   "cost": "Low",
+   "cost_example": "Low: customer tries again or asks for a person",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "My 2-step code isn't arriving by text.",
+     "reply": "Sent the code by email instead and showed how to update the phone number.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "It says my account is locked.",
+     "reply": "Unlocked after the failed-attempt timeout and sent a reset link.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "I can't log in on my phone but it works on my laptop.",
+     "reply": "Told them to clear the app cache.",
+     "correct": false,
+     "note": "The app needed an update; clearing the cache didn't fix it"
+    }
+   ]
+  },
+  {
+   "name": "Missing payslip",
+   "tickets": 342,
+   "correct": 50,
+   "cost": "Low",
+   "cost_example": "Low: employee is pointed to the wrong month",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "One of my staff can't find her March payslip.",
+     "reply": "Showed where payslips sit under Employees > Documents and how to resend March.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Where do employees download payslips?",
+     "reply": "Linked the employee app guide and the resend option.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Payslip for last Friday isn't showing.",
+     "reply": "Explained payslips appear once the payroll run is approved, and that it is still in draft.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Update company address",
+   "tickets": 97,
+   "correct": 50,
+   "cost": "Medium",
+   "cost_example": "Medium: tax letters go to the old address",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "We've moved office, how do I change our address?",
+     "reply": "Updated the registered address after confirming the account owner, and noted tax letters follow in 1 to 2 weeks.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Change our trading address to 14 Mill Lane.",
+     "reply": "Updated the trading address and left the registered address unchanged, as asked.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Our address on payslips is wrong.",
+     "reply": "Showed that payslips use the trading address and updated it.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Add a new employee",
+   "tickets": 251,
+   "correct": 48,
+   "cost": "Medium",
+   "cost_example": "Medium: employee set up on the wrong pay schedule",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "How do I add someone starting Monday?",
+     "reply": "Walked through Add employee and the tax details needed before the first run.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "New starter is part time, 3 days a week.",
+     "reply": "Set up a part-time contract with pro-rata salary.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Adding a weekly-paid worker to our monthly payroll.",
+     "reply": "Added them to the monthly schedule.",
+     "correct": false,
+     "note": "Should have created a weekly pay schedule first"
+    }
+   ]
+  },
+  {
+   "name": "Change bank details",
+   "tickets": 154,
+   "correct": 49,
+   "cost": "High",
+   "cost_example": "High: payroll paid from or to the wrong account",
+   "moves_money": true,
+   "examples": [
+    {
+     "ticket": "We've switched banks, need to update the account payroll is paid from.",
+     "reply": "Drafted the change and asked for owner approval and a verification call before it takes effect.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Employee gave me new bank details.",
+     "reply": "Drafted the update on the employee record, flagged for a person to check against the signed form.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Change our company account number, urgent, payroll is tomorrow.",
+     "reply": "Drafted the change for tomorrow's run.",
+     "correct": false,
+     "note": "Changes inside 3 days of a run need a manual check; it should have flagged the deadline"
+    }
+   ]
+  },
+  {
+   "name": "Refund request",
+   "tickets": 121,
+   "correct": 46,
+   "cost": "High",
+   "cost_example": "High: wrong refund paid out",
+   "moves_money": true,
+   "examples": [
+    {
+     "ticket": "You charged us twice this month.",
+     "reply": "Confirmed the duplicate charge and proposed a refund of the second payment.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "We cancelled in January but were billed in February.",
+     "reply": "Proposed a full refund for February.",
+     "correct": false,
+     "note": "Cancellation took effect at the end of February, so no refund was due"
+    },
+    {
+     "ticket": "Can I get a refund for the unused months on our annual plan?",
+     "reply": "Explained the annual plan terms and proposed a pro-rata refund for review.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Payroll run failed",
+   "tickets": 189,
+   "correct": 45,
+   "cost": "High",
+   "cost_example": "High: staff paid late",
+   "moves_money": true,
+   "examples": [
+    {
+     "ticket": "Payroll failed with a bank error.",
+     "reply": "Identified an expired bank authorisation and showed how to renew it, then rerun.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Run failed, says tax code missing for 2 employees.",
+     "reply": "Listed the 2 employees and where to add their tax codes.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Payroll didn't go through and staff are asking where their pay is.",
+     "reply": "Told them to rerun payroll.",
+     "correct": false,
+     "note": "Payment was already sent; rerunning would have paid staff twice"
+    }
+   ]
+  },
+  {
+   "name": "Tax form question",
+   "tickets": 298,
+   "correct": 47,
+   "cost": "Medium",
+   "cost_example": "Medium: customer files with the wrong figure",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "Where do I find the year-end tax forms for my staff?",
+     "reply": "Showed Reports > Year end and how to send forms to employees.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Why is the tax on this form different from the payslips?",
+     "reply": "Explained the form includes a correction made in November.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Do I need to file anything for a contractor?",
+     "reply": "Said contractors are filed the same way as employees.",
+     "correct": false,
+     "note": "Contractors use a different form"
+    }
+   ]
+  },
+  {
+   "name": "Cancel subscription",
+   "tickets": 88,
+   "correct": 50,
+   "cost": "High",
+   "cost_example": "High: account and payroll history closed by mistake",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "We're closing the business, how do I cancel?",
+     "reply": "Explained the final payroll steps, how to export records, then drafted the cancellation for approval.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Cancel at the end of this month please.",
+     "reply": "Drafted the cancellation for the end of the month and listed what to export first.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Thinking of cancelling, what happens to our data?",
+     "reply": "Explained records are kept for 6 years and can be exported any time.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Change pay date",
+   "tickets": 132,
+   "correct": 47,
+   "cost": "High",
+   "cost_example": "High: staff paid on the wrong day",
+   "moves_money": true,
+   "examples": [
+    {
+     "ticket": "Can we pay staff on the 25th instead of the last day?",
+     "reply": "Showed how to change the pay date from next month and the bank cut-off.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Bank holiday on payday, can we pay a day early?",
+     "reply": "Moved this month's pay date one working day earlier.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Move this month's pay date to tomorrow.",
+     "reply": "Moved the pay date to tomorrow.",
+     "correct": false,
+     "note": "Tomorrow is past the bank cut-off; staff would have been paid late"
+    }
+   ]
+  },
+  {
+   "name": "Invoice question",
+   "tickets": 177,
+   "correct": 49,
+   "cost": "Low",
+   "cost_example": "Low: customer is confused about a charge",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "What is this extra charge on our invoice?",
+     "reply": "Explained the charge is for 2 employees added mid-month.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Can I get a copy of last month's invoice?",
+     "reply": "Sent the invoice and showed where invoices are kept.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Why did our price go up?",
+     "reply": "Said prices rose for all customers.",
+     "correct": false,
+     "note": "Their price rose because they moved to a bigger plan"
+    }
+   ]
+  },
+  {
+   "name": "Holiday pay calculation",
+   "tickets": 170,
+   "correct": 43,
+   "cost": "Medium",
+   "cost_example": "Medium: employee underpaid for leave",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "How is holiday pay worked out for part-time staff?",
+     "reply": "Explained pro-rata holiday based on contracted days.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Employee says her holiday pay is too low.",
+     "reply": "Said the calculation was correct.",
+     "correct": false,
+     "note": "Overtime should have been included in her holiday pay"
+    },
+    {
+     "ticket": "How do I record 2 days of leave?",
+     "reply": "Showed how to add leave on the employee's calendar.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Export payroll report",
+   "tickets": 131,
+   "correct": 50,
+   "cost": "Low",
+   "cost_example": "Low: wrong date range exported",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "Need a payroll summary for our accountant.",
+     "reply": "Exported the summary for the last tax year as a spreadsheet.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "How do I export last quarter?",
+     "reply": "Showed the date filter on Reports and exported Q3.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Can I get a list of all employees with salaries?",
+     "reply": "Exported the employee list with salaries.",
+     "correct": true,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "name": "Pension deduction question",
+   "tickets": 96,
+   "correct": 44,
+   "cost": "Medium",
+   "cost_example": "Medium: wrong deduction explained to staff",
+   "moves_money": false,
+   "examples": [
+    {
+     "ticket": "Why has pension been taken from a new starter?",
+     "reply": "Explained automatic enrolment after the waiting period.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Employee wants to opt out of the pension.",
+     "reply": "Showed how to record the opt-out and refund the first deduction.",
+     "correct": true,
+     "note": ""
+    },
+    {
+     "ticket": "Pension amount looks wrong this month.",
+     "reply": "Said it was correct.",
+     "correct": false,
+     "note": "A salary change hadn't been passed to the pension calculation"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Which tickets can the AI resolve on its own? (fictional example)</title>
+<!-- FICTIONAL example: Palmer, the use case and all data are synthetic. -->
+<style>
+:root{--text:#343a40;--head:#212529;--mute:#6c757d;--line:#e6e8eb;--bg:#f9f9fa;--accent:#0f766e;--ok-bg:#e7f6ee;--ok:#1c7a4f;--warn-bg:#fff4e0;--warn:#9a5b00;--no-bg:#fde8ea;--no:#b4232f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
+main{max-width:1180px;margin:0 auto;padding:28px 24px 40px}
+.context{font-size:14px;color:var(--mute);margin:0 0 18px;line-height:1.5}
+h1{font-size:30px;color:var(--head);margin:0 0 18px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.card b{display:block;font-size:30px;color:var(--head);font-variant-numeric:tabular-nums}
+.card span{color:var(--mute);font-size:13px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 0}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--mute);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:#f1f5f5}
+.name{font-weight:600;color:var(--head)}.chev{color:var(--mute);margin-right:6px;display:inline-block;width:10px}
+.cost{white-space:nowrap;font-weight:600}.cost-Low{color:var(--ok)}.cost-Medium{color:var(--warn)}.cost-High{color:var(--no)}
+.ex{font-size:12px;color:var(--mute)}
+.rec{display:inline-block;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}
+.rec-resolve{background:var(--ok-bg);color:var(--ok)}.rec-draft{background:var(--warn-bg);color:var(--warn)}.rec-human{background:var(--no-bg);color:var(--no)}
+tr.detail td{background:#fbfcfc;padding:4px 12px 14px 34px}
+.examples{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.exbox{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.45}
+.exbox .q{color:var(--head);margin-bottom:6px}.exbox .a{color:var(--text)}
+.verdict{margin-top:8px;font-size:12px;font-weight:600}.v-ok{color:var(--ok)}.v-no{color:var(--no)}
+.rules{margin-top:18px;font-size:13px;line-height:1.6}
+.rules h2{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mute);margin:0 0 6px}
+.rules ul{margin:0;padding-left:18px}
+.method{color:var(--mute);font-size:12px;margin-top:8px}
+footer{margin-top:28px;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:800px){.summary,.examples{grid-template-columns:1fr}.hide-sm{display:none}main{padding:20px 16px}}
+</style></head><body><main>
+<p class="context" id="context"></p>
+<h1>Which tickets can the AI resolve on its own?</h1>
+<div class="summary" id="summary"></div>
+<div class="panel"><table id="types"></table></div>
+<div class="rules">
+ <h2>Decision rules</h2>
+ <ul>
+  <li><b>Resolve alone:</b> accuracy 98% or more, and the cost of a wrong call is Low or Medium.</li>
+  <li><b>Draft for approval:</b> the agent drafts, a person approves. Accuracy 90% or more, or a High-cost type with accuracy 98% or more.</li>
+  <li><b>Human only:</b> everything else, including any type that moves money with accuracy under 98%.</li>
+ </ul>
+ <p class="method" id="method"></p>
+</div>
+<footer>Fictional example: Palmer, the use case and all data are synthetic.</footer>
+</main>
+
+<script id="calc">
+// ---- Every number is calculated here. Plain functions, tested in test_mvp.js ----
+function accuracy(t, n){ return t.correct / n; }
+function recommend(t, n){
+  const a = accuracy(t, n);
+  if (t.moves_money && a < 0.98) return 'human';
+  if (a >= 0.98 && (t.cost === 'Low' || t.cost === 'Medium')) return 'resolve';
+  if (a >= 0.90 || (t.cost === 'High' && a >= 0.98)) return 'draft';
+  return 'human';
+}
+function reason(t, n){
+  const a = accuracy(t, n), r = recommend(t, n), p = Math.round(a * 100) + '%';
+  if (r === 'resolve') return `${p} accurate and a wrong call costs little.`;
+  if (r === 'draft') return t.cost === 'High' ? `${p} accurate, but a wrong call is costly, so a person checks.` : `${p} accurate: good, not good enough to send unchecked.`;
+  if (t.moves_money && a < 0.98) return `Moves money and only ${p} accurate.`;
+  return `Only ${p} accurate.`;
+}
+// wrong answers reach customers only from types resolved alone: drafts are checked by a person, human-only types never reach the agent
+function summary(d){
+  const n = d.test_tickets_per_type, all = d.types.reduce((s, t) => s + t.tickets, 0);
+  const alone = d.types.filter(t => recommend(t, n) === 'resolve');
+  const aloneTickets = alone.reduce((s, t) => s + t.tickets, 0);
+  const wrong = alone.reduce((s, t) => s + t.tickets * (1 - accuracy(t, n)), 0);
+  return {all, aloneTickets, aloneShare: aloneTickets / all, hours: aloneTickets * d.minutes_per_ticket / 60, wrong};
+}
+if (typeof module !== 'undefined') module.exports = {accuracy, recommend, reason, summary};
+</script>
+
+<script>
+const LABEL = {resolve: 'Resolve alone', draft: 'Draft for approval', human: 'Human only'};
+let D, open = null;
+const fmt = v => Math.round(v).toLocaleString('en-GB');
+function render(){
+  const n = D.test_tickets_per_type, s = summary(D);
+  document.getElementById('context').textContent = `${D.company} is a fictional payroll software company for small businesses. Its support team handles about ${fmt(Math.round(s.all / 100) * 100)} tickets a month in ${D.channel.toLowerCase()}. ${D.company} is rolling out an AI support agent and needs to decide, ticket type by ticket type, how much the agent can do on its own.`;
+  document.getElementById('summary').innerHTML = `
+    <div class="card"><b id="sumShare">${(s.aloneShare * 100).toFixed(1)}%</b><span>of tickets the agent resolves alone (${fmt(s.aloneTickets)} of ${fmt(s.all)} a month)</span></div>
+    <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved a month (${D.minutes_per_ticket} minutes per ticket resolved alone)</span></div>
+    <div class="card"><b id="sumWrong">${fmt(s.wrong)}</b><span>wrong answers reaching customers a month, all on low or medium-cost tickets</span></div>`;
+  const rows = D.types.map((t, i) => {
+    const r = recommend(t, n), isOpen = open === i;
+    const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
+      <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
+      <td class="n">${fmt(t.tickets)}</td>
+      <td class="n">${Math.round(accuracy(t, n) * 100)}% <span class="ex">(${t.correct}/${n})</span></td>
+      <td><span class="cost cost-${t.cost}">${t.cost}</span><div class="ex">${t.cost_example.replace(/^\w+: /, '')}</div></td>
+      <td><span class="rec rec-${r}">${LABEL[r]}</span></td>
+      <td class="hide-sm">${reason(t, n)}</td></tr>`;
+    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="examples">${t.examples.map(e => `
+      <div class="exbox"><div class="q">“${e.ticket}”</div><div class="a"><b>Agent:</b> ${e.reply}</div>
+      <div class="verdict ${e.correct ? 'v-ok">✓ Correct' : 'v-no">✗ Wrong: ' + e.note}</div></div>`).join('')}</div></td></tr>` : '';
+    return main + det;
+  }).join('');
+  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy on ${n} test tickets</th><th>Cost of a wrong call</th><th>Recommendation</th><th class="hide-sm">Reason</th></tr>${rows}`;
+  document.getElementById('method').textContent = `Accuracy: share of ${n} past tickets of each type that the agent answered correctly, graded by the support team. Wrong answers per month: tickets resolved alone × their error rate in testing. Click a row to see example tickets.`;
+}
+function toggle(i){ open = open === i ? null : i; render(); }
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; render(); document.body.dataset.ready = '1'; })
+  .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="context"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
+</script>
+</body></html>

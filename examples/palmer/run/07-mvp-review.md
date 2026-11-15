@@ -1,0 +1,11 @@
+# 8. MVP review (pm-6)
+
+> **FICTIONAL EXAMPLE.** Palmer, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
+
+1. Looking at the table, which recommendation would you change, and why?
+2. What would your boss need to see before switching on "resolve alone"?
+3. Could you send us 50 more graded tickets for Refund request and Change pay date, including a few the team found hard?
+4. Is 50 test tickets per type enough for you to trust a type?
+5. Is 8 minutes a fair average for a ticket a person would otherwise handle?
+
+## Notes
