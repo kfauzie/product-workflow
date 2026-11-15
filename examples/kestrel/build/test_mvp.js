@@ -2,7 +2,7 @@
 const fs = require('fs'), path = require('path');
 const html = fs.readFileSync(path.join(__dirname, 'mvp.html'), 'utf8');
 const m = { exports: {} }; new Function('module', html.split('<script id="calc">')[1].split('</script>')[0])(m); const C = m.exports;
-const D = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/ticket_types.json'))); const n = 0;
+const D = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/ticket_types.json'))); const n = 0; const PB = fs.readFileSync(path.join(__dirname, '../data/support_playbook.md'), 'utf8');
 let fail = 0; const t = (name, ok, got) => { if (!ok) fail++; if (!ok || got !== undefined) console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${got !== undefined ? ': ' + got : ''}`); };
 // the table from the brief: name, tickets, correct, risk, recommendation
 const BRIEF = [['Password reset',468,468,467,'Low','resolve'],["Can't log in",268,268,263,'Low','resolve'],['Missing payslip',342,342,340,'Low','resolve'],['Update company address',97,97,96,'Medium','resolve'],['Add a new employee',251,251,242,'Medium','draft'],['Change bank details',154,154,152,'High','draft'],['Refund request',121,50,46,'High','human'],['Payroll run failed',189,50,45,'High','human'],['Tax form question',298,50,47,'High','human'],['Cancel subscription',88,88,87,'High','draft'],['Change pay date',132,50,47,'High','human'],['Invoice question',177,177,174,'Low','resolve'],['Holiday pay calculation',170,50,43,'Medium','human'],['Export payroll report',131,131,129,'Low','resolve'],['Pension deduction question',96,50,44,'Medium','human']];
@@ -11,6 +11,7 @@ BRIEF.forEach(([name, tk, tested, k, risk, rec], i) => { const x = D.types[i];
   t(`${name}: reason quotes the live accuracy`, x.reason.includes((k / tested * 100).toFixed(tested === 50 ? 0 : 1) + '%'));
   t(`${name}: rules give the brief's recommendation`, C.recommend(x, n) === rec);
   t(`${name}: 3 examples with message, proposal, rule and verdict`, x.examples.length === 3 && x.examples.every(e => e.message && e.proposed && e.rule && e.verdict_reason));
+  t(`${name}: each example quotes its rule word for word from the support playbook`, x.examples.every(e => PB.includes(`- **${e.rule_id}** ${e.rule}\n`)));
   if (k < tested) t(`${name}: below 100% so at least one Wrong example`, x.examples.some(e => !e.correct)); });
 const rec = D.types.map(x => C.recommend(x, n)), s = C.summary(D, rec);
 t('tickets a month', s.all === 2982, s.all);
