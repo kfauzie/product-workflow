@@ -12,7 +12,7 @@
    "tested": 468,
    "correct": 467,
    "risk": "Low",
-   "risk_example": "Low: customer locked out until a new link arrives",
+   "risk_example": "Low: customer stays locked out a little longer",
    "reason": "99.8% accurate and a wrong call costs little",
    "examples": [
     {
@@ -47,7 +47,7 @@
    "tested": 268,
    "correct": 263,
    "risk": "Low",
-   "risk_example": "Low: owner can't run payroll until they're back in",
+   "risk_example": "Low: customer stays locked out longer, which can hold up payroll",
    "reason": "98.1% accurate and a wrong call costs little",
    "examples": [
     {
@@ -82,7 +82,7 @@
    "tested": 342,
    "correct": 340,
    "risk": "Low",
-   "risk_example": "Low: employee waits for proof of pay, e.g. for a mortgage",
+   "risk_example": "Low: employee waits longer for a payslip",
    "reason": "99.4% accurate and a wrong call costs little",
    "examples": [
     {
@@ -117,7 +117,7 @@
    "tested": 97,
    "correct": 96,
    "risk": "Medium",
-   "risk_example": "Medium: HMRC letters and penalty notices go to the old address",
+   "risk_example": "Medium: company details wrong in Gusta or with HMRC, so letters go astray",
    "reason": "99.0% accurate and a wrong call is easy to fix",
    "examples": [
     {
@@ -152,7 +152,7 @@
    "tested": 251,
    "correct": 242,
    "risk": "Medium",
-   "risk_example": "Medium: starter put on an emergency tax code or the wrong pay schedule",
+   "risk_example": "Medium: new starter set up wrongly: tax code, pay or pay schedule",
    "reason": "96.4% accurate: good, but not enough to send unchecked",
    "examples": [
     {
@@ -187,7 +187,7 @@
    "tested": 154,
    "correct": 152,
    "risk": "High",
-   "risk_example": "High: salary sent to a fraudster's account, usually unrecoverable",
+   "risk_example": "High: pay sent from or to the wrong account, possibly a fraudster's",
    "reason": "98.7% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
@@ -222,7 +222,7 @@
    "tested": 121,
    "correct": 111,
    "risk": "High",
-   "risk_example": "High: refund paid that the policy doesn't allow, or one refused wrongly",
+   "risk_example": "High: money refunded or withheld wrongly",
    "reason": "91.7% accurate; moves money, so a support agent checks every draft",
    "examples": [
     {
@@ -257,7 +257,7 @@
    "tested": 189,
    "correct": 170,
    "risk": "High",
-   "risk_example": "High: staff paid late or paid twice, and HMRC penalties",
+   "risk_example": "High: staff paid late or twice, or pay reported wrongly to HMRC",
    "reason": "89.9% accurate; staff pay is at stake, so a support agent checks",
    "examples": [
     {
@@ -292,7 +292,7 @@
    "tested": 298,
    "correct": 280,
    "risk": "High",
-   "risk_example": "High: staff file wrong tax returns, or a contractor is treated as staff",
+   "risk_example": "High: wrong figures or forms go to staff or HMRC",
    "reason": "94.0% accurate, but a wrong figure is costly, so a support agent checks",
    "examples": [
     {
@@ -327,7 +327,7 @@
    "tested": 88,
    "correct": 87,
    "risk": "High",
-   "risk_example": "High: final HMRC submission or P45s missed, records lost",
+   "risk_example": "High: account closed wrongly, or final HMRC steps missed",
    "reason": "98.9% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
@@ -362,7 +362,7 @@
    "tested": 132,
    "correct": 124,
    "risk": "High",
-   "risk_example": "High: staff paid late and miss rent or mortgage payments",
+   "risk_example": "High: staff paid on the wrong day",
    "reason": "93.9% accurate; moves money, so a support agent checks",
    "examples": [
     {
@@ -397,7 +397,7 @@
    "tested": 177,
    "correct": 174,
    "risk": "Low",
-   "risk_example": "Low: customer confused about a charge",
+   "risk_example": "Low: customer misunderstands a charge",
    "reason": "98.3% accurate and a wrong call costs little",
    "examples": [
     {
@@ -432,7 +432,7 @@
    "tested": 170,
    "correct": 146,
    "risk": "High",
-   "risk_example": "High: worker underpaid holiday pay and owed back pay",
+   "risk_example": "High: staff paid too much or too little holiday pay",
    "reason": "85.9% accurate: enough for a useful draft, checked by a support agent",
    "examples": [
     {
@@ -467,7 +467,7 @@
    "tested": 131,
    "correct": 129,
    "risk": "Low",
-   "risk_example": "Low: accountant gets figures for the wrong period",
+   "risk_example": "Low: customer gets wrong or incomplete figures",
    "reason": "98.5% accurate and a wrong call costs little",
    "examples": [
     {
@@ -502,7 +502,7 @@
    "tested": 96,
    "correct": 84,
    "risk": "Medium",
-   "risk_example": "Medium: wrong deduction, or an opt-out refund missed",
+   "risk_example": "Medium: pension deducted wrongly, too much or too little",
    "reason": "87.5% accurate: a useful draft, not enough to send unchecked",
    "examples": [
     {
@@ -537,7 +537,7 @@
    "tested": 50,
    "correct": 29,
    "risk": "High",
-   "risk_example": "High: customer relies on a guessed answer, or a real problem isn't passed on",
+   "risk_example": "High: customer acts on an answer no rule covers",
    "reason": "Only 58% accurate: no playbook rule covers these",
    "examples": [
     {
