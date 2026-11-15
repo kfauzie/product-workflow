@@ -2,7 +2,7 @@
 
 [![checks](https://github.com/kfauzie/product-workflow/actions/workflows/checks.yml/badge.svg)](https://github.com/kfauzie/product-workflow/actions/workflows/checks.yml)
 
-How I go from a customer's ask to a tested, working prototype with Claude Code: discovery notes, research synthesis, spec, design, prototype, then hand-off to engineering. Each step is a skill in [`.claude/commands/`](.claude/commands/), grounded in company, customer and design context pulled through MCP.
+How I go from a customer's ask to a tested, working prototype with Claude Code: discovery notes, research synthesis, spec, design, prototype, then hand-off to engineering. Each step is a skill in [`.claude/commands/`](.claude/commands/), numbered in the order they run, grounded in company, customer and design context pulled through MCP.
 
 **[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)**
 
@@ -49,18 +49,18 @@ flowchart LR
 
 ## The workflow, end to end
 
+Skills run in number order. [`0-pm-standard`](.claude/commands/0-pm-standard.md) comes first because every other skill reads it: what good looks like, the communication guide and the document style. `1-pm-data-discovery` runs twice: before the interview, and again to test what the customer said.
+
 | Step | Skill | Grounded in | Output | In the example |
 |---|---|---|---|---|
-| 1. Data review | [`1-pm-data-discovery`](.claude/commands/1-pm-data-discovery.md) (Initial review) | The customer's data; glossary for columns and units | 2–5 findings, each an interview question, every number from code | [01-data-review](examples/kestrel/01-data-review.md) |
-| 2. Discovery notes | [`2-pm-discovery-interview`](.claude/commands/2-pm-discovery-interview.md) | Findings from step 1; personas as things to listen for | A 10-minute guide in Notion; notes from the call | [02-guide](examples/kestrel/02-discovery-guide.md), [03-notes](examples/kestrel/03-discovery-notes.md) |
-| 3. Research synthesis | `1-pm-data-discovery` (Answer) | The notes; the data | Each claim tested: supported, not supported or unclear | [04-synthesis](examples/kestrel/04-synthesis.md) |
-| 4. Spec | [`3-pm-problem-to-solution-concept`](.claude/commands/3-pm-problem-to-solution-concept.md) | Notes, tested claims, company context, personas | Problem, 2–3 ideas weighed on user, commercial and effort; the recommendation; workflow; AI / code / people split; success criteria; assumptions | [05-solution-concept](examples/kestrel/05-solution-concept.md) |
-| 5. Design | [`4-pm-solution-design`](.claude/commands/4-pm-solution-design.md) | The spec; design system from Figma; glossary | Per screen: input, output, happy path, edge cases, acceptance criteria, handoff; then the screens | [06-screen-specs](examples/kestrel/06-screen-specs.md), [design/](examples/kestrel/design/) |
-| 6. Prototype | [`5-pm-mvp-build`](.claude/commands/5-pm-mvp-build.md) | Agreed screens; spec's test cases | One HTML file, numbers by code, tests and a headless check | [build/](examples/kestrel/build/) |
-| 7. MVP review | [`6-pm-mvp-review`](.claude/commands/6-pm-mvp-review.md) | The spec's assumptions; the prototype | Questions that could change the solution; the sample needed to test the AI parts | [07-mvp-review](examples/kestrel/07-mvp-review.md) |
-| 8. Hand-off | `5-pm-mvp-build` ("later, if asked") | The prototype and its tests | One PR per screen behind a feature flag, engineer review, staging, release | Not shown in the example |
-
-Every skill also reads [`0-pm-standard`](.claude/commands/0-pm-standard.md): what good looks like, the communication guide and the document style.
+| Data review | [`1-pm-data-discovery`](.claude/commands/1-pm-data-discovery.md) (Initial review) | The customer's data; glossary for columns and units | 2–5 findings, each an interview question, every number from code | [01-data-review](examples/kestrel/01-data-review.md) |
+| Discovery notes | [`2-pm-discovery-interview`](.claude/commands/2-pm-discovery-interview.md) | Findings from the data review; personas as things to listen for | A 10-minute guide in Notion; notes from the call | [02-guide](examples/kestrel/02-discovery-guide.md), [03-notes](examples/kestrel/03-discovery-notes.md) |
+| Research synthesis | `1-pm-data-discovery` (Answer) | The notes; the data | Each claim tested: supported, not supported or unclear | [04-synthesis](examples/kestrel/04-synthesis.md) |
+| Spec | [`3-pm-problem-to-solution-concept`](.claude/commands/3-pm-problem-to-solution-concept.md) | Notes, tested claims, company context, personas | Problem, 2–3 ideas weighed on user, commercial and effort; the recommendation; workflow; AI / code / people split; success criteria; assumptions | [05-solution-concept](examples/kestrel/05-solution-concept.md) |
+| Design | [`4-pm-solution-design`](.claude/commands/4-pm-solution-design.md) | The spec; design system from Figma; glossary | Per screen: input, output, happy path, edge cases, acceptance criteria, handoff; then the screens | [06-screen-specs](examples/kestrel/06-screen-specs.md), [design/](examples/kestrel/design/) |
+| Prototype | [`5-pm-mvp-build`](.claude/commands/5-pm-mvp-build.md) | Agreed screens; spec's test cases | One HTML file, numbers by code, tests and a headless check | [build/](examples/kestrel/build/) |
+| MVP review | [`6-pm-mvp-review`](.claude/commands/6-pm-mvp-review.md) | The spec's assumptions; the prototype | Questions that could change the solution; the sample needed to test the AI parts | [07-mvp-review](examples/kestrel/07-mvp-review.md) |
+| Hand-off | `5-pm-mvp-build` ("later, if asked") | The prototype and its tests | One PR per screen behind a feature flag, engineer review, staging, release | Not shown in the example |
 
 ## How MCPs ground it
 Four context skills replace anything company-specific. Each reads the active context folder first, then MCP, then asks me, and never fills a gap from the model's memory:
