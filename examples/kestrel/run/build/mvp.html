@@ -98,7 +98,7 @@ function staticParts(){
   const K = D.product, G = D.customer, n = D.test_tickets_per_type;
   document.getElementById('topbar').innerHTML = `<b>${K}</b> · Configuration and analytics · Customer: ${G}`;
   document.getElementById('header').innerHTML = `
-    <dt>This page</dt><dd>${K}'s configuration and analytics dashboard</dd>
+    <dt>This page</dt><dd>${K}'s analytics and configuration page (not the agent itself)</dd>
     <dt>${K}</dt><dd>An AI agent that answers support tickets in ${G}'s in-app chat</dd>
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>User</dt><dd>${G}'s Head of Customer Support</dd>

@@ -13,7 +13,7 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 > **The example in [`examples/kestrel/`](examples/kestrel/) is FICTIONAL.** Kestrel, Gusta and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
 
 ## What the demo shows
-Kestrel's configuration and analytics dashboard, for Gusta's Head of Customer Support:
+Kestrel's analytics and configuration page (not the agent itself), for Gusta's Head of Customer Support:
 
 | Part | What it shows |
 |---|---|

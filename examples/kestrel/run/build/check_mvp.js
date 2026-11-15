@@ -10,7 +10,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const txt = s => p.textContent(s);
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   t('top bar', (await txt('#topbar')) === 'Kestrel · Configuration and analytics · Customer: Gusta');
-  t('header names the dashboard', (await txt('#header')).includes("Kestrel's configuration and analytics dashboard"));
+  t('header names the page, not the agent itself', (await txt('#header')).includes("Kestrel's analytics and configuration page (not the agent itself)"));
   t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
   t('summary: 49.7%, 231 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '231' && (await txt('#sumWrong')) === '9');
   t('dashboard: recommended settings, 0 on High-risk types', (await txt('#state')) === 'Recommended settings' && (await txt('#sumHigh')) === '0 on High-risk ticket types');
