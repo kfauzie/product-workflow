@@ -6,7 +6,7 @@
 :root{--text:#343a40;--head:#212529;--mute:#6c757d;--line:#e6e8eb;--bg:#f9f9fa;--ai-bg:#e7f6ee;--ai:#1c7a4f;--mix-bg:#fff4e0;--mix:#9a5b00;--hum-bg:#fde8ea;--hum:#b4232f;--open:#f4f7f8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
-main{max-width:1240px;margin:0 auto;padding:24px 24px 36px}
+main{max-width:1240px;margin:0 auto;padding:24px 24px 14px}
 .intro{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:15px;margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .intro b{color:var(--head);margin-right:8px}.intro span{color:var(--text)}
 .header{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:15px;margin:0 0 20px;padding:16px 18px;background:#eaf1f8;border:1px solid #d3e0ee;border-radius:8px}
@@ -36,7 +36,7 @@ td.acc{transition:background-color .6s,color .3s}td.acc-up{background:var(--ai-b
 .chip{display:inline-block;padding:3px 9px;border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}
 .c-resolve{background:var(--ai-bg);color:var(--ai)}.c-draft{background:var(--mix-bg);color:var(--mix)}.c-human{background:var(--hum-bg);color:var(--hum)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0 10px}
-.measure{font-size:13px;color:var(--mute);margin:0}
+.measure{font-size:13px;color:var(--mute);margin:0}.measure.foot{margin-top:10px;line-height:1.5}
 button.apply{font:inherit;font-size:13px;font-weight:600;background:#0f766e;color:#fff;border:1px solid #0f766e;border-radius:6px;padding:8px 14px;cursor:pointer;white-space:nowrap}
 button.apply:hover{background:#0b5f59}
 .panel{background:#fff;border:1px solid var(--line);border-radius:10px}
@@ -63,9 +63,9 @@ tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
 .exbox p{margin:0 0 7px}.exbox p:last-child{margin:0}
 .lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mute)}
 .ok{color:var(--ai);font-weight:600}.no{color:var(--hum);font-weight:600}
-.toast{position:fixed;right:24px;bottom:24px;background:var(--head);color:#fff;font-size:13px;padding:10px 14px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.18);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none;z-index:10}
-.toast.show{opacity:1;transform:none}.toast .tick{color:#7ee2b0;font-weight:700;margin-right:6px}
-footer{margin-top:24px;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
+.inline-ok{font-size:12px;font-weight:600;color:var(--ai);margin-top:5px;opacity:0;transition:opacity .25s}.inline-ok.show{opacity:1}.inline-ok .tick{margin-right:4px}
+.bar .inline-ok{margin:0 10px 0 0}
+footer{margin-top:20px;margin-bottom:0;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
 @media (max-width:900px){.summary,.exgrid{grid-template-columns:1fr}.hide-sm{display:none}main{padding:16px}.header{grid-template-columns:1fr}.bar{flex-direction:column;align-items:flex-start}}
 </style></head><body>
 <main>
@@ -75,10 +75,11 @@ footer{margin-top:24px;color:var(--mute);font-size:12px;border-top:1px solid var
 <div class="dash-head" id="dashHead"></div>
 <div class="summary" id="summary"></div>
 <div class="panel rules" id="rules"></div>
-<div class="bar"><p class="measure" id="measure"></p><button class="apply" id="applyAll" onclick="applyAll()">Apply all recommendations</button></div>
+<div class="bar" style="justify-content:flex-end"><button class="apply" id="applyAll" onclick="applyAll()">Apply all recommendations</button></div>
 <div class="panel"><table id="types"></table></div>
+<p class="measure foot" id="measure"></p>
 <footer id="footer"></footer>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 </main>
 
 <script id="calc">
@@ -125,7 +126,7 @@ function staticParts(){
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
-  document.getElementById('measure').textContent = `Accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against ${G}'s support playbook, with two overrides: an AI-assisted ticket counts as wrong if the support agent changes ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Types routed to a human are measured on a test run of 50 recent tickets.`;
+  document.getElementById('measure').textContent = `* Accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against ${G}'s support playbook, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Types routed to a human are measured on a test run of 50 recent tickets.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
@@ -157,7 +158,7 @@ function render(){
       <p><span class="lbl">Customer support rule</span>${e.rule}</p>
       <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
-  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy (live)</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
+  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Live accuracy*</span></th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 // colour a card for a moment when its number changes: green if the change is good, red if not
@@ -172,14 +173,18 @@ function flash(items){
     setTimeout(() => { card.classList.remove('flash-good', 'flash-bad'); card.querySelectorAll('.arrow').forEach(a => a.remove()); }, 1600); });
   last = now; }
 let toastTimer;
-function toast(msg){ const el = document.getElementById('toast'); el.innerHTML = `<span class="tick">✓</span>${msg}`; el.classList.add('show');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2500); }
-function setMode(i, m){ settings[i] = m; render(); toast(`${D.types[i].name} set to ${LABEL[m]}. Projection updated.`); }
+function toast(msg, anchor){ const old = document.getElementById('toast'); if (old) old.remove();
+  const a = anchor && document.querySelector(anchor); if (!a) return;
+  const el = document.createElement('div'); el.id = 'toast'; el.className = 'inline-ok show'; el.setAttribute('role', 'status');
+  el.innerHTML = `<span class="tick">✓</span>${msg}`;
+  if (anchor === '#applyAll') a.insertAdjacentElement('beforebegin', el); else a.insertAdjacentElement('afterend', el);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 2600); }
+function setMode(i, m){ settings[i] = m; render(); toast(`Saved. Projection updated.`, `select[data-i="${i}"]`); }
 // changing risk re-runs the recommendation; the setting follows it only if it was still on the old recommendation
 function setRisk(i, v){ const n = 0, before = recommend(eff()[i], n); risks[i] = v;
   const after = recommend(eff()[i], n); if (settings[i] === before) settings[i] = after; render();
-  toast(`${D.types[i].name} risk set to ${v}. ${after !== before ? 'Now recommended: ' + LABEL[after] + '.' : 'Recommendation unchanged.'}`); }
-function applyAll(silent){ settings = eff().map(t => recommend(t, 0)); render(); if (!silent) toast('All recommendations applied. Projection updated.'); }
+  toast(`Saved. ${after !== before ? 'Now recommended: ' + LABEL[after] + '.' : 'Recommendation unchanged.'}`, `select[data-risk="${i}"]`); }
+function applyAll(silent){ settings = eff().map(t => recommend(t, 0)); render(); if (!silent) toast('All recommendations applied. Projection updated.', '#applyAll'); }
 fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts();
   // saved settings: one override (Add a new employee moved up to AI)
   settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Add a new employee')] = 'resolve'; render();
@@ -187,7 +192,7 @@ fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks 
   setTimeout(() => { live = true; accFlash = {};
     D.types.forEach((t, i) => { const d = (t.correct - t.prev_correct) / t.tested * 100; if (Math.abs(d) >= 0.05) accFlash[i] = d; });
     render(); const n = Object.keys(accFlash).length;
-    toast(`Live accuracy updated with today's tickets: ${n} ticket types changed.`); document.body.dataset.ready = '1';
+    toast(`Updated today: ${n} changed`, '#thAccLabel'); document.body.dataset.ready = '1';
     setTimeout(() => { accFlash = {}; render(); }, 2200); }, 700); })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
