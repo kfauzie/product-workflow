@@ -89,6 +89,30 @@ tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
 .bar .inline-ok{margin:0 10px 0 0}
 footer{margin-top:20px;margin-bottom:0;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
 @media (max-width:900px){.summary,.exgrid{grid-template-columns:1fr}.hide-sm{display:none}main{padding:16px}.header{grid-template-columns:1fr}.bar{flex-direction:column;align-items:flex-start}}
+
+/* phone: the tables become cards; everything fits the screen width */
+@media (max-width:700px){
+  main{padding:14px 12px 10px}
+  .intro{font-size:14px}.intro>div{display:block}.intro b{display:inline;margin-right:6px}.intro b .ic{vertical-align:-3px;margin-right:5px}
+  .header{padding:12px 14px;font-size:14px}.header dd{margin-bottom:6px}
+  h2,#headline{font-size:22px}
+  [data-label]::before{content:attr(data-label);display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--mute);margin:0 0 3px}
+  .rules table,.rules tbody,.rules tr,.rules td{display:block;width:auto!important}
+  .rules tr.hdr,#types tr.hdr{display:none}
+  .rules tr{padding:10px 12px;border-bottom:1px solid var(--line)}.rules tr:last-child{border-bottom:0}
+  .rules td{border:0;padding:2px 0}.rules td[data-label]{margin-top:6px}
+  .rules tr td:first-child{box-shadow:none!important}
+  .rules tr.r-resolve{box-shadow:inset 3px 0 0 var(--ai)}.rules tr.r-draft{box-shadow:inset 3px 0 0 var(--mix)}.rules tr.r-human{box-shadow:inset 3px 0 0 var(--hum)}
+  #types,#types tbody{display:block}
+  #types tr.row{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;padding:14px 12px;border-bottom:1px solid var(--line)}
+  #types tr.row td{display:block;border:0;padding:0;text-align:left;min-width:0}
+  #types tr.row td:nth-child(1){grid-column:1/-1;font-size:15px}
+  #types tr.row td:nth-child(4){grid-column:1/-1}
+  #types tr.row td:nth-child(4) .sub{display:inline;margin-left:6px}
+  #types tr.row select{max-width:100%}
+  #types tr.detail{display:block}#types tr.detail td{display:block;padding:4px 12px 14px}
+  .exgrid{gap:12px}
+}
 </style></head><body>
 <main>
 <div class="intro" id="intro"></div>
@@ -159,10 +183,10 @@ function staticParts(){
     <dt>${ic('job')}Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types ${K} handles and which go to a human</dd>`;
   document.getElementById('headline').textContent = 'Monthly projection per current settings';
   document.getElementById('rules').innerHTML = `<table>
-    <tr><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
-    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and impact Low or Medium.</td></tr>
-    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 60% or more, any impact, when not recommended for AI.</td></tr>
-    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Accuracy below 60%: a draft would not save a support agent time and may confuse them instead.</td></tr></table>`;
+    <tr class="hdr"><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
+    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td data-label="Recommended when">Accuracy 98% or more, and impact Low or Medium.</td></tr>
+    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td data-label="Recommended when">Accuracy 60% or more, any impact, when not recommended for AI.</td></tr>
+    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td data-label="Recommended when">Accuracy below 60%: a draft would not save a support agent time and may confuse them instead.</td></tr></table>`;
   document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
@@ -185,11 +209,11 @@ function render(){
       : `<div class="warn">Riskier than recommended: support agents would need to catch about ${w} wrong ${w === 1 ? 'draft' : 'drafts'} a month</div>`;
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
-      <td class="n">${fmt(t.tickets)}</td>
-      <td class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
-      <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
-      <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
-      <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
+      <td class="n" data-label="Tickets a month">${fmt(t.tickets)}</td>
+      <td data-label="Accuracy*" class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
+      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
+      <td data-label="Recommendation"><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
+      <td data-label="Setting" onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Recent tickets</div><div class="exgrid">${t.examples.map(e => `<div class="exbox ${e.correct ? 'ex-ok' : 'ex-no'}"><div class="exbody">
       <div class="chat"><div class="chathead"><span class="dot"></span>${D.channel}</div><div class="chatbody">
@@ -200,7 +224,7 @@ function render(){
         <div class="rulebox"><span class="who">${ic('book')}Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</div>
         <div class="vline"><span class="pill ${e.correct ? 'ok' : 'no'}">${ic(e.correct ? 'check' : 'cross')}${e.correct ? 'Correct' : 'Wrong'}</span>${e.verdict_reason}</div></div></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
-  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
+  document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 // colour a card for a moment when its number changes: green if the change is good, red if not

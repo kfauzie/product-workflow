@@ -79,5 +79,15 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('no em dashes on the page', !body.includes('—'));
   t('never "agent" on its own', !/(?<!AI |support |human )\bagents?\b/i.test(body.replace(/the agent itself/g, '')));
   t('one channel: no labels from other channels', !/Help-centre form|· Email/.test(body));
+  // phone: everything fits the screen width; the tables become labelled cards
+  { const { devices } = require('playwright'); const mc = await b.newContext({ ...devices['iPhone 13'] }), m = await mc.newPage();
+    m.on('pageerror', e => errs.push('phone: ' + e.message));
+    await m.goto(`http://localhost:${srv.address().port}/build/mvp.html?static=1`); await m.waitForSelector('body[data-ready="1"]');
+    t('phone: no sideways scrolling', (await m.evaluate(() => document.documentElement.scrollWidth)) <= m.viewportSize().width);
+    t('phone: table header hidden, each ticket type is a card with labelled fields', !(await m.isVisible('#types tr.hdr')) && (await m.$eval('#types tr.row', r => getComputedStyle(r).display)) === 'grid' && (await m.$eval('#types tr.row td[data-label="Setting"]', td => getComputedStyle(td, '::before').content)) === '"Setting"');
+    t('phone: rules stack, with "Recommended when" labelled', !(await m.isVisible('.rules tr.hdr')) && (await m.$eval('.rules td[data-label]', td => getComputedStyle(td, '::before').content)) === '"Recommended when"');
+    await m.selectOption('select[data-i="6"]', 'resolve');
+    t('phone: settings still work', (await m.textContent('#sumHigh')) === '10');
+    await mc.close(); }
   console.log(errs.length ? 'ERRORS: ' + errs.join(' | ') : 'All checks pass, no errors'); await b.close(); srv.close(); process.exit(errs.length ? 1 : 0);
 })();
