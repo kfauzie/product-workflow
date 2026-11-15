@@ -6,8 +6,6 @@
 :root{--text:#343a40;--head:#212529;--mute:#6c757d;--line:#e6e8eb;--bg:#f9f9fa;--ai-bg:#e7f6ee;--ai:#1c7a4f;--mix-bg:#fff4e0;--mix:#9a5b00;--hum-bg:#fde8ea;--hum:#b4232f;--open:#f4f7f8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
-.topbar{background:#fff;border-bottom:1px solid var(--line);padding:10px 24px;font-size:13px;color:var(--mute)}
-.topbar b{color:var(--head)}
 main{max-width:1240px;margin:0 auto;padding:24px 24px 36px}
 .header{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:13px;margin:0 0 18px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:8px}
 .header dt{color:var(--mute)}.header dd{margin:0;color:var(--head)}
@@ -40,6 +38,7 @@ tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var
 .name{font-weight:600;color:var(--head)}.chev{color:var(--mute);display:inline-block;width:12px}
 .risk{white-space:nowrap;font-weight:600}.risk-Low{color:var(--ai)}.risk-Medium{color:var(--mix)}.risk-High{color:var(--hum)}
 .sub{font-size:12px;color:var(--mute)}
+.reason{font-size:12px;color:var(--mute);line-height:1.4;margin-top:5px;max-width:240px}
 select{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head);cursor:pointer}
 select.s-resolve{background:var(--ai-bg);color:var(--ai);border-color:#a8dcc0}select.s-draft{background:var(--mix-bg);color:var(--mix);border-color:#f2d39b}select.s-human{background:var(--hum-bg);color:var(--hum);border-color:#f5b5bd}
 select option{background:#fff;color:var(--head);font-weight:400}
@@ -130,16 +129,16 @@ function render(){
       <td class="n">${fmt(t.tickets)}</td>
       <td class="n">${p}% <span class="sub">(${t.correct}/${n})</span></td>
       <td><span class="risk risk-${t.risk}">${t.risk}</span><div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div></td>
-      <td><span class="chip c-${rec}">${LABEL[rec]}</span></td>
+      <td><span class="chip c-${rec}">${LABEL[rec]}</span><div class="reason">${t.reason}</div></td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
-      <td class="hide-sm">${t.reason}</td></tr>`;
-    const det = isOpen ? `<tr class="detail"><td colspan="7"><div class="exgrid">${t.examples.map(e => `<div class="exbox">
+</tr>`;
+    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exgrid">${t.examples.map(e => `<div class="exbox">
       <p><span class="lbl">Customer message</span>“${e.message}”</p>
       <p><span class="lbl">${K} proposed</span>${e.proposed}</p>
       <p><span class="lbl">Customer support rule</span>${e.rule}</p>
       <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
-  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th><th class="hide-sm">Reason</th></tr>${rows}`;
+  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation and reason</th><th>Setting</th></tr>${rows}`;
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 function setMode(i, m){ settings[i] = m; render(); }
