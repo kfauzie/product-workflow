@@ -22,8 +22,9 @@ description: "Turn the solution concept into screens in the company's design sys
 8. **Make it enjoyable.** Serious, with a little personality: friendly wording, a sense of progress.
 9. **One page by default.** Lead with the few numbers that answer the job, then the rule that produces the recommendation, then the detail. Everything else is one click away (expand a row, open a panel), not a second screen.
 10. **Recommend, let the user decide.** Show the product's recommendation and a separate control the user owns. Mark anything the user changed ("Overridden", "Adjusted by user"), warn when a change goes beyond the recommendation, and offer a one-click way back.
-11. **Make every change visible.** Numbers recalculate live from the current settings; a change shows its direction (green when good, red when not) and a short confirmation that fades. The default state should already show the main interaction, e.g. one change already made.
-12. **Name every actor without ambiguity.** If two things could share a word (a person and an AI, a customer and an end user), always qualify it, and use the same names on every screen.
+11. **Label what each number really measures.** If a column mixes sources (live data and a test run), name it for what all rows share and mark the source on each row; don't call it "live" if some rows aren't. Anything shown as live moves at a pace the reader can believe, or the page says why it doesn't.
+12. **Make every change visible.** Numbers recalculate live from the current settings; a change shows its direction (green when good, red when not) and a short confirmation that fades. The default state should already show the main interaction, e.g. one change already made.
+13. **Name every actor without ambiguity.** If two things could share a word (a person and an AI, a customer and an end user), always qualify it, and use the same names on every screen.
 
 ## Step 1: Specify each screen
 - **Input:** the concept's workflow and persona.

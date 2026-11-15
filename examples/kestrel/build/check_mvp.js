@@ -11,7 +11,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html?static=1`); await p.waitForSelector('body[data-ready="1"]');
   t('no top bar', !(await p.$('#topbar')));
   const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.includes('An AI agent that answers customer support tickets') && it.indexOf('An AI agent') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
-  t('accuracy footnote below the table explains the overrides', (await txt('#measure')).startsWith('* Accuracy is live') && (await txt('#measure')).includes('makes a material change') && (await p.evaluate(() => !!(document.querySelector('#types').compareDocumentPosition(document.querySelector('#measure')) & Node.DOCUMENT_POSITION_FOLLOWING))) && (await txt('#measure')).includes('asks for a human') && (await txt('#measure')).includes('not touched by AI in production is measured on a test run of 50 recent tickets, run daily'));
+  t('accuracy footnote below the table explains the overrides', (await txt('#measure')).startsWith('* Where Kestrel is in use, accuracy is live') && (await txt('#thAcc')) === 'Accuracy*' && (await txt('#measure')).includes('makes a material change') && (await p.evaluate(() => !!(document.querySelector('#types').compareDocumentPosition(document.querySelector('#measure')) & Node.DOCUMENT_POSITION_FOLLOWING))) && (await txt('#measure')).includes('asks for a human') && (await txt('#measure')).includes('not touched by AI in production is measured on a test run of 50 recent tickets, run daily'));
   t('headline', (await txt('#headline')) === 'Monthly projection per current settings');
   t('default: 1 override (Add a new employee set to AI, above recommended)', (await txt('#state')) === '1 override' && (await p.inputValue('select[data-i="4"]')) === 'resolve' && (await txt('tr.row[data-i="4"]')).includes('Riskier than recommended: about 9 wrong answers a month would reach customers with no one checking'));
   t('default projection: 58.1%, 309 hours, 0', (await txt('#sumShare')) === '58.1%' && (await txt('#sumHours')) === '309' && (await txt('#sumHigh')) === '0');
@@ -23,6 +23,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const picks = await p.evaluate(() => { const c = {}; for (let k = 0; k < 400; k++) { const before = liveCorrect.slice(); if (tick()) { const i = liveCorrect.findIndex((v, j) => v !== before[j]); c[i] = (c[i] || 0) + 1; } } return c; });
   t('ticks favour rows higher in the table, and only live types move', (picks[0] || 0) > (picks[11] || 0) && (picks[0] || 0) > (picks[13] || 0) && [6, 7, 8, 10, 12, 14].every(i => !picks[i]));
   t('ticks stay within 2 tickets of the 30-day figure and never change a recommendation', (await chips()) === chips0 && (await p.evaluate(() => liveCorrect.every((c, i) => Math.abs(c - D.types[i].correct) <= 2 && c <= D.types[i].tested))));
+  t('after ticks, each recommendation reason quotes the same accuracy as its cell', await p.$$eval('tr.row', rs => rs.every(r => { const c = r.querySelector('td.acc').cloneNode(true); c.querySelectorAll('.accd, .sub').forEach(x => x.remove());
+    const rs2 = r.querySelector('.reason'); return !rs2 || rs2.textContent.includes(c.textContent.trim()); })));
   await p.evaluate(() => { liveCorrect = D.types.map(t => t.correct); render(); });
   t('no load flash on the hours card', !(await p.getAttribute('#sumHours >> xpath=..', 'class')).includes('flash'));
   t('label says solely by AI', (await txt('#summary')).includes('of tickets handled solely by AI'));
@@ -37,6 +39,14 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('examples use the four labels', ['Customer message', 'Kestrel proposed', 'Customer support rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
+  t('each rule ID links to that rule in the playbook, in a new tab', await p.$eval('a.rule-link[href="playbook.html#BILL-2"]', a => a.target === '_blank' && a.textContent === 'BILL-2').catch(() => false));
+  t('footnote links to the playbook', (await p.getAttribute('#measure a', 'href')) === 'playbook.html');
+  { const q = await b.newPage(); q.on('pageerror', e => errs.push('playbook: ' + e.message));
+    await q.goto(`http://localhost:${srv.address().port}/build/playbook.html#BILL-2`); await q.waitForSelector('body[data-ready="1"]');
+    const pb = JSON.parse(fs.readFileSync(path.join(root, 'data/support_playbook.json'))), all = pb.sections.flatMap(x => x.rules);
+    t('playbook page lists every rule, and opens on the linked rule, highlighted', (await q.$$('.rule')).length === all.length && (await q.textContent('.rule.hit')).includes(all.find(r => r.id === 'BILL-2').rule) && (await q.$eval('.rule.hit', e => e.getBoundingClientRect().top)) < 100);
+    const pbody = await q.textContent('body'); t('playbook: no em dashes, never "agent" on its own', !pbody.includes('—') && !/(?<!AI |support |human )\bagents?\b/i.test(pbody));
+    await q.close(); }
   await p.selectOption('select[data-i="6"]', 'resolve');
   t('confirmation shows after a setting change', await p.isVisible('#toast.show') && (await txt('#toast')).includes('Saved. Projection updated.'));
   const tb = await p.$eval('#toast', e => e.getBoundingClientRect()), sb = await p.$eval('select[data-i="6"]', e => e.getBoundingClientRect());

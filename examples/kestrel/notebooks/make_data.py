@@ -3,7 +3,7 @@
 Writes data/ticket_types.json: 15 ticket types with monthly volume (in-app chat), results on 50 test tickets,
 risk if wrong, a one-line reason, and 3 example tickets. Each example has the customer's
 message, Kestrel's reply, the rule from Gusta's support playbook that applies, and the grading AI's verdict with a reason.
-Also writes data/support_playbook.md, the fictional playbook every answer is graded against.
+Also writes data/support_playbook.json (read by build/playbook.html) and .md, the fictional playbook every answer is graded against.
 Run from examples/kestrel:  python3 notebooks/make_data.py
 """
 import json
@@ -196,6 +196,9 @@ out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",
                   "examples": [{"message": a, "proposed": b, "rule_id": rl, "rule": RULE[rl], "correct": ok, "verdict_reason": rs} for a, b, rl, ok, rs in ex]}
                  for n, v, k, c, ce, mm, ex in T]}
 json.dump(out, open("data/ticket_types.json", "w"), indent=1)
+json.dump({"label": "FICTIONAL and SYNTHETIC: Gusta support playbook, not real", "customer": "Gusta",
+           "sections": [{"name": sec, "rules": [{"id": i, "rule": r} for i, r in rs]} for sec, rs in PLAYBOOK]},
+          open("data/support_playbook.json", "w"), indent=1)
 with open("data/support_playbook.md", "w") as f:
     f.write("# Gusta customer support playbook (FICTIONAL)\n\nThe rules Kestrel follows and the grading AI checks every answer against. Synthetic, made by `../notebooks/make_data.py`.\n")
     for sec, rs in PLAYBOOK:
