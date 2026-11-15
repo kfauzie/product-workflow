@@ -49,7 +49,7 @@ tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var
 .name{font-weight:600;color:var(--head)}.chev{color:var(--mute);display:inline-block;width:12px}
 .risk{white-space:nowrap;font-weight:600}.risk-Low{color:var(--ai)}.risk-Medium{color:var(--mix)}.risk-High{color:var(--hum)}
 .sub{font-size:12px;color:var(--mute)}
-/* live accuracy: a dot blinks every second; the number itself changes every 10 seconds */
+/* live accuracy: a dot blinks every second; the number itself changes every 5 seconds */
 .live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ai);margin-right:5px;vertical-align:0;animation:blink 1s steps(1,end) infinite}
 @keyframes blink{50%{opacity:.15}}body.static .live-dot{animation:none}@media (prefers-reduced-motion:reduce){.live-dot{animation:none}}
 .reason{font-size:12px;color:var(--mute);line-height:1.4;margin-top:5px;max-width:240px}
@@ -68,8 +68,12 @@ tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
 .exbody{padding:12px 14px 10px;display:flex;flex-direction:column;gap:10px;flex:1}
 .who{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--mute);margin-bottom:4px}
 .who .ic{width:13px;height:13px}
+.chat{border:1px solid var(--line);border-radius:10px;background:#fafbfb;overflow:hidden}
+.chathead{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mute);padding:6px 10px;border-bottom:1px solid var(--line);background:#f4f5f6}
+.chathead .dot{width:6px;height:6px;border-radius:50%;background:#c4c9ce}
+.chatbody{padding:10px;display:flex;flex-direction:column;gap:8px}
 .bubble{padding:8px 11px;border-radius:12px;color:var(--head)}
-.msg-in .bubble{background:#f1f3f5;border-bottom-left-radius:4px;margin-right:18px}
+.msg-in .bubble{background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px;margin-right:18px}
 .msg-out .who{justify-content:flex-end;color:#1f6f63}.msg-out .bubble{background:#e3f3ef;border-bottom-right-radius:4px;margin-left:18px}
 .rulebox{background:#f3f7fb;border-left:3px solid #1f5f99;border-radius:6px;padding:8px 11px}
 .rulebox .who{color:#1f5f99}
@@ -185,8 +189,9 @@ function render(){
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Example tickets</div><div class="exgrid">${t.examples.map(e => `<div class="exbox ${e.correct ? 'ex-ok' : 'ex-no'}"><div class="exbody">
+      <div class="chat"><div class="chathead"><span class="dot"></span>${D.channel}</div><div class="chatbody">
       <div class="msg-in"><span class="who">${ic('chat')}Customer request</span><div class="bubble">${e.message}</div></div>
-      <div class="msg-out"><span class="who">${ic('spark')}${K} proposed</span><div class="bubble">${e.proposed}</div></div>
+      <div class="msg-out"><span class="who">${ic('spark')}${K} proposed</span><div class="bubble">${e.proposed}</div></div></div></div>
       <div class="rulebox"><span class="who">${ic('book')}Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</div></div>
       <div class="verdict"><span class="who">Verdict (grading AI)</span><span class="pill ${e.correct ? 'ok' : 'no'}">${ic(e.correct ? 'check' : 'cross')}${e.correct ? 'Correct' : 'Wrong'}</span>${e.verdict_reason}</div></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
@@ -235,8 +240,8 @@ fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks 
   // saved settings: one override (Add a new employee moved up to AI)
   settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Add a new employee')] = 'resolve'; render();
   document.body.dataset.ready = '1';
-  // live accuracy: every 10 seconds from load, one ticket type updates (off with ?static=1, for checks and screenshots)
-  if (new URLSearchParams(location.search).has('static')) document.body.classList.add('static'); else setInterval(tick, 10000); })
+  // live accuracy: every 5 seconds from load, one ticket type updates (off with ?static=1, for checks and screenshots)
+  if (new URLSearchParams(location.search).has('static')) document.body.classList.add('static'); else setInterval(tick, 5000); })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>
