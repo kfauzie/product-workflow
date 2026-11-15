@@ -431,8 +431,8 @@
    "tickets": 170,
    "tested": 170,
    "correct": 146,
-   "risk": "Medium",
-   "risk_example": "Medium: worker underpaid holiday pay and owed back pay",
+   "risk": "High",
+   "risk_example": "High: worker underpaid holiday pay and owed back pay",
    "reason": "85.9% accurate: enough for a useful draft, checked by a support agent",
    "examples": [
     {
@@ -536,8 +536,8 @@
    "tickets": 140,
    "tested": 50,
    "correct": 29,
-   "risk": "Medium",
-   "risk_example": "Medium: customer relies on a guessed answer, or a real problem isn't passed on",
+   "risk": "High",
+   "risk_example": "High: customer relies on a guessed answer, or a real problem isn't passed on",
    "reason": "Only 58% accurate: no playbook rule covers these",
    "examples": [
     {
