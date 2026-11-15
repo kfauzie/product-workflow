@@ -12,7 +12,7 @@ T = [
  ("Password reset", 468, 50, "Low", "Low: customer stays locked out a little longer", False, [
    ("I've forgotten my password and the reset email isn't arriving.", "Send a new reset link and ask them to check spam for an email from Gusta.", "Resend the reset link once; point to the spam folder.", True, "Followed the rule."),
    ("Can you reset my password? I've lost access to my old work email.", "Explain that the account owner must change the login email first, and how to ask them.", "Never change a login email without the account owner.", True, "Did not change the email itself."),
-   ("Reset link says expired.", "Send a fresh link and explain links expire after 30 minutes.", "Expired link: send a new one and give the 30-minute limit.", True, "Followed the rule.")]),
+   ("Reset link says expired.", "Send a fresh link.", "Expired link: send a new one and give the 30-minute limit.", False, "Left out the 30-minute limit; the link expired again.")]),
  ("Can't log in", 268, 49, "Low", "Low: customer tries again or asks for a person", False, [
    ("My 2-step code isn't arriving by text.", "Send the code by email instead and show how to update the phone number.", "Offer email codes when text fails.", True, "Followed the rule."),
    ("It says my account is locked.", "Unlock after the 15-minute timeout and send a reset link.", "Locked accounts unlock after 15 minutes; send a reset link.", True, "Followed the rule."),
@@ -20,11 +20,11 @@ T = [
  ("Missing payslip", 342, 50, "Low", "Low: wrong month resent, employee asks again", False, [
    ("One of my staff can't find her March payslip.", "Show where payslips sit under Employees > Documents and how to resend March.", "Show the documents page and offer to resend.", True, "Followed the rule."),
    ("Where do employees download payslips?", "Link the employee app guide and the resend option.", "Link the employee app guide.", True, "Followed the rule."),
-   ("Payslip for last Friday isn't showing.", "Explain payslips appear once the payroll run is approved; this one is still in draft.", "Check the run status before anything else.", True, "Checked the run status first.")]),
+   ("Payslip for last Friday isn't showing.", "Resend the payslip to the employee.", "Check the run status before anything else.", False, "The run was still in draft; there was no payslip to resend.")]),
  ("Update company address", 97, 50, "Medium", "Medium: tax letters go to the old address", False, [
    ("We've moved office, how do I change our address?", "Update the registered address after confirming the account owner; tax letters follow in 1 to 2 weeks.", "Only the account owner can change the registered address.", True, "Confirmed the account owner first."),
    ("Change our trading address to 14 Mill Lane.", "Update the trading address and leave the registered address as it is.", "Trading and registered addresses are separate; change only the one asked for.", True, "Changed only the trading address."),
-   ("Our address on payslips is wrong.", "Explain payslips use the trading address and update it.", "Payslips show the trading address.", True, "Followed the rule.")]),
+   ("Our address on payslips is wrong.", "Update the registered address.", "Payslips show the trading address.", False, "Changed the registered address, not the trading address.")]),
  ("Add a new employee", 251, 48, "Medium", "Medium: employee set up on the wrong pay schedule", False, [
    ("How do I add someone starting Monday?", "Walk through Add employee and the tax details needed before the first run.", "List the tax details needed before the first payroll run.", True, "Followed the rule."),
    ("New starter is part time, 3 days a week.", "Set up a part-time contract with pro-rata salary.", "Part-time staff get a pro-rata salary on their contract.", True, "Followed the rule."),
@@ -48,7 +48,7 @@ T = [
  ("Cancel subscription", 88, 50, "High", "High: account and payroll history closed by mistake", False, [
    ("We're closing the business, how do I cancel?", "Explain the final payroll steps and how to export records, then draft the cancellation.", "Before cancelling: final payroll, export records, owner confirms.", True, "Covered all three steps."),
    ("Cancel at the end of this month please.", "Draft the cancellation for the end of the month and list what to export first.", "Cancellations take effect at the end of the billing month.", True, "Followed the rule."),
-   ("Thinking of cancelling, what happens to our data?", "Explain records are kept for 6 years and can be exported at any time.", "Records are kept for 6 years after cancelling.", True, "Followed the rule.")]),
+   ("Thinking of cancelling, what happens to our data?", "Explain records are deleted when the account closes.", "Records are kept for 6 years after cancelling.", False, "Records are kept for 6 years, not deleted.")]),
  ("Change pay date", 132, 47, "High", "High: staff paid on the wrong day", True, [
    ("Can we pay staff on the 25th instead of the last day?", "Show how to change the pay date from next month and the bank cut-off.", "Pay date changes apply from the next run; give the bank cut-off.", True, "Followed the rule."),
    ("Bank holiday on payday, can we pay a day early?", "Move this month's pay date one working day earlier.", "Bank holidays: pay the working day before.", True, "Followed the rule."),
@@ -63,33 +63,52 @@ T = [
    ("How do I record 2 days of leave?", "Show how to add leave on the employee's calendar.", "Record leave on the employee calendar.", True, "Followed the rule.")]),
  ("Export payroll report", 131, 50, "Low", "Low: wrong date range exported", False, [
    ("Need a payroll summary for our accountant.", "Export the summary for the last tax year as a spreadsheet.", "Default to the last full tax year unless asked.", True, "Followed the rule."),
-   ("How do I export last quarter?", "Show the date filter on Reports and export Q3.", "Use the date filter for custom ranges.", True, "Followed the rule."),
+   ("How do I export last quarter?", "Export Q2 using the date filter on Reports.", "Last quarter means the most recent full quarter.", False, "Exported Q2; the last full quarter was Q3."),
    ("Can I get a list of all employees with salaries?", "Export the employee list with salaries.", "Only admins can export salaries; this user is an admin.", True, "Checked the user is an admin.")]),
  ("Pension deduction question", 96, 44, "Medium", "Medium: wrong deduction explained to staff", False, [
    ("Why has pension been taken from a new starter?", "Explain automatic enrolment after the waiting period.", "New starters are enrolled after the waiting period.", True, "Followed the rule."),
    ("An employee wants to opt out of the pension.", "Show how to record the opt-out and refund the first deduction.", "Opt-outs within a month get the deduction refunded.", True, "Followed the rule."),
    ("Pension amount looks wrong this month.", "Say it was correct.", "Check for salary changes before confirming a deduction.", False, "Missed a salary change.")]),
 ]
-REASON = {
- "Password reset": "100% accurate and a wrong call costs little",
- "Can't log in": "98% accurate and a wrong call costs little",
- "Missing payslip": "100% accurate and a wrong call costs little",
- "Update company address": "100% accurate and a wrong call is easy to fix",
- "Add a new employee": "96% accurate: good, but not enough to send unchecked",
- "Change bank details": "98% accurate, but a wrong call is costly, so a support agent checks",
- "Refund request": "Moves money and only 92% accurate",
- "Payroll run failed": "Moves money and only 90% accurate",
- "Tax form question": "Costly if wrong and only 94% accurate",
- "Cancel subscription": "100% accurate, but a wrong call is costly, so a support agent checks",
- "Change pay date": "Moves money and only 94% accurate",
- "Invoice question": "98% accurate and a wrong call costs little",
- "Holiday pay calculation": "Only 86% accurate",
- "Export payroll report": "100% accurate and a wrong call costs little",
- "Pension deduction question": "Only 88% accurate",
+# live accuracy: where Kestrel is used, every ticket from the last 30 days (= tickets a month); where it isn't (Human), a test on 50 recent tickets
+LIVE = {
+ 'Password reset': (468, 467),
+ "Can't log in": (268, 263),
+ 'Missing payslip': (342, 340),
+ 'Update company address': (97, 96),
+ 'Add a new employee': (251, 242),
+ 'Change bank details': (154, 152),
+ 'Refund request': (50, 46),
+ 'Payroll run failed': (50, 45),
+ 'Tax form question': (50, 47),
+ 'Cancel subscription': (88, 87),
+ 'Change pay date': (50, 47),
+ 'Invoice question': (177, 174),
+ 'Holiday pay calculation': (50, 43),
+ 'Export payroll report': (131, 129),
+ 'Pension deduction question': (50, 44),
 }
+REASON = {
+ "Password reset": "{p} accurate and a wrong call costs little",
+ "Can't log in": "{p} accurate and a wrong call costs little",
+ "Missing payslip": "{p} accurate and a wrong call costs little",
+ "Update company address": "{p} accurate and a wrong call is easy to fix",
+ "Add a new employee": "{p} accurate: good, but not enough to send unchecked",
+ "Change bank details": "{p} accurate, but a wrong call is costly, so a support agent checks",
+ "Refund request": "Moves money and only {p} accurate",
+ "Payroll run failed": "Moves money and only {p} accurate",
+ "Tax form question": "Costly if wrong and only {p} accurate",
+ "Cancel subscription": "{p} accurate, but a wrong call is costly, so a support agent checks",
+ "Change pay date": "Moves money and only {p} accurate",
+ "Invoice question": "{p} accurate and a wrong call costs little",
+ "Holiday pay calculation": "Only {p} accurate",
+ "Export payroll report": "{p} accurate and a wrong call costs little",
+ "Pension deduction question": "Only {p} accurate",
+}
+pct = lambda n: (f"{LIVE[n][1] / LIVE[n][0] * 100:.0f}%" if LIVE[n][0] == 50 else f"{LIVE[n][1] / LIVE[n][0] * 100:.1f}%")
 out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",
-       "product": "Kestrel", "customer": "Gusta", "channel": "In-app chat", "minutes_ai": 10, "minutes_assisted": 5, "test_tickets_per_type": 50,
-       "types": [{"name": n, "tickets": v, "correct": k, "risk": c, "risk_example": ce, "reason": REASON[n],
+       "product": "Kestrel", "customer": "Gusta", "channel": "In-app chat", "minutes_ai": 10, "minutes_assisted": 5,
+       "types": [{"name": n, "tickets": v, "tested": LIVE[n][0], "correct": LIVE[n][1], "risk": c, "risk_example": ce, "reason": REASON[n].format(p=pct(n)),
                   "examples": [{"message": a, "proposed": b, "rule": rl, "correct": ok, "verdict_reason": rs} for a, b, rl, ok, rs in ex]}
                  for n, v, k, c, ce, mm, ex in T]}
 json.dump(out, open("data/ticket_types.json", "w"), indent=1)

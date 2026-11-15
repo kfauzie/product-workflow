@@ -5,15 +5,15 @@
  "channel": "In-app chat",
  "minutes_ai": 10,
  "minutes_assisted": 5,
- "test_tickets_per_type": 50,
  "types": [
   {
    "name": "Password reset",
    "tickets": 468,
-   "correct": 50,
+   "tested": 468,
+   "correct": 467,
    "risk": "Low",
    "risk_example": "Low: customer stays locked out a little longer",
-   "reason": "100% accurate and a wrong call costs little",
+   "reason": "99.8% accurate and a wrong call costs little",
    "examples": [
     {
      "message": "I've forgotten my password and the reset email isn't arriving.",
@@ -31,20 +31,21 @@
     },
     {
      "message": "Reset link says expired.",
-     "proposed": "Send a fresh link and explain links expire after 30 minutes.",
+     "proposed": "Send a fresh link.",
      "rule": "Expired link: send a new one and give the 30-minute limit.",
-     "correct": true,
-     "verdict_reason": "Followed the rule."
+     "correct": false,
+     "verdict_reason": "Left out the 30-minute limit; the link expired again."
     }
    ]
   },
   {
    "name": "Can't log in",
    "tickets": 268,
-   "correct": 49,
+   "tested": 268,
+   "correct": 263,
    "risk": "Low",
    "risk_example": "Low: customer tries again or asks for a person",
-   "reason": "98% accurate and a wrong call costs little",
+   "reason": "98.1% accurate and a wrong call costs little",
    "examples": [
     {
      "message": "My 2-step code isn't arriving by text.",
@@ -72,10 +73,11 @@
   {
    "name": "Missing payslip",
    "tickets": 342,
-   "correct": 50,
+   "tested": 342,
+   "correct": 340,
    "risk": "Low",
    "risk_example": "Low: wrong month resent, employee asks again",
-   "reason": "100% accurate and a wrong call costs little",
+   "reason": "99.4% accurate and a wrong call costs little",
    "examples": [
     {
      "message": "One of my staff can't find her March payslip.",
@@ -93,20 +95,21 @@
     },
     {
      "message": "Payslip for last Friday isn't showing.",
-     "proposed": "Explain payslips appear once the payroll run is approved; this one is still in draft.",
+     "proposed": "Resend the payslip to the employee.",
      "rule": "Check the run status before anything else.",
-     "correct": true,
-     "verdict_reason": "Checked the run status first."
+     "correct": false,
+     "verdict_reason": "The run was still in draft; there was no payslip to resend."
     }
    ]
   },
   {
    "name": "Update company address",
    "tickets": 97,
-   "correct": 50,
+   "tested": 97,
+   "correct": 96,
    "risk": "Medium",
    "risk_example": "Medium: tax letters go to the old address",
-   "reason": "100% accurate and a wrong call is easy to fix",
+   "reason": "99.0% accurate and a wrong call is easy to fix",
    "examples": [
     {
      "message": "We've moved office, how do I change our address?",
@@ -124,20 +127,21 @@
     },
     {
      "message": "Our address on payslips is wrong.",
-     "proposed": "Explain payslips use the trading address and update it.",
+     "proposed": "Update the registered address.",
      "rule": "Payslips show the trading address.",
-     "correct": true,
-     "verdict_reason": "Followed the rule."
+     "correct": false,
+     "verdict_reason": "Changed the registered address, not the trading address."
     }
    ]
   },
   {
    "name": "Add a new employee",
    "tickets": 251,
-   "correct": 48,
+   "tested": 251,
+   "correct": 242,
    "risk": "Medium",
    "risk_example": "Medium: employee set up on the wrong pay schedule",
-   "reason": "96% accurate: good, but not enough to send unchecked",
+   "reason": "96.4% accurate: good, but not enough to send unchecked",
    "examples": [
     {
      "message": "How do I add someone starting Monday?",
@@ -165,10 +169,11 @@
   {
    "name": "Change bank details",
    "tickets": 154,
-   "correct": 49,
+   "tested": 154,
+   "correct": 152,
    "risk": "High",
    "risk_example": "High: payroll paid from or to the wrong account",
-   "reason": "98% accurate, but a wrong call is costly, so a support agent checks",
+   "reason": "98.7% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
      "message": "We've switched banks, need to update the account payroll is paid from.",
@@ -196,6 +201,7 @@
   {
    "name": "Refund request",
    "tickets": 121,
+   "tested": 50,
    "correct": 46,
    "risk": "High",
    "risk_example": "High: wrong refund paid out",
@@ -227,6 +233,7 @@
   {
    "name": "Payroll run failed",
    "tickets": 189,
+   "tested": 50,
    "correct": 45,
    "risk": "High",
    "risk_example": "High: staff paid late",
@@ -258,6 +265,7 @@
   {
    "name": "Tax form question",
    "tickets": 298,
+   "tested": 50,
    "correct": 47,
    "risk": "High",
    "risk_example": "High: customer files a wrong figure and gets a penalty",
@@ -289,10 +297,11 @@
   {
    "name": "Cancel subscription",
    "tickets": 88,
-   "correct": 50,
+   "tested": 88,
+   "correct": 87,
    "risk": "High",
    "risk_example": "High: account and payroll history closed by mistake",
-   "reason": "100% accurate, but a wrong call is costly, so a support agent checks",
+   "reason": "98.9% accurate, but a wrong call is costly, so a support agent checks",
    "examples": [
     {
      "message": "We're closing the business, how do I cancel?",
@@ -310,16 +319,17 @@
     },
     {
      "message": "Thinking of cancelling, what happens to our data?",
-     "proposed": "Explain records are kept for 6 years and can be exported at any time.",
+     "proposed": "Explain records are deleted when the account closes.",
      "rule": "Records are kept for 6 years after cancelling.",
-     "correct": true,
-     "verdict_reason": "Followed the rule."
+     "correct": false,
+     "verdict_reason": "Records are kept for 6 years, not deleted."
     }
    ]
   },
   {
    "name": "Change pay date",
    "tickets": 132,
+   "tested": 50,
    "correct": 47,
    "risk": "High",
    "risk_example": "High: staff paid on the wrong day",
@@ -351,10 +361,11 @@
   {
    "name": "Invoice question",
    "tickets": 177,
-   "correct": 49,
+   "tested": 177,
+   "correct": 174,
    "risk": "Low",
    "risk_example": "Low: customer is confused about a charge",
-   "reason": "98% accurate and a wrong call costs little",
+   "reason": "98.3% accurate and a wrong call costs little",
    "examples": [
     {
      "message": "What is this extra charge on our invoice?",
@@ -382,6 +393,7 @@
   {
    "name": "Holiday pay calculation",
    "tickets": 170,
+   "tested": 50,
    "correct": 43,
    "risk": "Medium",
    "risk_example": "Medium: employee underpaid for leave",
@@ -413,10 +425,11 @@
   {
    "name": "Export payroll report",
    "tickets": 131,
-   "correct": 50,
+   "tested": 131,
+   "correct": 129,
    "risk": "Low",
    "risk_example": "Low: wrong date range exported",
-   "reason": "100% accurate and a wrong call costs little",
+   "reason": "98.5% accurate and a wrong call costs little",
    "examples": [
     {
      "message": "Need a payroll summary for our accountant.",
@@ -427,10 +440,10 @@
     },
     {
      "message": "How do I export last quarter?",
-     "proposed": "Show the date filter on Reports and export Q3.",
-     "rule": "Use the date filter for custom ranges.",
-     "correct": true,
-     "verdict_reason": "Followed the rule."
+     "proposed": "Export Q2 using the date filter on Reports.",
+     "rule": "Last quarter means the most recent full quarter.",
+     "correct": false,
+     "verdict_reason": "Exported Q2; the last full quarter was Q3."
     },
     {
      "message": "Can I get a list of all employees with salaries?",
@@ -444,6 +457,7 @@
   {
    "name": "Pension deduction question",
    "tickets": 96,
+   "tested": 50,
    "correct": 44,
    "risk": "Medium",
    "risk_example": "Medium: wrong deduction explained to staff",

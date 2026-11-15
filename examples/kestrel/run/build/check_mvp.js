@@ -14,6 +14,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('headline', (await txt('#headline')) === 'Monthly projection based on current settings');
   t('default: 1 override (Change bank details set to Human)', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await p.inputValue('select[data-i="5"]')) === 'human' && (await txt('tr.row[data-i="5"]')).includes('Overridden'));
   t('default projection: 49.7%, 275 hours, 0', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '275' && (await txt('#sumHigh')) === '0');
+  t('on load: saved settings applied with a red flash on hours, and a confirmation', (await p.getAttribute('#sumHours >> xpath=..', 'class')).includes('flash-bad') && (await txt('#toast')).includes('Saved settings loaded'));
+  t('label says solely by AI', (await txt('#summary')).includes('of tickets handled solely by AI'));
   await p.click('#applyAll');
   t('no badge with recommended settings', !(await p.$('#state')));
   t('recommended settings: 49.7%, 288 hours, 0 high-risk wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumHigh')) === '0');
@@ -27,6 +29,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.selectOption('select[data-i="6"]', 'resolve');
   t('confirmation shows after a setting change', await p.isVisible('#toast.show') && (await txt('#toast')).includes('Refund request set to AI. Projection updated.'));
   const row = await txt('tr.row[data-i="6"]');
+  t('raising AI share flashes green, high-risk wrong answers flash red', (await p.getAttribute('#sumShare >> xpath=..', 'class')).includes('flash-good') && (await p.getAttribute('#sumHigh >> xpath=..', 'class')).includes('flash-bad'));
   t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Above recommended: 92% accurate on a High-risk type'));
   t('summary updates: 53.8%, 10 high-risk wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumHigh')) === '10');
   t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs recommended'));

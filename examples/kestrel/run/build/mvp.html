@@ -17,6 +17,10 @@ h1{font-size:28px;color:var(--head);margin:0 0 16px}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
 .delta{font-size:12px;font-weight:600;margin-top:4px}.d-up{color:var(--ai)}.d-bad{color:var(--hum)}.d-none{color:var(--mute);font-weight:400}
 .card b.hi-bad{color:var(--hum)}
+.card b{transition:color .25s}.card{transition:background-color .6s}
+.card.flash-good{background:var(--ai-bg)}.card.flash-good b{color:var(--ai)}
+.card.flash-bad{background:var(--hum-bg)}.card.flash-bad b{color:var(--hum)}
+.card{position:relative}.arrow{position:absolute;top:14px;right:16px;font-size:16px}.flash-good .arrow{color:var(--ai)}.flash-bad .arrow{color:var(--hum)}
 .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .card b{display:block;font-size:28px;color:var(--head);font-variant-numeric:tabular-nums}
 .card span{color:var(--mute);font-size:13px}
@@ -76,7 +80,7 @@ footer{margin-top:24px;color:var(--mute);font-size:12px;border-top:1px solid var
 // ---- Every number is calculated here. Plain functions, tested in test_mvp.js ----
 // modes: 'resolve' = AI, 'draft' = AI-assisted human, 'human' = Human
 const RANK = {human: 0, draft: 1, resolve: 2};
-function accuracy(t, n){ return t.correct / n; }
+function accuracy(t){ return t.correct / t.tested; }
 function recommend(t, n){
   const a = accuracy(t, n), high = t.risk === 'High';
   if (a >= 0.98 && !high) return 'resolve';
@@ -85,7 +89,7 @@ function recommend(t, n){
 }
 // settings: one mode per type (defaults to the recommendation)
 function summary(d, settings){
-  const n = d.test_tickets_per_type, all = d.types.reduce((s, t) => s + t.tickets, 0);
+  const n = 0, all = d.types.reduce((s, t) => s + t.tickets, 0);
   let ai = 0, assisted = 0, wrong = 0, wrongHigh = 0;
   d.types.forEach((t, i) => { const m = settings[i];
     if (m === 'resolve'){ const w = t.tickets * (1 - accuracy(t, n)); ai += t.tickets; wrong += w; if (t.risk === 'High') wrongHigh += w; }
@@ -102,7 +106,7 @@ let D, settings = [], risks = [], open = new Set([0]);
 const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}));
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
-  const K = D.product, G = D.customer, n = D.test_tickets_per_type;
+  const K = D.product, G = D.customer, n = 0;
   document.getElementById('header').innerHTML = `
     <dt>${K}</dt><dd>An AI agent that answers support tickets in ${G}'s in-app chat</dd>
     <dt>This page</dt><dd>Its analytics and configuration page</dd>
@@ -115,27 +119,28 @@ function staticParts(){
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
-  document.getElementById('measure').textContent = `Accuracy is live: ${K} is re-tested regularly on ${n} recent ${G} tickets per type, and each answer is checked against ${G}'s support playbook by a separate grading AI. The figures change as new tickets are tested.`;
+  document.getElementById('measure').textContent = `Accuracy is live. Where ${K} is used, it is measured on all ${G} tickets from the last 30 days; where it isn't, on a test run of 50 recent ${G} tickets. Each answer is checked against ${G}'s support playbook by a separate grading AI.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
-  const n = D.test_tickets_per_type, E = eff(), DE = Object.assign({}, D, {types: E}), s = summary(DE, settings), K = D.product;
+  const n = 0, E = eff(), DE = Object.assign({}, D, {types: E}), s = summary(DE, settings), K = D.product;
   const recSet = E.map(t => recommend(t, n)), r = summary(DE, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
   const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs recommended</div>`; };
   document.getElementById('dashHead').innerHTML = overrides ? `<span id="state" class="state state-over">${overrides} ${overrides === 1 ? 'override' : 'overrides'} from Kestrel's recommendation</span>` : '';
   document.getElementById('summary').innerHTML = `
-    <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
+    <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled solely by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
     <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min saved per ticket fully handled by AI, ${D.minutes_assisted} per ticket partially handled by AI)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
     <div class="card"><b id="sumHigh" class="${s.wrongHigh >= 0.5 ? 'hi-bad' : ''}">${fmt(s.wrongHigh)}</b><span>wrong answers on high-risk type tickets reaching customers</span>${delta(s.wrongHigh, r.wrongHigh, v => fmt(v), false)}</div>`;
+  flash([['sumShare', s.aiShare, true], ['sumHours', s.hours, true], ['sumHigh', s.wrongHigh, false]]);
   const rows = E.map((t, i) => {
-    const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = Math.round(accuracy(t, n) * 100), adj = t.risk !== D.types[i].risk;
+    const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = (accuracy(t, n) * 100).toFixed(t.tested === 50 ? 0 : 1), adj = t.risk !== D.types[i].risk;
     const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';
     const warn = aboveRecommended(t, n, set) ? `<div class="warn">Above recommended: ${p}% accurate on a ${t.risk}-risk type</div>` : '';
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
-      <td class="n">${p}%</td>
+      <td class="n">${p}%<div class="sub">${t.tested === t.tickets ? "last 30 days" : t.tested + "-ticket test"}</div></td>
       <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
@@ -149,16 +154,29 @@ function render(){
   document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy (live)</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
+// colour a card for a moment when its number changes: green if the change is good, red if not
+let last = null;
+function flash(items){
+  const now = {};
+  items.forEach(([id, v, goodUp]) => { now[id] = v;
+    if (!last || Math.abs(last[id] - v) < 1e-9) return;
+    const el = document.getElementById(id), card = el.closest('.card'), up = v > last[id], good = goodUp ? up : !up;
+    card.insertAdjacentHTML('beforeend', `<span class="arrow">${up ? '▲' : '▼'}</span>`);
+    card.classList.add(good ? 'flash-good' : 'flash-bad');
+    setTimeout(() => { card.classList.remove('flash-good', 'flash-bad'); card.querySelectorAll('.arrow').forEach(a => a.remove()); }, 1600); });
+  last = now; }
 let toastTimer;
 function toast(msg){ const el = document.getElementById('toast'); el.innerHTML = `<span class="tick">✓</span>${msg}`; el.classList.add('show');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2500); }
 function setMode(i, m){ settings[i] = m; render(); toast(`${D.types[i].name} set to ${LABEL[m]}. Projection updated.`); }
 // changing risk re-runs the recommendation; the setting follows it only if it was still on the old recommendation
-function setRisk(i, v){ const n = D.test_tickets_per_type, before = recommend(eff()[i], n); risks[i] = v;
+function setRisk(i, v){ const n = 0, before = recommend(eff()[i], n); risks[i] = v;
   const after = recommend(eff()[i], n); if (settings[i] === before) settings[i] = after; render();
   toast(`${D.types[i].name} risk set to ${v}. ${after !== before ? 'Now recommended: ' + LABEL[after] + '.' : 'Recommendation unchanged.'}`); }
-function applyAll(silent){ settings = eff().map(t => recommend(t, D.test_tickets_per_type)); render(); if (!silent) toast('All recommendations applied. Projection updated.'); }
-fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts(); applyAll(true); settings[D.types.findIndex(t => t.name === 'Change bank details')] = 'human'; render(); document.body.dataset.ready = '1'; })
+function applyAll(silent){ settings = eff().map(t => recommend(t, 0)); render(); if (!silent) toast('All recommendations applied. Projection updated.'); }
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts(); applyAll(true);
+  setTimeout(() => { settings[D.types.findIndex(t => t.name === 'Change bank details')] = 'human'; render();
+    toast("Saved settings loaded: 1 override from Kestrel's recommendation."); document.body.dataset.ready = '1'; }, 600); })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>

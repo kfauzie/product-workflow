@@ -17,13 +17,13 @@ Kestrel's analytics and configuration page, for Gusta's Head of Customer Support
 
 | Part | What it shows |
 |---|---|
-| Monthly projection based on current settings | **49.7%** of tickets handled by AI (1,483 of 2,982) · **275** support hours saved (10 minutes per ticket fully handled by AI, 5 per ticket partially handled by AI) · **0** wrong answers on high-risk type tickets reaching customers. Recalculates as settings change, and shows the change against Kestrel's recommendation |
+| Monthly projection based on current settings | **49.7%** of tickets handled solely by AI (1,483 of 2,982) · **275** support hours saved (10 minutes per ticket fully handled by AI, 5 per ticket partially handled by AI) · **0** wrong answers on high-risk type tickets reaching customers. Recalculates as settings change; each change flashes green or red and shows the difference from Kestrel's recommendation |
 | Settings | **AI**: Kestrel replies and resolves (recommended at 98%+ accuracy and risk Low or Medium) · **AI-assisted human**: Kestrel drafts, a support agent approves or edits (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human**: routed to a human agent (everything else) |
 | The table | 15 ticket types: tickets a month, live accuracy, risk if wrong, Kestrel's recommendation with its reason, and the setting Gusta controls |
 | Adjustments | Risk and setting are both editable. Changing a risk shows "Adjusted by user" and re-runs the recommendation; changing a setting shows "Overridden" and warns when it gives Kestrel more autonomy than recommended. A confirmation appears after each change. The page opens with one override (Change bank details kept with a human); "Apply all recommendations" resets it |
 | Example tickets | 3 under each ticket type: customer message, what Kestrel proposed, the customer support rule, and the grading AI's verdict |
 
-Accuracy is live: Kestrel is re-tested regularly on 50 recent tickets per type, each checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
+Accuracy is live. Where Kestrel is used, it is measured on all Gusta tickets from the last 30 days; where it isn't, on a test run of 50 recent tickets. Each answer is checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
 
 ## My AI stack
 
