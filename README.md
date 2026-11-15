@@ -6,9 +6,7 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 **[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)**
 
-**The use case (fictional):** Gusta, a payroll software company, uses Kestrel, an AI agent for its in-app support chat; Kestrel's configuration and analytics dashboard shows, for each of 15 ticket types, whether Kestrel handles it, a support agent approves Kestrel's draft, or a support agent handles it, and lets Gusta override the recommendation.
-
-[The worked example, step by step](examples/kestrel/run/RUN.md) · [decisions I made](examples/kestrel/run/RUN.md#decisions-i-made-and-what-i-turned-down)
+[Decisions I made](examples/kestrel/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
 ![Kestrel's dashboard: which tickets can Kestrel handle on its own?](examples/kestrel/run/design/1-overview.png)
 
