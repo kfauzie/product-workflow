@@ -17,7 +17,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('default projection: 58.1%, 309 hours, 0', (await txt('#sumShare')) === '58.1%' && (await txt('#sumHours')) === '309' && (await txt('#sumHigh')) === '0');
   t('static mode: no accuracy change on load', (await p.$$('td.acc-up, td.acc-down')).length === 0);
   t('a blinking live dot on each type measured on live tickets (9), 1-second blink', (await p.$$('td.acc .live-dot')).length === 9 && (await p.evaluate(() => { document.body.classList.remove('static'); const cs = getComputedStyle(document.querySelector('.live-dot')); const ok = cs.animationName === 'blink' && cs.animationDuration === '1s'; document.body.classList.add('static'); return ok; })));
-  t('test-run types are labelled "based on test run" (6)', (await p.$$eval('td.acc .sub', es => es.filter(e => e.textContent === 'based on test run').length)) === 6);
+  t('test-run types are labelled "based on today\'s test run" (6)', (await p.$$eval('td.acc .sub', es => es.filter(e => e.textContent === "based on today's test run").length)) === 6);
   const chips = () => p.$$eval('tr.row td:nth-child(5) .chip', es => es.map(e => e.textContent).join('|')), chips0 = await chips();
   t('one tick: exactly one accuracy cell changes, with its arrow', (await p.evaluate(() => tick())) && (await p.$$('td.acc-up, td.acc-down')).length === 1 && /[▲▼] [+−]\d/.test(await txt('td.acc-up, td.acc-down')));
   const picks = await p.evaluate(() => { const c = {}; for (let k = 0; k < 400; k++) { const before = liveCorrect.slice(); if (tick()) { const i = liveCorrect.findIndex((v, j) => v !== before[j]); c[i] = (c[i] || 0) + 1; } } return c; });

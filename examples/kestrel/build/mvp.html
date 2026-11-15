@@ -155,7 +155,7 @@ function render(){
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
-      <td class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on test run"}</div></td>
+      <td class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
       <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
