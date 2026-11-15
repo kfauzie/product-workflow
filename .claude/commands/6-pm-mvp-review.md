@@ -1,5 +1,5 @@
 ---
-name: pm-6-mvp-review
+name: 6-pm-mvp-review
 description: "Generate quick follow-up questions to confirm the working version solves the customer's problem: checks on the assumptions and on the cases it must handle. Use before showing the working version to the customer."
 ---
 
@@ -38,4 +38,4 @@ description: "Generate quick follow-up questions to confirm the working version 
 - **Happy path:** run each case through the working version; note which it can't answer and which hit gaps in the data.
 - **Edge cases:** the sample doesn't cover enough cases (different askers, options, segments): ask for more.
 - **Acceptance criteria:** every case has a result.
-- **Handoff:** feedback goes back into `pm-4` screens and `pm-5` build.
+- **Handoff:** feedback goes back into `4-pm` screens and `5-pm` build.

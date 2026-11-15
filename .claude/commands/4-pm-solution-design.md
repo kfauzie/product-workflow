@@ -1,6 +1,6 @@
 ---
-name: pm-4-solution-design
-description: "Turn the solution concept into screens in the company's design system, one per workflow step, that a reviewer can follow live. Most important screen first. Use after the solution concept, before pm-5-mvp-build."
+name: 4-pm-solution-design
+description: "Turn the solution concept into screens in the company's design system, one per workflow step, that a reviewer can follow live. Most important screen first. Use after the solution concept, before 5-pm-mvp-build."
 ---
 
 # Solution design
@@ -46,5 +46,5 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Edge cases:**
   - No Figma: use `design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
-- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `pm-5`); a short header says what the page is and who it is for, in labelled lines, not a paragraph; colours mean the same thing everywhere, including on controls; every label is in the glossary; walk the flow once as the user and fix anything confusing.
-- **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `pm-5-mvp-build`.
+- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `5-pm`); a short header says what the page is and who it is for, in labelled lines, not a paragraph; colours mean the same thing everywhere, including on controls; every label is in the glossary; walk the flow once as the user and fix anything confusing.
+- **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `5-pm-mvp-build`.

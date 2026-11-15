@@ -1,4 +1,4 @@
-"""lens: a fast, reusable toolkit for pm-1-data-discovery on wide risk exports (one row per item, risk columns per scenario and year).
+"""lens: a fast, reusable toolkit for 1-pm-data-discovery on wide risk exports (one row per item, risk columns per scenario and year).
 
 General code only. It never stores run data, findings or defaults; those belong in each run's RUN.md.
 

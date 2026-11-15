@@ -1,5 +1,5 @@
 ---
-name: pm-1-data-discovery
+name: 1-pm-data-discovery
 description: "Look at a customer's data before and during discovery to find the findings worth putting in front of them, and turn each into an interview question. Two steps: Initial review (before the interview) and Answer (test a claim or answer one question, e.g. to synthesise what the customer said)."
 ---
 
@@ -39,7 +39,7 @@ description: "Look at a customer's data before and during discovery to find the 
   - Nothing relevant to the customer's need: say so. Never pad.
   - A data gap that wouldn't change an answer goes in the quality check, not the findings.
 - **Acceptance criteria:** 2 to 5 findings; each has one number, its comparison and its code; no question names a solution.
-- **Handoff:** the findings and questions go into the run notes, then to `pm-2-discovery-interview`.
+- **Handoff:** the findings and questions go into the run notes, then to `2-pm-discovery-interview`.
 
 ## Step 2: Answer (after the interview, or any time)
 - **Input:** one claim the customer made, or one question, plus the data.
@@ -51,4 +51,4 @@ description: "Look at a customer's data before and during discovery to find the 
 - **Happy path:** one claim at a time, each tested and logged in the run notes.
 - **Edge cases:** the data can't answer it: say what's missing and who might have it.
 - **Acceptance criteria:** every verdict has the code and rows behind it.
-- **Handoff:** the tested claims go to `pm-3-problem-to-solution-concept` as evidence.
+- **Handoff:** the tested claims go to `3-pm-problem-to-solution-concept` as evidence.

@@ -1,4 +1,4 @@
-# 5. Spec: solution concept (pm-3)
+# 5. Spec: solution concept (3-pm)
 
 > **FICTIONAL EXAMPLE.** Kestrel, Gusta, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
 

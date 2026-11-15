@@ -1,4 +1,4 @@
-# 2. Discovery guide (pm-2)
+# 2. Discovery guide (2-pm)
 
 > **FICTIONAL EXAMPLE.** Kestrel, Gusta, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
 

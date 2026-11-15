@@ -8,14 +8,14 @@
 
 | Step | Skill | Output |
 |---|---|---|
-| 1. Data review | `pm-1-data-discovery` (Initial review) | [01-data-review.md](01-data-review.md) |
-| 2. Discovery guide | `pm-2-discovery-interview` | [02-discovery-guide.md](02-discovery-guide.md) |
+| 1. Data review | `1-pm-data-discovery` (Initial review) | [01-data-review.md](01-data-review.md) |
+| 2. Discovery guide | `2-pm-discovery-interview` | [02-discovery-guide.md](02-discovery-guide.md) |
 | 3. Discovery notes | the PM, in the call | [03-discovery-notes.md](03-discovery-notes.md) |
-| 4. Research synthesis | `pm-1-data-discovery` (Answer) | [04-synthesis.md](04-synthesis.md) |
-| 5. Spec: solution concept | `pm-3-problem-to-solution-concept` | [05-solution-concept.md](05-solution-concept.md) |
-| 6. Design | `pm-4-solution-design` | [06-screen-specs.md](06-screen-specs.md), [design/](design/) |
-| 7. Prototype | `pm-5-mvp-build` | [build/mvp.html](build/mvp.html), tests in [build/](build/) |
-| 8. MVP review | `pm-6-mvp-review` | [07-mvp-review.md](07-mvp-review.md) |
+| 4. Research synthesis | `1-pm-data-discovery` (Answer) | [04-synthesis.md](04-synthesis.md) |
+| 5. Spec: solution concept | `3-pm-problem-to-solution-concept` | [05-solution-concept.md](05-solution-concept.md) |
+| 6. Design | `4-pm-solution-design` | [06-screen-specs.md](06-screen-specs.md), [design/](design/) |
+| 7. Prototype | `5-pm-mvp-build` | [build/mvp.html](build/mvp.html), tests in [build/](build/) |
+| 8. MVP review | `6-pm-mvp-review` | [07-mvp-review.md](07-mvp-review.md) |
 
 ## Decisions I made (and what I turned down)
 

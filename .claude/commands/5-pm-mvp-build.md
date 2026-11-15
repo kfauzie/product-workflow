@@ -1,5 +1,5 @@
 ---
-name: pm-5-mvp-build
+name: 5-pm-mvp-build
 description: "Turn the agreed screens into a working first version, fast: one HTML file, numbers calculated by code. Use when building or changing the prototype."
 ---
 
@@ -8,7 +8,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 **Role:** make the agreed screens work end to end, with real numbers, so the customer can try the flow.
 **Users:** me and the customer in the MVP review; the engineer who later takes it to production.
 **Target:** the whole flow clicks through with no errors; every number matches the concept's test cases.
-**Grounding:** the agreed screens from `pm-4`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `design-system`; `product-glossary`; `0-pm-standard`.
+**Grounding:** the agreed screens from `4-pm`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `design-system`; `product-glossary`; `0-pm-standard`.
 **Tone:** match the agreed screens exactly.
 
 ## Step 1: First build
@@ -35,7 +35,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Happy path:** each change takes about two minutes.
 - **Edge cases:** a change will take longer: tell me first and suggest a smaller step.
 - **Acceptance criteria:** tests and the headless check pass after every change. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after.
-- **Handoff:** back to me, or to `pm-6-mvp-review` when the flow is ready to show.
+- **Handoff:** back to me, or to `6-pm-mvp-review` when the flow is ready to show.
 
 ## Later, only if I ask
 - Branch and PR with screenshots, how to run it and test results

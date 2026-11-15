@@ -6,7 +6,7 @@ description: "The company's design system and voice: colour roles, fonts, logo, 
 # Design system
 
 **Role:** make screens and prototypes look and sound like the company's real product.
-**Users:** `pm-4-solution-design` and `pm-5-mvp-build`; the designer who takes the screens further.
+**Users:** `4-pm-solution-design` and `5-pm-mvp-build`; the designer who takes the screens further.
 **Target:** a reviewer would accept the screens as the company's product at a glance; no colour, font or word that the design system doesn't allow.
 **Grounding:**
 1. Figma via MCP: variables and styles (colours, type), components, existing screens for patterns
@@ -24,4 +24,4 @@ description: "The company's design system and voice: colour roles, fonts, logo, 
   - Brand fonts not available in a prototype: use the named fallback.
   - The voice rules clash with the customer's own terms: the customer's terms win on screen; flag the clash.
 - **Acceptance criteria:** every colour on a screen has a role from the system; the main action uses the system's primary colour; colour is never the only signal (a warning also says "Warning").
-- **Handoff:** `pm-4` and `pm-5` apply it. The designer makes the final visual call.
+- **Handoff:** `4-pm` and `5-pm` apply it. The designer makes the final visual call.

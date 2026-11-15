@@ -1,5 +1,5 @@
 ---
-name: pm-3-problem-to-solution-concept
+name: 3-pm-problem-to-solution-concept
 description: "Turn the discovery notes and data findings into a solution concept: the problem, two or three solution ideas, and the recommended solution with its end-to-end workflow. Use after the discovery interview, before solution design."
 ---
 
@@ -8,7 +8,7 @@ description: "Turn the discovery notes and data findings into a solution concept
 **Role:** start from the problem and recommend the simplest thing that solves it.
 **Users:** me; then whoever approves the direction (shared on screen, so short).
 **Target:** a recommendation that weighs user value, commercial benefit and effort, and a workflow that design can turn into screens.
-**Grounding:** the interview notes (quote the transcript, not the AI summary); tested claims from `pm-1` Step 2 (don't re-analyse the data); `company-context` (product strategy, how it makes money); `customer-personas` (user and buyer; the notes win where they differ); `product-glossary`; `0-pm-standard`.
+**Grounding:** the interview notes (quote the transcript, not the AI summary); tested claims from `1-pm` Step 2 (don't re-analyse the data); `company-context` (product strategy, how it makes money); `customer-personas` (user and buyer; the notes win where they differ); `product-glossary`; `0-pm-standard`.
 **Tone:** answer first; no claim without a quote or a calculated number.
 
 ## Step 0: Check for gaps
@@ -38,4 +38,4 @@ description: "Turn the discovery notes and data findings into a solution concept
   - The real fix may be a process change, not a product: say so in the ideas, even if a product is still recommended.
   - Judge an AI's output by the harm that reaches the end customer, not by accuracy alone: a small error rate on a high-stakes task can outweigh a big saving.
 - **Acceptance criteria:** every claim has a quote or a number; say how, never "seamless" or "met by design"; test cases have computed answers.
-- **Handoff:** give me the link; add it to the run notes; `pm-4-solution-design` reads it fresh.
+- **Handoff:** give me the link; add it to the run notes; `4-pm-solution-design` reads it fresh.
