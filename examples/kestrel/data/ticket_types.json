@@ -13,7 +13,7 @@
    "correct": 467,
    "risk": "Low",
    "risk_example": "Low: customer stays locked out a little longer",
-   "reason": "99.8% accurate and a wrong call costs little",
+   "reason": "99.8% accurate, and a wrong answer is easy to fix",
    "examples": [
     {
      "message": "Reset email never came and payroll's due Friday.",
@@ -48,7 +48,7 @@
    "correct": 263,
    "risk": "Low",
    "risk_example": "Low: customer stays locked out longer, which can hold up payroll",
-   "reason": "98.1% accurate and a wrong call costs little",
+   "reason": "98.1% accurate, and a wrong answer is easy to fix",
    "examples": [
     {
      "message": "Got a new phone and my authenticator codes are gone.",
@@ -83,7 +83,7 @@
    "correct": 340,
    "risk": "Low",
    "risk_example": "Low: employee waits longer for a payslip",
-   "reason": "99.4% accurate and a wrong call costs little",
+   "reason": "99.4% accurate, and a wrong answer is easy to fix",
    "examples": [
     {
      "message": "Can you resend Sam's March payslip?",
@@ -118,7 +118,7 @@
    "correct": 96,
    "risk": "Medium",
    "risk_example": "Medium: company details wrong in Gusta or with the tax authority, so letters go astray",
-   "reason": "99.0% accurate and a wrong call is easy to fix",
+   "reason": "99.0% accurate, and a wrong answer is fixable",
    "examples": [
     {
      "message": "We've moved office. How do I change the address on payslips?",
@@ -153,7 +153,7 @@
    "correct": 242,
    "risk": "Medium",
    "risk_example": "Medium: new starter set up wrongly: tax code, pay or pay schedule",
-   "reason": "96.4% accurate: good, but not enough to send unchecked",
+   "reason": "96.4% accurate: good, but below the 98% needed to send unchecked",
    "examples": [
     {
      "message": "New starter on Monday, no P45 yet. What tax code?",
@@ -188,7 +188,7 @@
    "correct": 152,
    "risk": "High",
    "risk_example": "High: pay sent from or to the wrong account, possibly a fraudster's",
-   "reason": "98.7% accurate, but a wrong call is costly, so a support agent checks",
+   "reason": "98.7% accurate, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "We've switched banks. What do I need to change?",
@@ -223,7 +223,7 @@
    "correct": 111,
    "risk": "High",
    "risk_example": "High: money refunded or withheld wrongly",
-   "reason": "91.7% accurate; moves money, so a support agent checks every draft",
+   "reason": "91.7% accurate, but a wrong refund is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "Charged twice this month??",
@@ -258,7 +258,7 @@
    "correct": 170,
    "risk": "High",
    "risk_example": "High: staff paid late or twice, or pay reported wrongly to the tax authority",
-   "reason": "89.9% accurate; staff pay is at stake, so a support agent checks",
+   "reason": "89.9% accurate, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "HMRC rejected my submission and staff are already paid.",
@@ -293,7 +293,7 @@
    "correct": 280,
    "risk": "High",
    "risk_example": "High: wrong figures or forms go to staff or the tax authority",
-   "reason": "94.0% accurate, but a wrong figure is costly, so a support agent checks",
+   "reason": "94.0% accurate, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "Where are the P60s for my staff?",
@@ -328,7 +328,7 @@
    "correct": 87,
    "risk": "High",
    "risk_example": "High: account closed wrongly, or final tax authority steps missed",
-   "reason": "98.9% accurate, but a wrong call is costly, so a support agent checks",
+   "reason": "98.9% accurate, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "Closing the business at the end of the month. What do I need to do?",
@@ -363,7 +363,7 @@
    "correct": 124,
    "risk": "High",
    "risk_example": "High: staff paid on the wrong day",
-   "reason": "93.9% accurate; moves money, so a support agent checks",
+   "reason": "93.9% accurate, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "Can we pay on the 25th instead of the last day of the month?",
@@ -398,7 +398,7 @@
    "correct": 174,
    "risk": "Low",
    "risk_example": "Low: customer misunderstands a charge",
-   "reason": "98.3% accurate and a wrong call costs little",
+   "reason": "98.3% accurate, and a wrong answer is easy to fix",
    "examples": [
     {
      "message": "Why is this month's invoice higher?",
@@ -433,7 +433,7 @@
    "correct": 146,
    "risk": "High",
    "risk_example": "High: staff paid too much or too little holiday pay",
-   "reason": "85.9% accurate: enough for a useful draft, checked by a support agent",
+   "reason": "85.9% accurate: a useful draft, but hard to undo if wrong, so a support agent checks",
    "examples": [
     {
      "message": "How much holiday does a 3-day-a-week employee get?",
@@ -468,7 +468,7 @@
    "correct": 129,
    "risk": "Low",
    "risk_example": "Low: customer gets wrong or incomplete figures",
-   "reason": "98.5% accurate and a wrong call costs little",
+   "reason": "98.5% accurate, and a wrong answer is easy to fix",
    "examples": [
     {
      "message": "My accountant needs payroll totals for the tax year.",
@@ -503,7 +503,7 @@
    "correct": 84,
    "risk": "Medium",
    "risk_example": "Medium: pension deducted wrongly, too much or too little",
-   "reason": "87.5% accurate: a useful draft, not enough to send unchecked",
+   "reason": "87.5% accurate: a useful draft, but below the 98% needed to send unchecked",
    "examples": [
     {
      "message": "Why has pension been taken from our new starter?",
@@ -538,7 +538,7 @@
    "correct": 29,
    "risk": "High",
    "risk_example": "High: customer acts on an answer no rule covers",
-   "reason": "Only 58% accurate: no playbook rule covers these",
+   "reason": "Only 58% accurate: below 60%, a draft wouldn't help a support agent",
    "examples": [
     {
      "message": "Is my cleaner self-employed or staff?",
