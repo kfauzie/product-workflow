@@ -26,6 +26,7 @@ For anything the customer or a reader sees: questions, screens, documents, findi
 - **Don't over-generalise either.** Use the precise word when there is one: "the number" when it is a number, "the output" only when it isn't.
 - **Explain briefly.** Terms, units and assumptions get a few words the first time they appear (see `product-glossary`), including terms the customer knows well. Keep it brief, never a lecture.
 - **Read it as them.** Before showing it: would someone who hasn't seen our notes understand every noun on first reading?
+- **Say what it means for them.** Warnings, confirmations and notes state the consequence in the user's terms (what happens to their customers, their team, their time or money, with a number), not the system's internal measure or rule. Write every message as if you were the user reading it at that moment.
 - **Answer first (pyramid).** Lead with the answer or recommendation, then the two or three reasons, then the detail. Each section opens with its point in one line.
 - **Concise, specific, reasoned.** As few words as possible, every one specific, but keep the "because".
 

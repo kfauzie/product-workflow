@@ -103,14 +103,17 @@ function summary(d, settings){
   return {all, ai, assisted, aiShare: ai / all, hours: (ai * d.minutes_ai + assisted * d.minutes_assisted) / 60, wrong, wrongHigh};
 }
 function aboveRecommended(t, n, mode){ return RANK[mode] > RANK[recommend(t, n)]; }
-if (typeof module !== 'undefined') module.exports = {accuracy, recommend, summary, aboveRecommended, RANK};
+function wrongPerMonth(t){ return Math.round(t.tickets * (1 - accuracy(t))); }
+// live accuracy ticker: only types measured on live tickets can move; the higher a row sits in the table, the more often it is picked
+function tickerWeights(types){ return types.map((t, i) => t.tested === t.tickets ? 1 / (i + 1) : 0); }
+if (typeof module !== 'undefined') module.exports = {accuracy, recommend, summary, aboveRecommended, wrongPerMonth, tickerWeights, RANK};
 </script>
 
 <script>
 const LABEL = {resolve: 'AI', draft: 'AI-assisted human', human: 'Human'};
 let D, settings = [], risks = [], open = new Set([0]);
-let live = false, accFlash = {};
-const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i]}, live ? {} : {correct: t.prev_correct}));
+let liveCorrect = [], accFlash = {};
+const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i], correct: liveCorrect[i]}));
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
@@ -126,7 +129,7 @@ function staticParts(){
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
-  document.getElementById('measure').textContent = `* Accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against ${G}'s support playbook, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Types routed to a human are measured on a test run of 50 recent tickets.`;
+  document.getElementById('measure').textContent = `* Accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against ${G}'s support playbook, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
@@ -143,7 +146,9 @@ function render(){
   const rows = E.map((t, i) => {
     const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = (accuracy(t, n) * 100).toFixed(t.tested === 50 ? 0 : 1), adj = t.risk !== D.types[i].risk;
     const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';
-    const warn = aboveRecommended(t, n, set) ? `<div class="warn">Above recommended: ${p}% accurate on a ${t.risk}-risk type</div>` : '';
+    const w = wrongPerMonth(t), warn = !aboveRecommended(t, n, set) ? '' : set === 'resolve'
+      ? `<div class="warn">Riskier than recommended: about ${w} wrong ${w === 1 ? 'answer' : 'answers'} a month would reach customers with no one checking</div>`
+      : `<div class="warn">Riskier than recommended: support agents would need to catch about ${w} wrong ${w === 1 ? 'draft' : 'drafts'} a month</div>`;
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
@@ -185,15 +190,26 @@ function setRisk(i, v){ const n = 0, before = recommend(eff()[i], n); risks[i] =
   const after = recommend(eff()[i], n); if (settings[i] === before) settings[i] = after; render();
   toast(`Saved. ${after !== before ? 'Now recommended: ' + LABEL[after] + '.' : 'Recommendation unchanged.'}`, `select[data-risk="${i}"]`); }
 function applyAll(silent){ settings = eff().map(t => recommend(t, 0)); render(); if (!silent) toast('All recommendations applied. Projection updated.', '#applyAll'); }
-fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts();
+// one live type's accuracy moves by one ticket; stays within 2 tickets of the 30-day figure and never changes a recommendation
+function tick(){
+  const busy = document.getElementById('toast') || (document.activeElement && document.activeElement.tagName === 'SELECT');
+  if (busy) return false;  // don't redraw under someone mid-change
+  const wts = tickerWeights(D.types), tot = wts.reduce((a, b) => a + b, 0);
+  let r = Math.random() * tot, i = 0; while (r >= wts[i] || !wts[i]) { r -= wts[i]; i++; }
+  const t = D.types[i], ok = c => c >= t.correct - 2 && c <= Math.min(t.tested, t.correct + 2) &&
+    recommend(Object.assign({}, t, {risk: risks[i], correct: c}), 0) === recommend(eff()[i], 0);
+  const step = Math.random() < 0.5 ? 1 : -1, c = [liveCorrect[i] + step, liveCorrect[i] - step].find(ok);
+  if (c === undefined) return false;
+  accFlash = {[i]: (c - liveCorrect[i]) / t.tested * 100}; liveCorrect[i] = c; render();
+  setTimeout(() => { accFlash = {}; document.querySelectorAll('td.acc-up, td.acc-down').forEach(td => { td.classList.remove('acc-up', 'acc-down'); td.querySelectorAll('.accd').forEach(x => x.remove()); }); }, 2200);
+  return true; }
+window.tick = tick;
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); liveCorrect = D.types.map(t => t.correct); staticParts();
   // saved settings: one override (Add a new employee moved up to AI)
   settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Add a new employee')] = 'resolve'; render();
-  // live accuracy refresh: yesterday's figures move to today's, each changed cell flashes green or red
-  setTimeout(() => { live = true; accFlash = {};
-    D.types.forEach((t, i) => { const d = (t.correct - t.prev_correct) / t.tested * 100; if (Math.abs(d) >= 0.05) accFlash[i] = d; });
-    render(); const n = Object.keys(accFlash).length;
-    toast(`Updated today: ${n} changed`, '#thAccLabel'); document.body.dataset.ready = '1';
-    setTimeout(() => { accFlash = {}; render(); }, 2200); }, 700); })
+  document.body.dataset.ready = '1';
+  // live accuracy: every 10 seconds from load, one ticket type updates (off with ?static=1, for checks and screenshots)
+  if (!new URLSearchParams(location.search).has('static')) setInterval(tick, 10000); })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>
