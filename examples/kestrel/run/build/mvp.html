@@ -96,8 +96,8 @@ const fmt = v => Math.round(v).toLocaleString('en-GB');
 function staticParts(){
   const K = D.product, G = D.customer, n = D.test_tickets_per_type;
   document.getElementById('header').innerHTML = `
-    <dt>This page</dt><dd>${K}'s analytics and configuration page (not the agent itself)</dd>
     <dt>${K}</dt><dd>An AI agent that answers support tickets in ${G}'s in-app chat</dd>
+    <dt>This page</dt><dd>Its analytics and configuration page</dd>
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>User</dt><dd>${G}'s Head of Customer Support</dd>
     <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;

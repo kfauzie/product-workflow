@@ -10,7 +10,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const txt = s => p.textContent(s);
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   t('no top bar', !(await p.$('#topbar')));
-  t('header names the page, not the agent itself', (await txt('#header')).includes("Kestrel's analytics and configuration page (not the agent itself)"));
+  const hd = await txt('#header'); t('header: Kestrel first, then this page', hd.indexOf('An AI agent that answers support tickets') < hd.indexOf('Its analytics and configuration page') && hd.includes('Its analytics and configuration page'));
   t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
   t('summary: 49.7%, 288 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumWrong')) === '9');
   t('dashboard: recommended settings, 0 on High-risk types', (await txt('#state')) === 'Recommended settings' && (await txt('#sumHigh')) === '0 on High-risk ticket types');
