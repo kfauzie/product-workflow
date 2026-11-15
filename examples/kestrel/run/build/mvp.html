@@ -118,7 +118,7 @@ function staticParts(){
   document.getElementById('header').innerHTML = `
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>User</dt><dd>${G}'s Head of Customer Support</dd>
-    <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;
+    <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types ${K} handles and which go to a human</dd>`;
   document.getElementById('headline').textContent = 'Monthly projection based on current settings';
   document.getElementById('rules').innerHTML = `<table>
     <tr><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
