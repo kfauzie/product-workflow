@@ -28,7 +28,8 @@ h1{font-size:28px;color:var(--head);margin:0 0 16px}
 .c-resolve{background:var(--ai-bg);color:var(--ai)}.c-draft{background:var(--mix-bg);color:var(--mix)}.c-human{background:var(--hum-bg);color:var(--hum)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0 10px}
 .measure{font-size:13px;color:var(--mute);margin:0}
-button.apply{font:inherit;font-size:13px;font-weight:600;background:#fff;color:var(--head);border:1px solid var(--head);border-radius:6px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+button.apply{font:inherit;font-size:13px;font-weight:600;background:#0f766e;color:#fff;border:1px solid #0f766e;border-radius:6px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+button.apply:hover{background:#0b5f59}
 .panel{background:#fff;border:1px solid var(--line);border-radius:10px}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:12px;color:var(--mute);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line)}
@@ -109,7 +110,7 @@ function staticParts(){
     <tr><th>Outcome</th><th>What happens</th><th>When</th></tr>
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
-    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>A support agent handles it.</td><td>Everything else.</td></tr></table>`;
+    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
   document.getElementById('measure').textContent = `How accuracy is measured: ${K} was run on ${n} past ${G} tickets per type. Each answer was checked against ${G}'s support playbook by a separate grading AI.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
@@ -135,7 +136,7 @@ function render(){
       <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
-    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Example tickets: ${t.name} (3 of the ${n} tested)</div><div class="exgrid">${t.examples.map(e => `<div class="exbox">
+    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Example tickets</div><div class="exgrid">${t.examples.map(e => `<div class="exbox">
       <p><span class="lbl">Customer message</span>“${e.message}”</p>
       <p><span class="lbl">${K} proposed</span>${e.proposed}</p>
       <p><span class="lbl">Customer support rule</span>${e.rule}</p>

@@ -29,5 +29,5 @@ t('Refund request on AI: 9.7 wrong answers on High-risk types', Math.abs(so.wron
 t('lowering autonomy is not a warning', !C.aboveRecommended(D.types[0], n, 'human'));
 const text = JSON.stringify(D) + html;
 t('no em dashes', !text.includes('—'));
-t('never "agent" on its own', !/(?<!AI |support )\bagents?\b/i.test(text.replace(/the agent itself/g, '')));
+t('never "agent" on its own', !/(?<!AI |support |human )\bagents?\b/i.test(text.replace(/the agent itself/g, '')));
 console.log(fail ? `${fail} FAILED` : 'All tests pass'); process.exit(fail ? 1 : 0);
