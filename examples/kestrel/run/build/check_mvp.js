@@ -11,9 +11,12 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   t('no top bar', !(await p.$('#topbar')));
   const hd = await txt('#header'); t('header: Kestrel first, then this page', hd.indexOf('An AI agent that answers support tickets') < hd.indexOf('Its analytics and configuration page') && hd.includes('Its analytics and configuration page'));
-  t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
-  t('monthly projection: 49.7%, 288 hours, 0 high-risk wrong answers', (await txt('.dash-head b')) === 'Monthly projection' && (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumHigh')) === '0');
-  t('dashboard: recommended settings', (await txt('#state')) === 'Recommended settings');
+  t('headline', (await txt('#headline')) === 'Monthly projection based on current settings');
+  t('default: 1 override (Change bank details set to Human)', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await p.inputValue('select[data-i="5"]')) === 'human' && (await txt('tr.row[data-i="5"]')).includes('Overridden'));
+  t('default projection: 49.7%, 275 hours, 0', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '275' && (await txt('#sumHigh')) === '0');
+  await p.click('#applyAll');
+  t('no badge with recommended settings', !(await p.$('#state')));
+  t('recommended settings: 49.7%, 288 hours, 0 high-risk wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '288' && (await txt('#sumHigh')) === '0');
   t('rules before the table', await p.evaluate(() => !!(document.querySelector('#rules').compareDocumentPosition(document.querySelector('#types')) & Node.DOCUMENT_POSITION_FOLLOWING)));
   t('15 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 15 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
   const det = await txt('tr.detail');
@@ -26,7 +29,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const row = await txt('tr.row[data-i="6"]');
   t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Above recommended: 92% accurate on a High-risk type'));
   t('summary updates: 53.8%, 10 high-risk wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumHigh')) === '10');
-  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs recommended'));
+  t('dashboard updates: 1 override, 10 on High-risk types, deltas shown', (await txt('#state')) === "1 override from Kestrel's recommendation" && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 vs recommended'));
   await p.selectOption('select[data-i="0"]', 'human');
   const row0 = await txt('tr.row[data-i="0"]');
   t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));
@@ -35,7 +38,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.selectOption('select[data-risk="0"]', 'High');
   let r0 = await txt('tr.row[data-i="0"]');
   t('confirmation after a risk change names the new recommendation', (await txt('#toast')).includes('Password reset risk set to High. Now recommended: AI-assisted human.'));
-  t('risk adjusted: "Adjusted by user", recommendation and setting follow', r0.includes('Adjusted by user') && r0.includes('AI-assisted human') && (await p.inputValue('select[data-i="0"]')) === 'draft' && !r0.includes('Overridden'));
+  t('risk adjusted: "Adjusted by user" under the risk, recommendation and setting follow', (await txt('tr.row[data-i="0"] td:nth-child(4)')).includes('Adjusted by user') && r0.includes('AI-assisted human') && (await p.inputValue('select[data-i="0"]')) === 'draft' && !r0.includes('Overridden'));
   // an overridden setting does not follow a risk change
   await p.selectOption('select[data-i="1"]', 'human'); await p.selectOption('select[data-risk="1"]', 'High');
   t('overridden setting stays when risk changes', (await p.inputValue('select[data-i="1"]')) === 'human');

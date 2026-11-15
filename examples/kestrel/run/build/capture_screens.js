@@ -8,7 +8,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const p = await b.newPage({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: scale });
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
   await p.screenshot({ path: path.join(root, 'design', '1-overview.png'), fullPage: true });
-  await p.click('tr.row:has-text("Refund request") .name'); await p.selectOption('select[data-i="6"]', 'resolve');
+  await p.click('tr.row:has-text("Refund request") .name'); await p.selectOption('select[data-i="6"]', 'resolve'); await p.waitForTimeout(2800);
   await p.screenshot({ path: path.join(root, 'design', '2-override.png'), fullPage: true });
   console.log('saved 2 screens'); await b.close(); srv.close();
 })();

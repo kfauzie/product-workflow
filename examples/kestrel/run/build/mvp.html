@@ -109,7 +109,7 @@ function staticParts(){
     <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>User</dt><dd>${G}'s Head of Customer Support</dd>
     <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;
-  document.getElementById('headline').textContent = `Which tickets can ${K} handle on its own?`;
+  document.getElementById('headline').textContent = 'Monthly projection based on current settings';
   document.getElementById('rules').innerHTML = `<table>
     <tr><th>Outcome</th><th>What happens</th><th>When</th></tr>
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
@@ -123,7 +123,7 @@ function render(){
   const recSet = E.map(t => recommend(t, n)), r = summary(DE, recSet), overrides = settings.filter((m, i) => m !== recSet[i]).length;
   const delta = (now, base, unit, goodUp) => { const d = now - base; if (Math.abs(d) < 0.05) return '';
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} vs recommended</div>`; };
-  document.getElementById('dashHead').innerHTML = `<b>Monthly projection</b><span class="dyn">updates with your current settings</span><span id="state" class="state ${overrides ? 'state-over">' + overrides + (overrides === 1 ? ' override' : ' overrides') : 'state-rec">Recommended settings'}</span>`;
+  document.getElementById('dashHead').innerHTML = overrides ? `<span id="state" class="state state-over">${overrides} ${overrides === 1 ? 'override' : 'overrides'} from Kestrel's recommendation</span>` : '';
   document.getElementById('summary').innerHTML = `
     <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
     <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min saved per ticket fully handled by AI, ${D.minutes_assisted} per ticket partially handled by AI)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
@@ -136,8 +136,8 @@ function render(){
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n">${fmt(t.tickets)}</td>
       <td class="n">${p}% <span class="sub">(${t.correct}/${n})</span></td>
-      <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
-      <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="reason">${t.reason}</div>`}</td>
+      <td onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option${v === t.risk ? ' selected' : ''}>${v}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
+      <td><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason}</div>`}</td>
       <td onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Example tickets</div><div class="exgrid">${t.examples.map(e => `<div class="exbox">
@@ -146,7 +146,7 @@ function render(){
       <p><span class="lbl">Customer support rule</span>${e.rule}</p>
       <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
-  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation and reason</th><th>Setting</th></tr>${rows}`;
+  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 let toastTimer;
@@ -158,7 +158,7 @@ function setRisk(i, v){ const n = D.test_tickets_per_type, before = recommend(ef
   const after = recommend(eff()[i], n); if (settings[i] === before) settings[i] = after; render();
   toast(`${D.types[i].name} risk set to ${v}. ${after !== before ? 'Now recommended: ' + LABEL[after] + '.' : 'Recommendation unchanged.'}`); }
 function applyAll(silent){ settings = eff().map(t => recommend(t, D.test_tickets_per_type)); render(); if (!silent) toast('All recommendations applied. Projection updated.'); }
-fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts(); applyAll(true); document.body.dataset.ready = '1'; })
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); staticParts(); applyAll(true); settings[D.types.findIndex(t => t.name === 'Change bank details')] = 'human'; render(); document.body.dataset.ready = '1'; })
   .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
 </script>
 </body></html>
