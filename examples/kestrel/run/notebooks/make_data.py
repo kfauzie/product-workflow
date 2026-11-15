@@ -1,23 +1,23 @@
-"""FICTIONAL: synthetic data for the Palmer example. Palmer, its customers and every ticket are invented.
+"""FICTIONAL: synthetic data for the Kestrel example. Kestrel, Gusta, their customers and every ticket are invented.
 
-Writes data/ticket_types.json: 15 ticket types with monthly volume (in-app chat, email and the help-centre form), results on 50 test tickets,
-cost of a wrong call, whether the type moves money, and 3 example tickets. Each example has its channel, the customer's
-message, what the AI agent proposed, the playbook rule that applies, and the grading AI's verdict with a reason.
-Run from examples/palmer/run:  python3 notebooks/make_data.py
+Writes data/ticket_types.json: 15 ticket types with monthly volume (in-app chat), results on 50 test tickets,
+risk if wrong, a one-line reason, and 3 example tickets. Each example has the customer's
+message, what Kestrel proposed, the playbook rule that applies, and the grading AI's verdict with a reason.
+Run from examples/kestrel/run:  python3 notebooks/make_data.py
 """
 import json
 # name, tickets a month, correct of 50, cost, cost example, moves money,
 # examples: (customer message, AI agent proposed, playbook rule, correct, one-line reason)
 T = [
  ("Password reset", 468, 50, "Low", "Low: customer stays locked out a little longer", False, [
-   ("I've forgotten my password and the reset email isn't arriving.", "Send a new reset link and ask them to check spam for an email from Palmer.", "Resend the reset link once; point to the spam folder.", True, "Followed the rule."),
+   ("I've forgotten my password and the reset email isn't arriving.", "Send a new reset link and ask them to check spam for an email from Gusta.", "Resend the reset link once; point to the spam folder.", True, "Followed the rule."),
    ("Can you reset my password? I've lost access to my old work email.", "Explain that the account owner must change the login email first, and how to ask them.", "Never change a login email without the account owner.", True, "Did not change the email itself."),
    ("Reset link says expired.", "Send a fresh link and explain links expire after 30 minutes.", "Expired link: send a new one and give the 30-minute limit.", True, "Followed the rule.")]),
  ("Can't log in", 268, 49, "Low", "Low: customer tries again or asks for a person", False, [
    ("My 2-step code isn't arriving by text.", "Send the code by email instead and show how to update the phone number.", "Offer email codes when text fails.", True, "Followed the rule."),
    ("It says my account is locked.", "Unlock after the 15-minute timeout and send a reset link.", "Locked accounts unlock after 15 minutes; send a reset link.", True, "Followed the rule."),
    ("I can't log in on my phone but it works on my laptop.", "Ask them to clear the app cache.", "Check the app version first; ask them to update if it's out of date.", False, "Skipped the version check; the app needed an update.")]),
- ("Missing payslip", 342, 50, "Low", "Low: employee is pointed to the wrong month", False, [
+ ("Missing payslip", 342, 50, "Low", "Low: wrong month resent, employee asks again", False, [
    ("One of my staff can't find her March payslip.", "Show where payslips sit under Employees > Documents and how to resend March.", "Show the documents page and offer to resend.", True, "Followed the rule."),
    ("Where do employees download payslips?", "Link the employee app guide and the resend option.", "Link the employee app guide.", True, "Followed the rule."),
    ("Payslip for last Friday isn't showing.", "Explain payslips appear once the payroll run is approved; this one is still in draft.", "Check the run status before anything else.", True, "Checked the run status first.")]),
@@ -41,7 +41,7 @@ T = [
    ("Payroll failed with a bank error.", "Point to the expired bank authorisation, show how to renew it, then rerun.", "Bank errors: check the authorisation before rerunning.", True, "Found the expired authorisation."),
    ("Run failed, says tax code missing for 2 employees.", "List the 2 employees and where to add their tax codes.", "Fix missing tax codes before rerunning.", True, "Followed the rule."),
    ("Payroll didn't go through and staff are asking where their pay is.", "Tell them to rerun payroll.", "Check whether payment was sent before any rerun.", False, "Payment had gone; a rerun would pay staff twice.")]),
- ("Tax form question", 298, 47, "Medium", "Medium: customer files with the wrong figure", False, [
+ ("Tax form question", 298, 47, "High", "High: customer files a wrong figure and gets a penalty", False, [
    ("Where do I find the year-end tax forms for my staff?", "Show Reports > Year end and how to send forms to employees.", "Year-end forms live under Reports > Year end.", True, "Followed the rule."),
    ("Why is the tax on this form different from the payslips?", "Explain the form includes a correction made in November.", "Check for corrections in the tax year before answering.", True, "Found the November correction."),
    ("Do I need to file anything for a contractor?", "Say contractors are filed the same way as employees.", "Contractors use a separate form; never treat them as employees.", False, "Gave the employee process for a contractor.")]),
@@ -70,12 +70,27 @@ T = [
    ("An employee wants to opt out of the pension.", "Show how to record the opt-out and refund the first deduction.", "Opt-outs within a month get the deduction refunded.", True, "Followed the rule."),
    ("Pension amount looks wrong this month.", "Say it was correct.", "Check for salary changes before confirming a deduction.", False, "Missed a salary change.")]),
 ]
-CHANNELS = ["In-app chat", "Email", "Help-centre form"]   # each type's examples rotate through the channels
-out = {"label": "FICTIONAL and SYNTHETIC: Palmer example, not real data",
-       "company": "Palmer", "channels": CHANNELS, "minutes_per_ticket": 8, "test_tickets_per_type": 50,
-       "types": [{"name": n, "tickets": v, "correct": k, "cost": c, "cost_example": ce, "moves_money": mm,
-                  "examples": [{"channel": CHANNELS[(i + j) % 3], "message": a, "proposed": b, "rule": rl, "correct": ok, "reason": rs}
-                              for j, (a, b, rl, ok, rs) in enumerate(ex)]}
-                 for i, (n, v, k, c, ce, mm, ex) in enumerate(T)]}
+REASON = {
+ "Password reset": "100% accurate and a wrong call costs little",
+ "Can't log in": "98% accurate and a wrong call costs little",
+ "Missing payslip": "100% accurate and a wrong call costs little",
+ "Update company address": "100% accurate and a wrong call is easy to fix",
+ "Add a new employee": "96% accurate: good, but not enough to send unchecked",
+ "Change bank details": "98% accurate, but a wrong call is costly, so a support agent checks",
+ "Refund request": "Moves money and only 92% accurate",
+ "Payroll run failed": "Moves money and only 90% accurate",
+ "Tax form question": "Costly if wrong and only 94% accurate",
+ "Cancel subscription": "100% accurate, but a wrong call is costly, so a support agent checks",
+ "Change pay date": "Moves money and only 94% accurate",
+ "Invoice question": "98% accurate and a wrong call costs little",
+ "Holiday pay calculation": "Only 86% accurate",
+ "Export payroll report": "100% accurate and a wrong call costs little",
+ "Pension deduction question": "Only 88% accurate",
+}
+out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",
+       "product": "Kestrel", "customer": "Gusta", "channel": "In-app chat", "minutes_ai": 8, "minutes_assisted": 4, "test_tickets_per_type": 50,
+       "types": [{"name": n, "tickets": v, "correct": k, "risk": c, "risk_example": ce, "reason": REASON[n],
+                  "examples": [{"message": a, "proposed": b, "rule": rl, "correct": ok, "verdict_reason": rs} for a, b, rl, ok, rs in ex]}
+                 for n, v, k, c, ce, mm, ex in T]}
 json.dump(out, open("data/ticket_types.json", "w"), indent=1)
 print(len(T), "types,", sum(t[1] for t in T), "tickets a month")

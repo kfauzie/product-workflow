@@ -1,6 +1,6 @@
-# Design system: Palmer
+# Design system: Gusta
 
-> **FICTIONAL EXAMPLE.** Palmer, the use case and all data are synthetic. Any resemblance to a real company is unintended.
+> **FICTIONAL EXAMPLE.** Kestrel, Gusta, the use case and all data are synthetic. Any resemblance to a real company is unintended.
 
 Figma isn't connected in this example, so these values stand in for what the Figma MCP would return.
 

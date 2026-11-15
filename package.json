@@ -3,7 +3,7 @@
   "private": true,
   "description": "Checks for the fictional example prototype",
   "scripts": {
-    "test": "node examples/palmer/run/build/test_mvp.js && node examples/palmer/run/build/check_mvp.js"
+    "test": "node examples/kestrel/run/build/test_mvp.js && node examples/kestrel/run/build/check_mvp.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

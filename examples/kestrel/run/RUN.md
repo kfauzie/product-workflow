@@ -1,10 +1,10 @@
-# Run: Palmer, AI support agent rollout
+# Run: Gusta, AI support agent rollout
 
-> **FICTIONAL EXAMPLE.** Palmer, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
+> **FICTIONAL EXAMPLE.** Kestrel, Gusta, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
 
 **The question:** which ticket types can the AI support agent resolve on its own?
-**Scope:** support tickets only, across in-app chat, email and the help-centre form.
-**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type (channel, message, the AI agent's proposal, the playbook rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
+**Scope:** support tickets only, in in-app chat.
+**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type (message, Kestrel's proposal, the playbook rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
 
 | Step | Skill | Output |
 |---|---|---|
@@ -23,6 +23,7 @@
 |---|---|---|
 | Decide per ticket type, not one setting for all | Accuracy runs from 86% to 100% across types; one setting is wrong for most of them | A single confidence threshold |
 | Three outcomes, not two | "AI-assisted human" keeps a support agent on the 4 types that are good but not safe to send unchecked | Only "on" or "off" |
-| Anything that moves money needs 98%+ even for AI-assisted human | A wrong refund or a missed payroll costs the customer real money | Treating money like any other answer |
+| Any High-risk type needs 98%+ even for AI-assisted human | A wrong refund or a missed payroll costs the customer real money | Treating money like any other answer |
 | Count wrong answers that reach customers, not just accuracy | Leadership asks "what could go wrong"; 9 a month, all on low or medium-cost tickets, is an answer they can sign | Showing accuracy alone |
-| One page: rules, a table, three numbers, examples | The decision is the table; each example shows the playbook rule and the grading AI's verdict, so anyone can check the AI agent | A dashboard with filters and charts |
+| Recommend, but let her decide: a setting per row, with a warning above the recommendation | She owns the call; the dashboard shows what an override costs in wrong answers | Locking the recommendation |
+| One page: rules, a table, three numbers, examples | The decision is the table; each example shows the playbook rule and the grading AI's verdict, so anyone can check Kestrel | A dashboard with filters and charts |

@@ -1,0 +1,36 @@
+// FICTIONAL example (Kestrel and Gusta). Headless check (~5s): page loads, rows expand, overrides work, no errors. Run: node check_mvp.js
+const { chromium } = require('playwright'); const http = require('http'), fs = require('fs'), path = require('path');
+const root = path.resolve(__dirname, '..');
+const srv = http.createServer((q, r) => { const f = path.join(root, decodeURIComponent(q.url.split('?')[0]));
+  fs.readFile(f, (e, b) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200, { 'Content-Type': f.endsWith('.json') ? 'application/json' : 'text/html' }); r.end(b); }); });
+(async () => {
+  await new Promise(ok => srv.listen(0, ok)); const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => m.type() === 'error' && errs.push(m.text()));
+  const t = (label, ok) => { console.log((ok ? 'PASS ' : 'FAIL ') + label); if (!ok) errs.push(label); };
+  const txt = s => p.textContent(s);
+  await p.goto(`http://localhost:${srv.address().port}/build/mvp.html`); await p.waitForSelector('body[data-ready="1"]');
+  t('top bar', (await txt('#topbar')) === 'Kestrel · Configuration and analytics · Customer: Gusta');
+  t('header says it is the dashboard, not the agent', (await txt('#header')).includes("Kestrel's configuration and analytics dashboard (not the agent itself)"));
+  t('headline', (await txt('#headline')) === 'Which tickets can Kestrel handle on its own?');
+  t('summary: 49.7%, 231 hours, 9 wrong answers', (await txt('#sumShare')) === '49.7%' && (await txt('#sumHours')) === '231' && (await txt('#sumWrong')) === '9');
+  t('rules before the table', await p.evaluate(() => !!(document.querySelector('#rules').compareDocumentPosition(document.querySelector('#types')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+  t('15 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 15 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
+  const det = await txt('tr.detail');
+  t('examples use the four labels', ['Customer message', 'Kestrel proposed', 'Playbook rule', 'Verdict (grading AI)'].every(l => det.includes(l)));
+  await p.click('tr.row:has-text("Refund request")');
+  t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
+  await p.selectOption('select[data-i="6"]', 'resolve');
+  const row = await txt('tr.row[data-i="6"]');
+  t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Above recommended: 92% accurate on a High-risk type'));
+  t('summary updates: 53.8%, 19 wrong answers', (await txt('#sumShare')) === '53.8%' && (await txt('#sumWrong')) === '19');
+  await p.selectOption('select[data-i="0"]', 'human');
+  const row0 = await txt('tr.row[data-i="0"]');
+  t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Above recommended'));
+  await p.click('#applyAll');
+  t('Apply all recommendations resets everything', (await txt('#sumShare')) === '49.7%' && !(await txt('#types')).includes('Overridden'));
+  const body = await txt('body');
+  t('no em dashes on the page', !body.includes('—'));
+  t('never "agent" on its own', !/(?<!AI |support )\bagents?\b/i.test(body.replace(/the agent itself/g, '')));
+  t('one channel: no labels from other channels', !/Help-centre form|· Email/.test(body));
+  console.log(errs.length ? 'ERRORS: ' + errs.join(' | ') : 'All checks pass, no errors'); await b.close(); srv.close(); process.exit(errs.length ? 1 : 0);
+})();

@@ -6,25 +6,26 @@ How I go from a customer's ask to a tested, working prototype with Claude Code: 
 
 **[Open the live prototype ›](https://kfauzie.github.io/product-workflow/)**
 
-**The use case (fictional):** Palmer, a payroll software company, is rolling out our AI support agent; this analytics page shows, for each of 15 ticket types, whether the AI handles it, a support agent approves the AI's draft, or a support agent handles it, and what that means in hours saved and wrong answers.
+**The use case (fictional):** Gusta, a payroll software company, uses Kestrel, an AI agent for its in-app support chat; Kestrel's configuration and analytics dashboard shows, for each of 15 ticket types, whether Kestrel handles it, a support agent approves Kestrel's draft, or a support agent handles it, and lets Gusta override the recommendation.
 
-[The worked example, step by step](examples/palmer/run/RUN.md) · [decisions I made](examples/palmer/run/RUN.md#decisions-i-made-and-what-i-turned-down)
+[The worked example, step by step](examples/kestrel/run/RUN.md) · [decisions I made](examples/kestrel/run/RUN.md#decisions-i-made-and-what-i-turned-down)
 
-![The analytics page: which tickets can the AI handle on its own?](examples/palmer/run/design/1-overview.png)
+![Kestrel's dashboard: which tickets can Kestrel handle on its own?](examples/kestrel/run/design/1-overview.png)
 
-> **The example in [`examples/palmer/`](examples/palmer/) is FICTIONAL.** Palmer, the use case and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
+> **The example in [`examples/kestrel/`](examples/kestrel/) is FICTIONAL.** Kestrel, Gusta and all data are synthetic. It shows the workflow end to end on a realistic B2B SaaS case: deciding which support tickets an AI agent can handle on its own.
 
 ## What the demo shows
-One analytics page in our AI support agent, for Palmer's Head of Customer Support:
+Kestrel's configuration and analytics dashboard (not the agent itself), for Gusta's Head of Customer Support:
 
 | Part | What it shows |
 |---|---|
-| Three numbers | **49.7%** of tickets handled by AI (1,483 of 2,982 a month) · **198** support hours saved a month · **9** wrong answers reaching customers a month, all on Low-cost tickets |
-| Decision rules | **AI** (98%+ accurate, Low or Medium cost of a wrong call) · **AI-assisted human** (90%+, or High cost at 98%+) · **Human** (everything else, including money moves under 98%) |
-| The table | 15 ticket types across in-app chat, email and the help-centre form: tickets a month, accuracy, cost of a wrong call, recommendation, reason |
-| Examples | 3 real-looking tickets per type: the customer's message, what the AI agent proposed, the playbook rule, and the grading AI's verdict |
+| Three numbers | **49.7%** of tickets handled by AI (1,483 of 2,982 a month) · **231** support hours saved a month (8 minutes per AI ticket, 4 per AI-assisted ticket) · **9** wrong answers reaching customers a month |
+| Decision rules | **AI** (98%+ accurate, risk Low or Medium) · **AI-assisted human** (90%+ and risk Low or Medium, or 98%+ and risk High) · **Human** (everything else) |
+| The table | 15 ticket types in in-app chat: tickets a month, accuracy, risk if wrong, Kestrel's recommendation, a setting Gusta controls, reason |
+| Overrides | Changing a setting shows "Overridden", warns when it gives Kestrel more autonomy than recommended, and updates the three numbers live |
+| Examples | 3 tickets under each row: customer message, what Kestrel proposed, the playbook rule, and the grading AI's verdict |
 
-Accuracy comes from running the AI agent on 50 past tickets per type, each checked against Palmer's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/palmer/run/data/ticket_types.json) and checked by [tests](examples/palmer/run/build/test_mvp.js) on every push.
+Accuracy comes from running Kestrel on 50 past tickets per type, each checked against Gusta's support playbook by a separate grading AI. Every number on the page is calculated from [the data](examples/kestrel/run/data/ticket_types.json) and checked by [tests](examples/kestrel/run/build/test_mvp.js) on every push.
 
 ## My AI stack
 
@@ -52,13 +53,13 @@ flowchart LR
 
 | Step | Skill | Grounded in | Output | In the example |
 |---|---|---|---|---|
-| 1. Data review | [`pm-1-data-discovery`](.claude/commands/pm-1-data-discovery.md) (Initial review) | The customer's data; glossary for columns and units | 2–5 findings, each an interview question, every number from code | [01-data-review](examples/palmer/run/01-data-review.md) |
-| 2. Discovery notes | [`pm-2-discovery-interview`](.claude/commands/pm-2-discovery-interview.md) | Findings from step 1; personas as things to listen for | A 10-minute guide in Notion; notes from the call | [02-guide](examples/palmer/run/02-discovery-guide.md), [03-notes](examples/palmer/run/03-discovery-notes.md) |
-| 3. Research synthesis | `pm-1-data-discovery` (Answer) | The notes; the data | Each claim tested: supported, not supported or unclear | [04-synthesis](examples/palmer/run/04-synthesis.md) |
-| 4. Spec | [`pm-3-problem-to-solution-concept`](.claude/commands/pm-3-problem-to-solution-concept.md) | Notes, tested claims, company context, personas | Problem, 2–3 ideas weighed on user, commercial and effort; the recommendation; workflow; AI / code / people split; success criteria; assumptions | [05-solution-concept](examples/palmer/run/05-solution-concept.md) |
-| 5. Design | [`pm-4-solution-design`](.claude/commands/pm-4-solution-design.md) | The spec; design system from Figma; glossary | Per screen: input, output, happy path, edge cases, acceptance criteria, handoff; then the screens | [06-screen-specs](examples/palmer/run/06-screen-specs.md), [design/](examples/palmer/run/design/) |
-| 6. Prototype | [`pm-5-mvp-build`](.claude/commands/pm-5-mvp-build.md) | Agreed screens; spec's test cases | One HTML file, numbers by code, tests and a headless check | [build/](examples/palmer/run/build/) |
-| 7. MVP review | [`pm-6-mvp-review`](.claude/commands/pm-6-mvp-review.md) | The spec's assumptions; the prototype | Questions that could change the solution; the sample needed to test the AI parts | [07-mvp-review](examples/palmer/run/07-mvp-review.md) |
+| 1. Data review | [`pm-1-data-discovery`](.claude/commands/pm-1-data-discovery.md) (Initial review) | The customer's data; glossary for columns and units | 2–5 findings, each an interview question, every number from code | [01-data-review](examples/kestrel/run/01-data-review.md) |
+| 2. Discovery notes | [`pm-2-discovery-interview`](.claude/commands/pm-2-discovery-interview.md) | Findings from step 1; personas as things to listen for | A 10-minute guide in Notion; notes from the call | [02-guide](examples/kestrel/run/02-discovery-guide.md), [03-notes](examples/kestrel/run/03-discovery-notes.md) |
+| 3. Research synthesis | `pm-1-data-discovery` (Answer) | The notes; the data | Each claim tested: supported, not supported or unclear | [04-synthesis](examples/kestrel/run/04-synthesis.md) |
+| 4. Spec | [`pm-3-problem-to-solution-concept`](.claude/commands/pm-3-problem-to-solution-concept.md) | Notes, tested claims, company context, personas | Problem, 2–3 ideas weighed on user, commercial and effort; the recommendation; workflow; AI / code / people split; success criteria; assumptions | [05-solution-concept](examples/kestrel/run/05-solution-concept.md) |
+| 5. Design | [`pm-4-solution-design`](.claude/commands/pm-4-solution-design.md) | The spec; design system from Figma; glossary | Per screen: input, output, happy path, edge cases, acceptance criteria, handoff; then the screens | [06-screen-specs](examples/kestrel/run/06-screen-specs.md), [design/](examples/kestrel/run/design/) |
+| 6. Prototype | [`pm-5-mvp-build`](.claude/commands/pm-5-mvp-build.md) | Agreed screens; spec's test cases | One HTML file, numbers by code, tests and a headless check | [build/](examples/kestrel/run/build/) |
+| 7. MVP review | [`pm-6-mvp-review`](.claude/commands/pm-6-mvp-review.md) | The spec's assumptions; the prototype | Questions that could change the solution; the sample needed to test the AI parts | [07-mvp-review](examples/kestrel/run/07-mvp-review.md) |
 | 8. Hand-off | `pm-5-mvp-build` ("later, if asked") | The prototype and its tests | One PR per screen behind a feature flag, engineer review, staging, release | Not shown in the example |
 
 Every skill also reads [`pm-standard`](.claude/commands/pm-standard.md): what good looks like, the communication guide and the document style.
@@ -104,7 +105,7 @@ tools/open_run.sh
 ```bash
 npm test
 ```
-`npm test` runs the known-answer tests and a headless click-through; the same checks run on every push. Regenerate the synthetic data with `python3 notebooks/make_data.py` from `examples/palmer/run`.
+`npm test` runs the known-answer tests and a headless click-through; the same checks run on every push. Regenerate the synthetic data with `python3 notebooks/make_data.py` from `examples/kestrel/run`.
 
 ## About
 Built by Kevin Fauzie, an AI product manager in London: a decade as a PM, a co-founded AI agent startup, a Stanford MBA. [LinkedIn](https://www.linkedin.com/in/kevinardian/)

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kestrel · Configuration and analytics · Customer: Gusta (fictional example)</title>
+<!-- FICTIONAL example: Kestrel, Gusta and all data are synthetic. -->
+<style>
+:root{--text:#343a40;--head:#212529;--mute:#6c757d;--line:#e6e8eb;--bg:#f9f9fa;--ai-bg:#e7f6ee;--ai:#1c7a4f;--mix-bg:#fff4e0;--mix:#9a5b00;--hum-bg:#fde8ea;--hum:#b4232f;--open:#f4f7f8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
+.topbar{background:#fff;border-bottom:1px solid var(--line);padding:10px 24px;font-size:13px;color:var(--mute)}
+.topbar b{color:var(--head)}
+main{max-width:1240px;margin:0 auto;padding:18px 24px 36px}
+.header{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:13px;margin:0 0 18px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:8px}
+.header dt{color:var(--mute)}.header dd{margin:0;color:var(--head)}
+h1{font-size:28px;color:var(--head);margin:0 0 16px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card b{display:block;font-size:28px;color:var(--head);font-variant-numeric:tabular-nums}
+.card span{color:var(--mute);font-size:13px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+.rule{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5}
+.rule .chip{margin-bottom:6px}
+.chip{display:inline-block;padding:3px 9px;border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}
+.c-resolve{background:var(--ai-bg);color:var(--ai)}.c-draft{background:var(--mix-bg);color:var(--mix)}.c-human{background:var(--hum-bg);color:var(--hum)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0 10px}
+.measure{font-size:13px;color:var(--mute);margin:0}
+button.apply{font:inherit;font-size:13px;font-weight:600;background:#fff;color:var(--head);border:1px solid var(--head);border-radius:6px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--mute);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.row{cursor:pointer}tr.row:hover{background:#f6f8f9}tr.row.open{background:var(--open)}
+.name{font-weight:600;color:var(--head)}.chev{color:var(--mute);display:inline-block;width:12px}
+.risk{white-space:nowrap;font-weight:600}.risk-Low{color:var(--ai)}.risk-Medium{color:var(--mix)}.risk-High{color:var(--hum)}
+.sub{font-size:12px;color:var(--mute)}
+select{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:5px;padding:4px 6px;background:#fff;color:var(--head)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;background:#eef0f2;color:var(--mute);margin-top:4px}
+.warn{font-size:12px;color:var(--hum);margin-top:4px}
+tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
+.exgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.exbox{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.45}
+.exbox p{margin:0 0 7px}.exbox p:last-child{margin:0}
+.lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mute)}
+.ok{color:var(--ai);font-weight:600}.no{color:var(--hum);font-weight:600}
+footer{margin-top:24px;color:var(--mute);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:900px){.summary,.rules,.exgrid{grid-template-columns:1fr}.hide-sm{display:none}main{padding:16px}.header{grid-template-columns:1fr}.bar{flex-direction:column;align-items:flex-start}}
+</style></head><body>
+<div class="topbar" id="topbar"></div>
+<main>
+<dl class="header" id="header"></dl>
+<h1 id="headline"></h1>
+<div class="summary" id="summary"></div>
+<div class="rules" id="rules"></div>
+<div class="bar"><p class="measure" id="measure"></p><button class="apply" id="applyAll" onclick="applyAll()">Apply all recommendations</button></div>
+<div class="panel"><table id="types"></table></div>
+<footer id="footer"></footer>
+</main>
+
+<script id="calc">
+// ---- Every number is calculated here. Plain functions, tested in test_mvp.js ----
+// modes: 'resolve' = AI, 'draft' = AI-assisted human, 'human' = Human
+const RANK = {human: 0, draft: 1, resolve: 2};
+function accuracy(t, n){ return t.correct / n; }
+function recommend(t, n){
+  const a = accuracy(t, n), high = t.risk === 'High';
+  if (a >= 0.98 && !high) return 'resolve';
+  if ((a >= 0.90 && !high) || (a >= 0.98 && high)) return 'draft';
+  return 'human';
+}
+// settings: one mode per type (defaults to the recommendation)
+function summary(d, settings){
+  const n = d.test_tickets_per_type, all = d.types.reduce((s, t) => s + t.tickets, 0);
+  let ai = 0, assisted = 0, wrong = 0;
+  d.types.forEach((t, i) => { const m = settings[i];
+    if (m === 'resolve'){ ai += t.tickets; wrong += t.tickets * (1 - accuracy(t, n)); }
+    if (m === 'draft') assisted += t.tickets; });
+  return {all, ai, assisted, aiShare: ai / all, hours: (ai * d.minutes_ai + assisted * d.minutes_assisted) / 60, wrong};
+}
+function aboveRecommended(t, n, mode){ return RANK[mode] > RANK[recommend(t, n)]; }
+if (typeof module !== 'undefined') module.exports = {accuracy, recommend, summary, aboveRecommended, RANK};
+</script>
+
+<script>
+const LABEL = {resolve: 'AI', draft: 'AI-assisted human', human: 'Human'};
+let D, settings = [], open = new Set([0]);
+const fmt = v => Math.round(v).toLocaleString('en-GB');
+function staticParts(){
+  const K = D.product, G = D.customer, n = D.test_tickets_per_type;
+  document.getElementById('topbar').innerHTML = `<b>${K}</b> · Configuration and analytics · Customer: ${G}`;
+  document.getElementById('header').innerHTML = `
+    <dt>This page</dt><dd>${K}'s configuration and analytics dashboard (not the agent itself)</dd>
+    <dt>${K}</dt><dd>An AI agent that answers support tickets in ${G}'s in-app chat</dd>
+    <dt>Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
+    <dt>User</dt><dd>${G}'s Head of Customer Support</dd>
+    <dt>Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types it handles on its own</dd>`;
+  document.getElementById('headline').textContent = `Which tickets can ${K} handle on its own?`;
+  document.getElementById('rules').innerHTML = `
+    <div class="rule"><span class="chip c-resolve">AI</span><div>${K} replies and resolves. Accuracy 98% or more, and risk Low or Medium.</div></div>
+    <div class="rule"><span class="chip c-draft">AI-assisted human</span><div>${K} drafts; a support agent approves or edits. Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</div></div>
+    <div class="rule"><span class="chip c-human">Human</span><div>A support agent handles it. Everything else.</div></div>`;
+  document.getElementById('measure').textContent = `How accuracy is measured: ${K} was run on ${n} past ${G} tickets per type. Each answer was checked against ${G}'s support playbook by a separate grading AI.`;
+  document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
+}
+function render(){
+  const n = D.test_tickets_per_type, s = summary(D, settings), K = D.product;
+  document.getElementById('summary').innerHTML = `
+    <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled by AI (${fmt(s.ai)} of ${fmt(s.all)} a month)</span></div>
+    <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved a month (${D.minutes_ai} minutes per AI ticket, ${D.minutes_assisted} per AI-assisted ticket)</span></div>
+    <div class="card"><b id="sumWrong">${fmt(s.wrong)}</b><span>wrong answers reaching customers a month (AI-handled types only: tickets × error rate)</span></div>`;
+  const rows = D.types.map((t, i) => {
+    const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = Math.round(accuracy(t, n) * 100);
+    const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';
+    const warn = aboveRecommended(t, n, set) ? `<div class="warn">Above recommended: ${p}% accurate on a ${t.risk}-risk type</div>` : '';
+    const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
+      <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
+      <td class="n">${fmt(t.tickets)}</td>
+      <td class="n">${p}% <span class="sub">(${t.correct}/${n})</span></td>
+      <td><span class="risk risk-${t.risk}">${t.risk}</span><div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div></td>
+      <td><span class="chip c-${rec}">${LABEL[rec]}</span></td>
+      <td onclick="event.stopPropagation()"><select data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
+      <td class="hide-sm">${t.reason}</td></tr>`;
+    const det = isOpen ? `<tr class="detail"><td colspan="7"><div class="exgrid">${t.examples.map(e => `<div class="exbox">
+      <p><span class="lbl">Customer message</span>“${e.message}”</p>
+      <p><span class="lbl">${K} proposed</span>${e.proposed}</p>
+      <p><span class="lbl">Playbook rule</span>${e.rule}</p>
+      <p><span class="lbl">Verdict (grading AI)</span><span class="${e.correct ? 'ok">Correct' : 'no">Wrong'}</span>: ${e.verdict_reason}</p></div>`).join('')}</div></td></tr>` : '';
+    return main + det; }).join('');
+  document.getElementById('types').innerHTML = `<tr><th>Ticket type</th><th class="n">Tickets a month</th><th class="n">Accuracy</th><th>Risk if wrong</th><th>Recommendation</th><th>Setting</th><th class="hide-sm">Reason</th></tr>${rows}`;
+}
+function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
+function setMode(i, m){ settings[i] = m; render(); }
+function applyAll(){ settings = D.types.map(t => recommend(t, D.test_tickets_per_type)); render(); }
+fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; staticParts(); applyAll(); document.body.dataset.ready = '1'; })
+  .catch(() => { document.querySelector('main').insertAdjacentHTML('afterbegin', '<p class="measure"><b>Couldn\'t load the data.</b> Open this page through a web server, not by double-clicking the file.</p>'); });
+</script>
+</body></html>
