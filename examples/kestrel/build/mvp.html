@@ -94,7 +94,7 @@ function accuracy(t){ return t.correct / t.tested; }
 function recommend(t, n){
   const a = accuracy(t, n), high = t.risk === 'High';
   if (a >= 0.98 && !high) return 'resolve';
-  if ((a >= 0.90 && !high) || (a >= 0.98 && high)) return 'draft';
+  if (a >= 0.85) return 'draft';  // a support agent checks every draft, so risk only matters for sending unchecked
   return 'human';
 }
 // settings: one mode per type (defaults to the recommendation)
@@ -131,8 +131,8 @@ function staticParts(){
   document.getElementById('rules').innerHTML = `<table>
     <tr><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td>Accuracy 98% or more, and risk Low or Medium.</td></tr>
-    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 90% or more and risk Low or Medium, or accuracy 98% or more and risk High.</td></tr>
-    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Everything else.</td></tr></table>`;
+    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td>Accuracy 85% or more, any risk, when not recommended for AI.</td></tr>
+    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td>Accuracy below 85%: a draft would not save a support agent time.</td></tr></table>`;
   document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }

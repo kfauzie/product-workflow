@@ -219,11 +219,11 @@
   {
    "name": "Refund request",
    "tickets": 121,
-   "tested": 50,
-   "correct": 46,
+   "tested": 121,
+   "correct": 111,
    "risk": "High",
    "risk_example": "High: wrong refund paid out",
-   "reason": "Moves money and only 92% accurate",
+   "reason": "91.7% accurate; moves money, so a support agent checks every draft",
    "examples": [
     {
      "message": "You charged us twice this month.",
@@ -254,11 +254,11 @@
   {
    "name": "Payroll run failed",
    "tickets": 189,
-   "tested": 50,
-   "correct": 45,
+   "tested": 189,
+   "correct": 170,
    "risk": "High",
    "risk_example": "High: staff paid late",
-   "reason": "Moves money and only 90% accurate",
+   "reason": "89.9% accurate; staff pay is at stake, so a support agent checks",
    "examples": [
     {
      "message": "Payroll failed with a bank error.",
@@ -289,11 +289,11 @@
   {
    "name": "Tax form question",
    "tickets": 298,
-   "tested": 50,
-   "correct": 47,
+   "tested": 298,
+   "correct": 280,
    "risk": "High",
    "risk_example": "High: customer files a wrong figure and gets a penalty",
-   "reason": "Costly if wrong and only 94% accurate",
+   "reason": "94.0% accurate, but a wrong figure is costly, so a support agent checks",
    "examples": [
     {
      "message": "Where do I find the year-end tax forms for my staff?",
@@ -359,11 +359,11 @@
   {
    "name": "Change pay date",
    "tickets": 132,
-   "tested": 50,
-   "correct": 47,
+   "tested": 132,
+   "correct": 124,
    "risk": "High",
    "risk_example": "High: staff paid on the wrong day",
-   "reason": "Moves money and only 94% accurate",
+   "reason": "93.9% accurate; moves money, so a support agent checks",
    "examples": [
     {
      "message": "Can we pay staff on the 25th instead of the last day?",
@@ -429,11 +429,11 @@
   {
    "name": "Holiday pay calculation",
    "tickets": 170,
-   "tested": 50,
-   "correct": 43,
+   "tested": 170,
+   "correct": 146,
    "risk": "Medium",
    "risk_example": "Medium: employee underpaid for leave",
-   "reason": "Only 86% accurate",
+   "reason": "85.9% accurate: enough for a useful draft, checked by a support agent",
    "examples": [
     {
      "message": "How is holiday pay worked out for part-time staff?",
@@ -499,11 +499,11 @@
   {
    "name": "Pension deduction question",
    "tickets": 96,
-   "tested": 50,
-   "correct": 44,
+   "tested": 96,
+   "correct": 84,
    "risk": "Medium",
    "risk_example": "Medium: wrong deduction explained to staff",
-   "reason": "Only 88% accurate",
+   "reason": "87.5% accurate: a useful draft, not enough to send unchecked",
    "examples": [
     {
      "message": "Why has pension been taken from a new starter?",
@@ -528,6 +528,41 @@
      "rule": "Before confirming a pension deduction is right, check for salary changes that month.",
      "correct": false,
      "verdict_reason": "Didn't check for salary changes: a pay rise this month hadn't reached the pension, so the deduction was too low."
+    }
+   ]
+  },
+  {
+   "name": "Other (no matching type)",
+   "tickets": 140,
+   "tested": 50,
+   "correct": 29,
+   "risk": "Medium",
+   "risk_example": "Medium: customer gets a wrong or made-up answer",
+   "reason": "Only 58% accurate: no playbook rule covers these",
+   "examples": [
+    {
+     "message": "Does Gusta connect to our rota app?",
+     "proposed": "Yes, Gusta connects with most rota apps under Settings > Integrations.",
+     "rule_id": "GEN-5",
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question.",
+     "correct": false,
+     "verdict_reason": "No rule covers integrations; it guessed instead of handing over to a support agent."
+    },
+    {
+     "message": "We're being audited next week. Can someone talk us through what data you hold?",
+     "proposed": "I'll pass you to a member of our support team, who can take you through what we hold for your audit.",
+     "rule_id": "GEN-5",
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question.",
+     "correct": true,
+     "verdict_reason": "No rule covers audits, so it handed over to a support agent."
+    },
+    {
+     "message": "Your last update deleted our custom report.",
+     "proposed": "Updates don't affect custom reports. You'll find yours under Reports > Saved.",
+     "rule_id": "GEN-5",
+     "rule": "Hand over to a support agent when the customer asks for a person, staff pay is late, or no rule covers the question.",
+     "correct": false,
+     "verdict_reason": "No rule covers this; it denied a possible bug instead of handing over to a support agent."
     }
    ]
   }

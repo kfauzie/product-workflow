@@ -2,7 +2,7 @@
 
 > **FICTIONAL EXAMPLE.** Kestrel, Gusta, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
 
-**The data:** 15 ticket types, 2,982 tickets a month in in-app chat; for each, 50 past tickets answered by Kestrel and checked against Gusta's support playbook by a separate grading AI.
+**The data:** 16 ticket types (including Other, for tickets that match no type), 3,122 tickets a month in in-app chat; for each, 50 past tickets answered by Kestrel and checked against Gusta's support playbook by a separate grading AI.
 
 | # | Finding | Why it might matter (guess) |
 |---|---|---|

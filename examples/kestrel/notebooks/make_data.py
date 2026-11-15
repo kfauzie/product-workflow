@@ -153,8 +153,12 @@ T = [
    ('Why has pension been taken from a new starter?', "New starters join your workplace pension automatically after a 3-month waiting period. Sam's ended in October, so deductions started this month.", 'PEN-1', True, "Explained the waiting period using Sam's dates."),
    ('An employee wants to opt out of the pension.', "Record the opt-out on their profile under Pension. As they're within a month of enrolment, their deductions will be refunded in the next run.", 'PEN-2', True, 'Recorded the opt-out and the refund.'),
    ('Pension amount looks wrong this month.', "This month's pension deduction is the same as last month's, so it looks right.", 'PEN-3', False, "Didn't check for salary changes: a pay rise this month hadn't reached the pension, so the deduction was too low.")]),
+ ("Other (no matching type)", 140, 29, "Medium", "Medium: customer gets a wrong or made-up answer", False, [
+   ("Does Gusta connect to our rota app?", "Yes, Gusta connects with most rota apps under Settings > Integrations.", "GEN-5", False, "No rule covers integrations; it guessed instead of handing over to a support agent."),
+   ("We're being audited next week. Can someone talk us through what data you hold?", "I'll pass you to a member of our support team, who can take you through what we hold for your audit.", "GEN-5", True, "No rule covers audits, so it handed over to a support agent."),
+   ("Your last update deleted our custom report.", "Updates don't affect custom reports. You'll find yours under Reports > Saved.", "GEN-5", False, "No rule covers this; it denied a possible bug instead of handing over to a support agent.")]),
 ]
-# live accuracy: where Kestrel is used, every ticket from the last 30 days (= tickets a month); where it isn't (Human), a test on 50 recent tickets
+# accuracy: where Kestrel is used (AI or AI-assisted human), every ticket from the last 30 days (= tickets a month); where it isn't (Human), a daily test on 50 recent tickets
 LIVE = {
  'Password reset': (468, 467),
  "Can't log in": (268, 263),
@@ -162,15 +166,16 @@ LIVE = {
  'Update company address': (97, 96),
  'Add a new employee': (251, 242),
  'Change bank details': (154, 152),
- 'Refund request': (50, 46),
- 'Payroll run failed': (50, 45),
- 'Tax form question': (50, 47),
+ 'Refund request': (121, 111),
+ 'Payroll run failed': (189, 170),
+ 'Tax form question': (298, 280),
  'Cancel subscription': (88, 87),
- 'Change pay date': (50, 47),
+ 'Change pay date': (132, 124),
  'Invoice question': (177, 174),
- 'Holiday pay calculation': (50, 43),
+ 'Holiday pay calculation': (170, 146),
  'Export payroll report': (131, 129),
- 'Pension deduction question': (50, 44),
+ 'Pension deduction question': (96, 84),
+ 'Other (no matching type)': (50, 29),
 }
 REASON = {
  "Password reset": "{p} accurate and a wrong call costs little",
@@ -179,15 +184,16 @@ REASON = {
  "Update company address": "{p} accurate and a wrong call is easy to fix",
  "Add a new employee": "{p} accurate: good, but not enough to send unchecked",
  "Change bank details": "{p} accurate, but a wrong call is costly, so a support agent checks",
- "Refund request": "Moves money and only {p} accurate",
- "Payroll run failed": "Moves money and only {p} accurate",
- "Tax form question": "Costly if wrong and only {p} accurate",
+ "Refund request": "{p} accurate; moves money, so a support agent checks every draft",
+ "Payroll run failed": "{p} accurate; staff pay is at stake, so a support agent checks",
+ "Tax form question": "{p} accurate, but a wrong figure is costly, so a support agent checks",
  "Cancel subscription": "{p} accurate, but a wrong call is costly, so a support agent checks",
- "Change pay date": "Moves money and only {p} accurate",
+ "Change pay date": "{p} accurate; moves money, so a support agent checks",
  "Invoice question": "{p} accurate and a wrong call costs little",
- "Holiday pay calculation": "Only {p} accurate",
+ "Holiday pay calculation": "{p} accurate: enough for a useful draft, checked by a support agent",
  "Export payroll report": "{p} accurate and a wrong call costs little",
- "Pension deduction question": "Only {p} accurate",
+ "Pension deduction question": "{p} accurate: a useful draft, not enough to send unchecked",
+ "Other (no matching type)": "Only {p} accurate: no playbook rule covers these",
 }
 pct = lambda n: (f"{LIVE[n][1] / LIVE[n][0] * 100:.0f}%" if LIVE[n][0] == 50 else f"{LIVE[n][1] / LIVE[n][0] * 100:.1f}%")
 out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",

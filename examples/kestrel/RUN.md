@@ -4,7 +4,7 @@
 
 **The question:** which ticket types can the AI support agent resolve on its own?
 **Scope:** support tickets only, in in-app chat.
-**Data:** `data/ticket_types.json`: 15 ticket types, monthly volume, results on 50 test tickets each, cost of a wrong call, and 3 example tickets per type (message, Kestrel's proposal, the customer support rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
+**Data:** `data/ticket_types.json`: 16 ticket types (including Other, for tickets that match no type), monthly volume, accuracy (every ticket in the last 30 days where Kestrel is used, a daily 50-ticket test where it isn't), cost of a wrong call, and 3 example tickets per type (message, Kestrel's proposal, the customer support rule and the grading AI's verdict). Made by `notebooks/make_data.py`.
 
 | Step | Skill | Output |
 |---|---|---|
@@ -22,8 +22,8 @@
 | Decision | Why | What I turned down |
 |---|---|---|
 | Decide per ticket type, not one setting for all | Accuracy runs from 86% to 100% across types; one setting is wrong for most of them | A single confidence threshold |
-| Three outcomes, not two | "AI-assisted human" keeps a support agent on the 4 types that are good but not safe to send unchecked | Only "on" or "off" |
-| Any High-risk type needs 98%+ even for AI-assisted human | A wrong refund or a missed payroll costs the customer real money | Treating money like any other answer |
+| Three outcomes, not two | "AI-assisted human" keeps a support agent on the 9 types that are good but not safe to send unchecked | Only "on" or "off" |
+| AI-assisted human from 85% at any risk; Human only below that | A support agent checks every draft, so risk decides only what can go out unchecked; below 85% a draft costs more time to fix than it saves | Sending High-risk types to a human by default, which wastes the drafts that are right 9 times in 10 |
 | Count wrong answers that reach customers, not just accuracy | Leadership asks "what could go wrong"; 9 a month, all on low or medium-cost tickets, is an answer they can sign | Showing accuracy alone |
 | Recommend, but let her decide: a setting per row, with a warning above the recommendation | She owns the call; the dashboard shows what an override costs in wrong answers | Locking the recommendation |
 | One page: rules, a table, three numbers, examples | The decision is the table; each example shows the customer support rule and the grading AI's verdict, so anyone can check Kestrel | A dashboard with filters and charts |
