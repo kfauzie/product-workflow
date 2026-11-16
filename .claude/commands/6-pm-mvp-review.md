@@ -25,8 +25,8 @@ description: "Generate quick follow-up questions to confirm the working version 
   1. **Does it solve the problem?** Whether the team could have used it for their last real request (one request), e.g. "Could your team have used this for the last [request] you got?"
   2. **Trust and sign-off.** What the approver needs before an answer goes out. Name what the approver's persona typically needs only as a follow-up, after they answer.
   3. **Real examples for testing.** The sample the plan needs, in their terms, naming the tricky cases, e.g. "Could you send us 20 or so recent [requests], with the answers your team sent? Please include a few unusual ones."
-  - **Assumptions:** keep each concept assumption whose answer could change the solution, in its wording from the concept, after question 3. Drop the rest and say in chat which and why. Don't add new ones.
-  4. **Defaults (optional, last).** Name each default: "By default, it [does A], [leaves out B] and [assumes C]. Would your team use the same defaults?"
+  4. **Assumptions:** keep each concept assumption whose answer could change the solution, in its wording from the concept. Drop the rest and say in chat which and why. Don't add new ones.
+  5. **Defaults (optional, last).** Name each default: "By default, it [does A], [leaves out B] and [assumes C]. Would your team use the same defaults?"
 - **Happy path:** short enough to follow on first hearing.
 - **Edge cases:** value, method and sign-off questions often overlap: keep one per area and merge the rest.
 - **Acceptance criteria:** no hint of the expected answer; only questions that could change the solution.

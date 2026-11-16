@@ -27,8 +27,8 @@ description: "Turn the discovery notes and data findings into a solution concept
   3. **Solution ideas:** two or three genuinely different ideas. For each: what it is in one line; **User** (does it solve the problem, how much of the pain does it remove, does it lead to a better commercial decision, how it fits their day, which "yes" triggers it hits); **Commercial benefit** led by its type (new revenue, upsell or retention), then why, the fit with product strategy, and how it could be priced (value created against value captured); **Effort** across engineering, any new models, data to collect, and rollout. Mark judgements. If the ask is one customer's custom request, include an idea that makes it a general capability others can configure.
   4. **The recommendation:** which idea and why, naming what tipped it. Compared with the original ask: what it covers, what it doesn't, what's for later.
   5. **Workflow, end to end:** bullets "[who] does [what] with [what]", from the request arriving to the answer being sent, including steps outside the product. Use a real request from the notes, with real numbers. Show it handles the range of requests, not just the example. Every input has a reason.
-  6. **What AI, code and people do** (principle 6 in `0-pm-standard`, applied step by step):
-     - **The split:** AI for judgement, code for fixed logic (every number, rules, checks), people for judgement calls and approval. What AI and code do is visible and editable.
+  6. **What AI, code and people do** (principle 5 in `0-pm-standard`, applied step by step):
+     - **The split:** AI for judgement, code for fixed logic (every number, rules, checks), people for the final calls and approval. What AI and code do is visible and editable.
      - **The cost of a mistake:** rate each kind of wrong answer by what realistic mistakes in that category cost the end customer, not by accuracy alone; give the same class of harm the same rating, and re-rate when new context changes what a mistake can cost.
      - **How much the AI does alone:** when a person reviews every AI output, set the bar by whether the output saves them time; the cost of a mistake decides only what may go out unchecked. Keep fully manual handling for the few cases where AI can't help (nothing to ground its answer on, input it can't classify) or would mislead the reviewer more than help, so the default is AI helping a person, not AI or nothing.
      - **Effort:** the cheapest, fastest approach that clears the bar.
@@ -36,7 +36,7 @@ description: "Turn the discovery notes and data findings into a solution concept
   8. **Assumptions:** each belief that would make it fail if wrong, written as a question for the MVP review.
 - **Happy path:** one page, readable in two minutes.
 - **Edge cases:**
-  - Money decisions today (cost, payback): use the nearest year in the data, and show how it changes later. A far-off year alone suggests the problem can wait.
+  - Data that spans time (forecasts, scenarios): base today's money decisions (cost, payback) on the nearest period, and show how it changes later. A far-off period alone suggests the problem can wait.
   - Notes are paraphrase (recording failed): say so at the top of the evidence.
   - The customer's usual workaround ("we'd just do X instead"): cost it honestly. Workarounds often carry a cost nobody counts.
   - The real fix may be a process change, not a product: say so in the ideas, even if a product is still recommended.

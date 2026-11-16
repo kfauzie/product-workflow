@@ -84,13 +84,11 @@ The aim is that the next person, or the next skill, knows exactly what they rece
 ## Principles behind it
 The full set is in [`0-pm-standard`](.claude/commands/0-pm-standard.md); every skill applies them.
 1. **Own the problem end to end:** investigate, then build, hands-on up to a working prototype.
-2. **Find the real problem:** the why behind the why, from real, recent examples and representative users.
-3. **Decide on user insight, commercial benefit and effort,** starting from the metric that matters.
+2. **Find the real problem, with evidence:** the why behind the why, from real examples and representative users; every number from code.
+3. **Choose on user value, commercial benefit and effort,** starting from the metric that matters.
 4. **Start simple, ship early:** one persona first; more complex only when simple isn't enough.
-5. **Let the best evidence win:** every number from code, every claim backed by data or the customer's words.
-6. **Set the bar by what a mistake costs:** code for fixed logic, AI for judgement, more checks where a mistake is harder to undo.
-7. **Earn trust by showing the work:** how each answer was produced, and where it came from.
-8. **Match the response to the size of the change:** small changes, small notes; when something breaks, fix the pattern, not the case.
+5. **Set the bar by what a mistake costs:** code for fixed logic, AI for judgement, more checks where a mistake is harder to undo.
+6. **Earn trust by showing the work:** how each answer was produced, and where it came from.
 
 ## How I use this at work
 - **Day to day:** Claude Code with custom skills and MCPs for GitHub, Slack, Notion and Figma, for customer research, data analysis, specs, design, prototyping and PRs.

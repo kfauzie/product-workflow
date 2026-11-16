@@ -14,7 +14,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 ## Step 1: First build
 - **Input:** the screens, the concept, the data.
 - **Output:** one plain HTML file with inline JS and CSS (no framework, no build step), plus a test file and a headless check.
-- **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes; exports leave out buttons and the prototype frame.
+- **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes.
 - **Edge cases:**
   - No real data: use a small synthetic file, clearly labelled on screen, and make it believable:
     - **Grounded:** base it on how comparable real products and official guidance handle the same situations (their public help content), paraphrased, never copied; say when a source couldn't be read directly.
@@ -23,14 +23,9 @@ description: "Turn the agreed screens into a working first version, fast: one HT
     - **Expert-proof:** read each example as a domain expert would; the input, the response and the verdict must hold together.
   - The concept leaves a number undefined: stop and name it, don't invent a formula.
 - **Acceptance criteria:**
-  - when the brief gives data or rules, tests check them exactly (every row, every rule outcome); when it gives wording rules (banned words, no em dashes), a check enforces them
-  - interactive controls recalculate everything that depends on them, and the tests cover the override paths, not just the default
-  - every number is calculated by code, following the concept's AI / code / people split
-  - text that quotes a number (a reason, a label, a warning) reads it from the same value as the number it describes, so the two never disagree when the number changes
-  - anything the user may want to check (a rule, a source document) is one click away from where it is cited, opening at the exact item
-  - the concept's test cases pass
-  - a headless check (about 10 seconds): the page loads, the main flow clicks through, no errors
-  - works at phone and tablet widths with no sideways scrolling, and a layout change for small screens leaves the desktop view untouched (prove it by comparing desktop screenshots before and after)
+  - **Correct:** every number is calculated by code, following the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree.
+  - **Interactive:** every control recalculates everything that depends on it, and tests cover the override paths, not just the default; anything the user may want to check (a rule, a source) is one click from where it's cited, opening at the exact item.
+  - **Shippable:** a headless check (about 10 seconds) loads the page, clicks through the main flow and finds no errors; wording rules (banned words, punctuation) are enforced by a check; it works at phone and tablet widths with no sideways scrolling, and small-screen changes leave the desktop view untouched (compare desktop screenshots before and after).
 - **Handoff:** tell me how to open it; screenshots only if I ask. If the work is public, a live link (static hosting) and checks that run on every push make it easy to review.
 
 ## Step 2: Change one thing at a time
@@ -39,7 +34,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Happy path:** each change takes about two minutes.
 - **Edge cases:**
   - A change will take longer: tell me first and suggest a smaller step.
-  - Something is wrong (a bug, a wrong number): follow principle 8 in `0-pm-standard`: find how far it reaches, fix the pattern not the case, and add a test that would have caught it.
+  - Something is wrong (a bug, a wrong number): find how far it reaches (one case or all), find the root cause, fix the pattern not the case, add a test that would have caught it, and tell whoever was affected.
 - **Acceptance criteria:** tests and the headless check pass after every change. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after. When a change does move numbers, update everything that quotes them (tests, docs, screenshots, the concept's test cases), and flag any target or success criterion the new numbers miss rather than quietly moving it.
 - **Handoff:** back to me, or to `6-pm-mvp-review` when the flow is ready to show.
 
@@ -47,4 +42,4 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - Branch and PR with screenshots, how to run it and test results
 - Dark mode
 - A clickable demo that replays precomputed answers
-- Hand-off: one PR per screen behind a feature flag, engineer review, staging, then release, with launch communication sized to the change, and measure against agreed targets
+- Hand-off to engineers: agree up front what you hand over and in how much detail (a spec, a prototype or a PR); then one PR per screen behind a feature flag, engineer review, staging, release, and measurement against the agreed targets. Size the launch note to the change: a small change gets a line in the product update; a big one gets updated guides, the teams who need to know told, and a check-in afterwards.
