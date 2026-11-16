@@ -63,6 +63,11 @@ select.s-resolve{background:var(--ai-bg);color:var(--ai);border-color:var(--ai-l
 select option{background:#fff;color:var(--head);font-weight:400}
 select.rk-Low{color:var(--ai);border-color:var(--ai-line)}select.rk-Medium{color:var(--mix);border-color:var(--mix-line)}select.rk-High{color:var(--hum);border-color:var(--hum-line)}
 .adjusted{font-size:12px;color:var(--mix);font-weight:600;margin-top:5px}
+/* the three row controls share one size: recommendation label, impact dropdown, setting dropdown */
+#types .ctl{box-sizing:border-box;height:32px;width:168px;font-size:13px;font-weight:600;border-radius:6px}
+#types .chip.ctl{display:inline-flex;align-items:center;padding:0 10px;border:1px solid transparent}
+#types select.ctl{padding:0 8px}
+.chip.ctl.c-resolve{border-color:var(--ai-line)}.chip.ctl.c-draft{border-color:var(--mix-line)}.chip.ctl.c-human{border-color:var(--hum-line)}
 .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;background:#eef0f2;color:var(--mute);margin-top:4px}
 .warn{font-size:12px;color:var(--hum);margin-top:4px}
 tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
@@ -84,6 +89,18 @@ tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
 .vline{line-height:1.45}
 .rulebox .who{color:var(--info)}
 .verdict{padding:9px 14px 11px;border-top:1px solid var(--line)}
+button.link{background:none;border:0;padding:0;font:inherit;font-size:12px;font-weight:600;color:var(--info);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+button.link:hover{color:var(--info-dark)}
+.vtools{margin-top:6px;font-size:12px;color:var(--mute)}
+.ovr-note{margin-top:6px;font-size:12.5px}.ovr-note .ai-said{margin-top:4px;font-size:12px;color:var(--mute)}
+.ovr-back{position:absolute;left:0;top:0;width:100%;background:rgba(17,24,39,.32);z-index:50}
+.ovr{position:absolute;z-index:51;width:min(380px,calc(100vw - 24px));box-sizing:border-box;background:#fff;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.2);padding:16px 18px}
+.ovr h3{margin:0 0 6px;font-size:16px;color:var(--head)}.ovr p{margin:0 0 12px;font-size:13.5px}
+.ovr label{display:block;font-size:12px;font-weight:600;color:var(--head);margin-bottom:4px}.ovr label .opt{font-weight:400;color:var(--mute)}
+.ovr textarea{width:100%;box-sizing:border-box;font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;resize:vertical}
+.ovr textarea:focus{outline:2px solid var(--info-line);border-color:var(--info)}
+.ovr-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.ovr-actions button.apply{padding:8px 14px;font-size:13px}
+button.btn2{font:inherit;font-size:13px;font-weight:600;background:#fff;color:var(--head);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
 .ex-ok .verdict{background:var(--ai-bg)}.ex-no .verdict{background:var(--hum-bg)}
 .verdict .who{margin-bottom:2px}
 .pill{display:inline-flex;align-items:center;gap:4px;font-weight:700;margin-right:4px}.pill .ic{width:14px;height:14px;stroke-width:2.6}
@@ -114,7 +131,7 @@ footer{margin-top:20px;margin-bottom:0;color:var(--mute);font-size:12px;border-t
   #types tr.row td:nth-child(1){grid-column:1/-1;font-size:15px}
   #types tr.row td:nth-child(4){grid-column:1/-1}
   #types tr.row td:nth-child(4) .sub{display:inline;margin-left:6px}
-  #types tr.row select{max-width:100%}
+  #types .ctl{width:100%;max-width:100%}
   #types tr.detail{display:block}#types tr.detail td{display:block;padding:4px 12px 14px}
   .exgrid{gap:12px}
 }
@@ -165,7 +182,7 @@ const LABEL = {resolve: 'AI', draft: 'AI-assisted human', human: 'Human'};
 // impact if wrong: how hard a wrong answer is to undo (stored as Low, Medium, High)
 const IMPACT = {Low: 'Easy to fix', Medium: 'Fixable', High: 'Hard to undo'};
 let D, settings = [], risks = [], open = new Set([0]);
-let liveCorrect = [], accFlash = {};
+let liveCorrect = [], accFlash = {}, ovr = {};  // ovr: your verdict overrides, '<type>-<ticket>' -> {correct, reason}
 const eff = () => D.types.map((t, i) => Object.assign({}, t, {risk: risks[i], correct: liveCorrect[i]}));
 const fmt = v => Math.round(v).toLocaleString('en-GB');
 // small line icons (inline SVG, inherit the text colour)
@@ -196,7 +213,7 @@ function staticParts(){
     <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td data-label="Recommended when">Accuracy 98% or more, and a wrong answer is Easy to fix or Fixable.</td></tr>
     <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td data-label="Recommended when">Accuracy 60% or more, whatever the impact, when not recommended for AI.</td></tr>
     <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td data-label="Recommended when">Accuracy below 60%: a draft would not save a support agent time and may confuse them instead.</td></tr></table>`;
-  document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily.`;
+  document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily. Verdicts you override replace the grading AI's in the accuracy.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
@@ -220,21 +237,52 @@ function render(){
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n" data-label="Tickets a month">${fmt(t.tickets)}</td>
       <td data-label="Accuracy*" class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
-      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option value="${v}"${v === t.risk ? ' selected' : ''}>${IMPACT[v]}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
-      <td data-label="Recommendation"><span class="chip c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
-      <td data-label="Setting" onclick="event.stopPropagation()"><select class="s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
+      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="ctl rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option value="${v}"${v === t.risk ? ' selected' : ''}>${IMPACT[v]}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
+      <td data-label="Recommendation"><span class="chip ctl c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
+      <td data-label="Setting" onclick="event.stopPropagation()"><select class="ctl s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
-    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Recent tickets</div><div class="exgrid">${t.examples.map(e => `<div class="exbox ${e.correct ? 'ex-ok' : 'ex-no'}"><div class="exbody">
+    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Recent tickets</div><div class="exgrid">${t.examples.map((e, k) => { const key = `${i}-${k}`, o = ovr[key], ok = o ? o.correct : e.correct; return `<div class="exbox ${ok ? 'ex-ok' : 'ex-no'}" data-ex="${key}"><div class="exbody">
       <div class="chat"><div class="chathead"><span class="dot"></span>${D.channel}</div><div class="chatbody">
       <div class="msg-in"><span class="who">${ic('chat')}Customer request</span><div class="bubble">${e.message}</div></div>
       <div class="msg-out"><span class="who">${ic('spark')}${K} proposed</span><div class="bubble">${e.proposed}</div></div></div></div>
       </div>
       <div class="verdict"><span class="who">Evaluation (grading AI)</span>
         <div class="rulebox"><span class="who">${ic('book')}Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</div>
-        <div class="vline"><span class="pill ${e.correct ? 'ok' : 'no'}">${ic(e.correct ? 'check' : 'cross')}${e.correct ? 'Correct' : 'Wrong'}</span>${e.verdict_reason}</div></div></div>`).join('')}</div></td></tr>` : '';
+        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)">Edit</button>${o.reason ? ` · <button class="link" onclick="removeReason(${i}, ${k})">Remove reason</button>` : ''} · <button class="link" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">Grading AI said ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
   document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
+const esc = v => String(v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const verdictOf = (i, k) => { const o = ovr[`${i}-${k}`]; return o ? o.correct : D.types[i].examples[k].correct; };
+// an overridden verdict counts in accuracy: the type moves by one ticket; the setting follows the recommendation only if it was on it
+function applyVerdict(i, k, change){ const before = recommend(eff()[i], 0), was = verdictOf(i, k); change();
+  liveCorrect[i] += (verdictOf(i, k) ? 1 : 0) - (was ? 1 : 0);
+  const after = recommend(eff()[i], 0); if (settings[i] === before) settings[i] = after; render();
+  return after !== before ? ` Now recommended: ${LABEL[after]}.` : ''; }
+const accText = i => `${(accuracy(eff()[i]) * 100).toFixed(D.types[i].tested === 50 ? 0 : 1)}%`;
+function openOverride(i, k, btn){ closeOverride();
+  const e = D.types[i].examples[k], o = ovr[`${i}-${k}`], to = o ? o.correct : !e.correct, V = c => c ? 'Correct' : 'Wrong';
+  const back = document.createElement('div'); back.className = 'ovr-back'; back.id = 'ovrBack'; back.style.height = document.documentElement.scrollHeight + 'px'; back.onclick = closeOverride;
+  const dlg = document.createElement('div'); dlg.className = 'ovr'; dlg.id = 'ovr';
+  dlg.setAttribute('role', 'dialog'); dlg.setAttribute('aria-modal', 'true'); dlg.setAttribute('aria-labelledby', 'ovrTitle');
+  dlg.innerHTML = `<h3 id="ovrTitle">${o ? 'Edit your override' : 'Override the grading AI'}</h3>
+    <p>The grading AI said <b class="${e.correct ? 'ok' : 'no'}">${V(e.correct)}</b>. ${o ? 'You changed it to' : 'Change it to'} <b class="${to ? 'ok' : 'no'}">${V(to)}</b>${o ? '' : `, which counts in ${esc(D.types[i].name)}'s accuracy`}.</p>
+    <label for="ovrReason">Reason <span class="opt">(optional, shown on the ticket)</span></label>
+    <textarea id="ovrReason" rows="3" placeholder="What did the grading AI miss?">${o ? esc(o.reason) : ''}</textarea>
+    <div class="ovr-actions"><button class="btn2" onclick="closeOverride()">Cancel</button><button class="apply" id="ovrSave" onclick="saveOverride(${i}, ${k}, ${to})">${o ? 'Save' : 'Change to ' + V(to)}</button></div>`;
+  document.body.append(back, dlg);
+  const r = btn.getBoundingClientRect(), w = dlg.offsetWidth;
+  dlg.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  dlg.style.left = Math.max(12, Math.min(window.scrollX + r.left, window.scrollX + document.documentElement.clientWidth - w - 12)) + 'px';
+  dlg.scrollIntoView({block: 'nearest'}); document.getElementById('ovrReason').focus(); }
+function closeOverride(){ ['ovr', 'ovrBack'].forEach(id => { const el = document.getElementById(id); if (el) el.remove(); }); }
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeOverride(); });
+function saveOverride(i, k, to){ const key = `${i}-${k}`, reason = document.getElementById('ovrReason').value.trim(), editing = !!ovr[key];
+  const rec = applyVerdict(i, k, () => { ovr[key] = {correct: to, reason}; }); closeOverride();
+  toast(editing ? 'Reason saved.' : `Verdict changed to ${to ? 'Correct' : 'Wrong'}. Accuracy now ${accText(i)}.${rec}`, `.exbox[data-ex="${key}"] .vline`); }
+function removeReason(i, k){ const key = `${i}-${k}`; ovr[key].reason = ''; render(); toast('Reason removed.', `.exbox[data-ex="${key}"] .vline`); }
+function undoOverride(i, k){ const key = `${i}-${k}`; const rec = applyVerdict(i, k, () => { delete ovr[key]; });
+  toast(`Back to the grading AI's verdict. Accuracy now ${accText(i)}.${rec}`, `.exbox[data-ex="${key}"] .vline`); }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 // colour a card for a moment when its number changes: green if the change is good, red if not
 let last = null;
@@ -262,7 +310,7 @@ function setRisk(i, v){ const n = 0, before = recommend(eff()[i], n); risks[i] =
 function applyAll(silent){ settings = eff().map(t => recommend(t, 0)); render(); if (!silent) toast('All recommendations applied. Projection updated.', '#applyAll'); }
 // one live type's accuracy moves by one ticket; stays within 2 tickets of the 30-day figure and never changes a recommendation
 function tick(){
-  const busy = document.getElementById('toast') || (document.activeElement && document.activeElement.tagName === 'SELECT');
+  const busy = document.getElementById('toast') || document.getElementById('ovr') || (document.activeElement && document.activeElement.tagName === 'SELECT');
   if (busy) return false;  // don't redraw under someone mid-change
   const wts = tickerWeights(D.types), tot = wts.reduce((a, b) => a + b, 0);
   let r = Math.random() * tot, i = 0; while (r >= wts[i] || !wts[i]) { r -= wts[i]; i++; }

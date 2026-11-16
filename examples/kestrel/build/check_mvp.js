@@ -40,6 +40,26 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const det = await txt('tr.detail');
   t('each expanded row has a Recent tickets heading', det.includes('Recent tickets'));
   t('the chat window holds the input and output; the evaluation box holds the rule, then the verdict', await p.$eval('tr.detail .exbox', b => !!b.querySelector('.chat .msg-in') && !!b.querySelector('.chat .msg-out') && !b.querySelector('.chat .rulebox') && !b.querySelector('.chat .verdict') && !!b.querySelector('.verdict .rulebox') && !!b.querySelector('.verdict .rulebox + .vline .pill')));
+  { const sz = await p.$eval('tr.row[data-i="0"]', r => ['td[data-label="Recommendation"] .ctl', 'select[data-risk]', 'select[data-i]'].map(q => { const b = r.querySelector(q).getBoundingClientRect(); return Math.round(b.width) + 'x' + Math.round(b.height); }));
+    t('recommendation, impact and setting controls are the same size', sz[0] === sz[1] && sz[1] === sz[2]); }
+  { const ex = '.exbox[data-ex="0-0"]', acc = () => txt('tr.row[data-i="0"] td.acc');
+    await p.click(`${ex} .vtools button`);
+    t('override pop-up shows what the grading AI said and the change', await p.isVisible('#ovr') && (await txt('#ovr')).includes('The grading AI said Correct. Change it to Wrong'));
+    await p.fill('#ovrReason', 'Missed the 30-minute limit.'); await p.click('#ovrSave');
+    t('override flips the verdict, shows the reason, and counts in accuracy', !(await p.$('#ovr')) && (await p.getAttribute(ex, 'class')).includes('ex-no') && (await txt(ex)).includes('Verdict overridden') && (await txt(ex)).includes('Your reason: Missed the 30-minute limit.') && (await txt(ex)).includes('Grading AI said Correct') && (await acc()).includes('99.6%'));
+    await p.click(`${ex} .vtools button:has-text("Edit")`);
+    t('edit opens the pop-up with the reason filled in', (await txt('#ovrTitle')) === 'Edit your override' && (await p.inputValue('#ovrReason')) === 'Missed the 30-minute limit.');
+    await p.fill('#ovrReason', 'Left out the 30-minute limit.'); await p.click('#ovrSave');
+    t('edited reason replaces the old one; accuracy unchanged', (await txt(ex)).includes('Your reason: Left out the 30-minute limit.') && (await acc()).includes('99.6%'));
+    await p.click(`${ex} .vtools button:has-text("Remove reason")`);
+    t('reason can be removed, the override stays', (await txt(ex)).includes('No reason given.') && (await txt(ex)).includes('Verdict overridden'));
+    await p.click(`${ex} .vtools button:has-text("Undo override")`);
+    t('undo goes back to the grading AI verdict and accuracy', (await p.getAttribute(ex, 'class')).includes('ex-ok') && !(await txt(ex)).includes('Verdict overridden') && (await acc()).includes('99.8%'));
+    await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.keyboard.press('Escape');
+    t('Escape closes the pop-up without changing anything', !(await p.$('#ovr')) && (await p.getAttribute('.exbox[data-ex="0-2"]', 'class')).includes('ex-no'));
+    await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.click('#ovrSave');
+    t('Wrong to Correct also works, without a reason', (await p.getAttribute('.exbox[data-ex="0-2"]', 'class')).includes('ex-ok') && (await acc()).includes('100.0%'));
+    await p.click('.exbox[data-ex="0-2"] .vtools button:has-text("Undo override")'); }
   t('examples use the four labels', ['Customer request', 'Kestrel proposed', 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
@@ -77,7 +97,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('confirmation after Apply all', (await txt('#toast')).includes('All recommendations applied'));
   t('Apply all recommendations resets everything', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Setting overridden'));
   t('rules are one table with 3 coloured rows', (await p.$$('#rules tr.r-resolve, #rules tr.r-draft, #rules tr.r-human')).length === 3 && (await p.$$('#rules .chip')).length === 3);
-  t('setting dropdown is coloured by its value', (await p.getAttribute('select[data-i="0"]', 'class')) === 's-resolve' && (await p.getAttribute('select[data-i="6"]', 'class')) === 's-draft' && (await p.getAttribute('select[data-i="15"]', 'class')) === 's-human');
+  t('setting dropdown is coloured by its value', (await p.getAttribute('select[data-i="0"]', 'class')).split(' ').includes('s-resolve') && (await p.getAttribute('select[data-i="6"]', 'class')).split(' ').includes('s-draft') && (await p.getAttribute('select[data-i="15"]', 'class')).split(' ').includes('s-human'));
   const body = await txt('body');
   t('no em dashes on the page', !body.includes('—'));
   t('never "agent" on its own', !/(?<!AI |support |human )\bagents?\b/i.test(body.replace(/the agent itself/g, '')));
