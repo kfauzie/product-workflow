@@ -8,12 +8,12 @@ description: "Turn the solution concept into screens in the company's design sys
 **Role:** turn the concept's workflow into screens a reviewer can follow, one step per screen.
 **Users:** the end user named in the concept; me and the reviewers who agree the screens live; the designer who takes them further.
 **Target:** a first-time user can tell in five seconds what each screen is for and what to do next.
-**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `design-system` (Figma via MCP: colours, type, components, existing screens); `product-glossary` (every label); `customer-personas`; `0-pm-standard`.
-**Tone:** the company's voice from `design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
+**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `company-context-design-system` (Figma via MCP: colours, type, components, existing screens); `company-context-glossary` (every label); `company-context-personas`; `0-pm-standard`.
+**Tone:** the company's voice from `company-context-design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
 
 ## Principles
 1. **Decision first.** If a screen has a recommended decision, it's at the top, with the reason right under it.
-2. **Know the user.** Start from the matching persona, then adjust to the interview notes. The screen answers the persona's "yes" trigger at a glance. Labels use roles, not people's names.
+2. **Know the user.** Start from the matching persona, then adjust to the interview notes. The screen answers the persona's "yes" trigger at a glance. When the user is a specific, known person, name them with their role ("[Name], [role]"); elsewhere, labels use roles.
 3. **One step per screen.** When the next step belongs to someone else, make the hand-over clear.
 4. **Show only what matters.** Sensible defaults, labelled "Default", and a few clear options. Each fact appears once. Every input changes the answer or who gets it.
 5. **Hierarchy and progressive disclosure.** Key information big and up front; detail lower, smaller, or one click away.
@@ -46,7 +46,7 @@ description: "Turn the solution concept into screens in the company's design sys
   - **Marks and icons:** list the shapes and colours comparable products use, then pick ones they don't; check the mark at the smallest size it will appear (e.g. a browser tab) and that its silhouette reads as what it is meant to be.
   - **Prototype frame:** a short header in labelled lines (Customer, User, Job to be done), plus a clickable step bar if there's more than one screen; both left out of exports. No other design notes on screen.
 - **Edge cases:**
-  - No Figma: use `design-system`'s neutral defaults, and say so in the notes under the image.
+  - No Figma: use `company-context-design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
 - **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `5-pm`); colours mean the same thing everywhere, including on controls; every label is in the glossary and follows the naming rules in `0-pm-standard`; walk the flow once as the user and fix anything confusing.
 - **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `5-pm-mvp-build`. When a designer takes them further, hand over the specs (inputs and outputs, happy path, edge cases, acceptance criteria) and let them own the ideas and the final visual call.

@@ -1,5 +1,5 @@
 ---
-name: customer-personas
+name: company-context-personas
 description: "The company's customer personas: what each wants, their common pain points, what makes them say yes, and the terms their sector uses. Pulled from the active context folder, then Notion research and Slack customer channels via MCP. Use in discovery (things to listen for), concepts (user and buyer) and design (know the user)."
 ---
 

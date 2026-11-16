@@ -1,5 +1,5 @@
 ---
-name: product-glossary
+name: company-context-glossary
 description: "The product glossary: each term the product, its data and its customers use, with a plain meaning, unit and what not to confuse it with. Pulled from the active context folder, then Notion product docs and Figma labels via MCP. Use whenever a skill writes a question, a finding, a screen label or a number."
 ---
 
