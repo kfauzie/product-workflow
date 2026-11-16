@@ -14,7 +14,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 ## Step 1: First build
 - **Input:** the screens, the concept, the data.
 - **Output:** one plain HTML file with inline JS and CSS (no framework, no build step), plus a test file and a headless check.
-- **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes. If the page may be embedded in another (e.g. a landing page), it reports its own size from inside the frame; the host page never measures it from outside.
+- **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes. If the page may be embedded in another (e.g. a landing page), it reports its own size from inside the frame; the host page never measures it from outside. Load every font the design uses (a web font or a bundled file), with a named fallback; never rely on a font being installed, since other machines and private windows won't have it.
 - **Edge cases:**
   - No real data: use a small synthetic file, clearly labelled on screen, and make it believable:
     - **Grounded:** base it on how comparable real products and official guidance handle the same situations (their public help content), paraphrased, never copied; say when a source couldn't be read directly.
@@ -33,7 +33,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Output:** fixes, and a line in chat on what the check found.
 - **Happy path:** open it and use it as the user would, then check:
   - **Every state:** click every control, open every row and pop-up, try the edge cases from the screen specs; nothing breaks and nothing shows an error.
-  - **First visit:** load it in a fresh browser profile with a slow network, not only after a refresh, since cached files hide timing bugs. If it's embedded in another page, check the frame fits its content as it loads and as it changes.
+  - **First visit:** load it in a fresh browser profile with a slow network, not only after a refresh, since cached files and installed fonts hide bugs. If it's embedded in another page, check the frame fits its content as it loads and as it changes.
   - **The numbers:** spot-check a few against the data by hand; totals add up; no blanks, "NaN" or odd rounding; numbers that should move together do.
   - **Fidelity:** nothing agreed in the screens has gone missing or changed by accident.
   - **Colour and layout:** list every colour and merge near-duplicates; aligned, same-size controls; it works at phone and tablet widths.
