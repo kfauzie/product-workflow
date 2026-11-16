@@ -1,5 +1,5 @@
 ---
-name: 0-pm-standard
+name: pm-0-standard
 description: "The standard every skill in this repo follows: the PM role, the principles behind every call, how anything a reader sees is written, how Notion pages are laid out, and how to work with me. Read it first; use for any discovery, data analysis, solution concept, design or prototype."
 ---
 

@@ -6,7 +6,7 @@ description: "The company's customer personas: what each wants, their common pai
 # Customer personas
 
 **Role:** a starting picture of the user and the buyer, before the interview replaces it with the real one.
-**Users:** `2-pm-discovery-interview`, `3-pm-problem-to-solution-concept`, `4-pm-solution-design`, `6-pm-mvp-review`.
+**Users:** `pm-2-discovery-interview`, `pm-3-problem-to-solution-concept`, `pm-4-solution-design`, `pm-6-mvp-review`.
 **Target:** each persona has a source. Interview notes always win where they differ.
 **Grounding:**
 1. `personas.md` in the active context folder

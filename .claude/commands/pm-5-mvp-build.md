@@ -1,5 +1,5 @@
 ---
-name: 5-pm-mvp-build
+name: pm-5-mvp-build
 description: "Turn the agreed screens into a working first version, fast: one HTML file, numbers calculated by code. Use when building or changing the prototype."
 ---
 
@@ -8,7 +8,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 **Role:** make the agreed screens work end to end, with real numbers, so the customer can try the flow.
 **Users:** me and the customer in the MVP review; whoever takes it to production: an engineer, or me.
 **Target:** the whole flow clicks through with no errors; every number matches the concept's test cases.
-**Grounding:** the agreed screens from `4-pm`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `company-context-design-system`; `company-context-glossary`; `0-pm-standard`.
+**Grounding:** the agreed screens from `pm-4`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `company-context-design-system`; `company-context-glossary`; `pm-0-standard`.
 **Tone:** match the agreed screens exactly.
 
 ## Step 1: First build
@@ -36,7 +36,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
   - **The numbers:** spot-check a few against the data by hand; totals add up; no blanks, "NaN" or odd rounding; numbers that should move together do.
   - **Fidelity:** nothing agreed in the screens has gone missing or changed by accident.
   - **Colour and layout:** list every colour and merge near-duplicates; aligned, same-size controls; it works at phone and tablet widths.
-  - **Copy:** run the copy review from `4-pm-solution-design` Step 3 on the build, in every state.
+  - **Copy:** run the copy review from `pm-4-solution-design` Step 3 on the build, in every state.
 - **Edge cases:** the check finds something the design didn't cover: fix it in the simplest way consistent with the screens, and say so.
 - **Acceptance criteria:** every check passes; tests and the headless check pass.
 - **Handoff:** tell me how to open it; screenshots only if I ask. If the work is public, a live link (static hosting) and checks that run on every push make it easy to review.
@@ -49,7 +49,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
   - A change will take longer: tell me first and suggest a smaller step.
   - Something is wrong (a bug, a wrong number): find how far it reaches (one case or all), find the root cause, fix the pattern not the case, add a test that would have caught it, and tell whoever was affected.
 - **Acceptance criteria:** tests and the headless check pass after every change, and a quick sanity check (Step 2) covers what the change touched. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after. When a change does move numbers, update everything that quotes them (tests, docs, screenshots, the concept's test cases), and flag any target or success criterion the new numbers miss rather than quietly moving it.
-- **Handoff:** back to me, or to `6-pm-mvp-review` when the flow is ready to show.
+- **Handoff:** back to me, or to `pm-6-mvp-review` when the flow is ready to show.
 
 ## Later, only if I ask
 - Branch and PR with screenshots, how to run it and test results

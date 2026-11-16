@@ -41,4 +41,4 @@ description: "Load the company and product context every other skill grounds on:
 - **Internal wins:** where an external finding contradicts anything internal (the context folder, Notion, Slack, or what I've said), follow the internal side. There may be a reason the company doesn't go that way, so turn the contradiction into a question for me ("Comparable products do [X]; is there a reason we don't?").
 - **Edge cases:** a source can't be read directly (blocked, paywalled): say so, and mark what came only from search summaries.
 - **Acceptance criteria:** every external point has a source; every opportunity is framed as an idea to test, not a fact about the company.
-- **Handoff:** `3-pm-problem-to-solution-concept` may draw solution ideas from it, marked as external; never as evidence of what the customer needs.
+- **Handoff:** `pm-3-problem-to-solution-concept` may draw solution ideas from it, marked as external; never as evidence of what the customer needs.

@@ -8,7 +8,7 @@ A discovery-to-prototype workflow for B2B products, run as Claude Code skills in
 
 ## Rules
 - Company, product, customer and design facts come from the context skills (`company-context-overview`, `company-context-glossary`, `company-context-personas`, `company-context-design-system`), which read the context folder, then Notion, Slack and Figma via MCP, then ask me. Never from the model's memory
-- Follow `0-pm-standard` for everything a reader sees
+- Follow `pm-0-standard` for everything a reader sees
 - Work only in the active run folder; read its `RUN.md` first. Nothing carries over between runs: numbers, findings, defaults or customer context
 - Every number is calculated by code and can be traced; synthetic data is labelled as synthetic on screen
 - Skills hold general method only. Case details go in the run's `RUN.md`
@@ -19,14 +19,14 @@ A discovery-to-prototype workflow for B2B products, run as Claude Code skills in
 ## Workflow
 | Step | Who | Skill | Output |
 |---|---|---|---|
-| 1. Data and context arrive | Claude | `1-pm-data-discovery` (Initial review; start with `python3 tools/lens.py profile <csv>` for wide exports) | Run folder, `RUN.md` with findings, questions and the ask word for word |
-| 2. Discovery guide | Claude | `2-pm-discovery-interview` | Notion page |
+| 1. Data and context arrive | Claude | `pm-1-data-discovery` (Initial review; start with `python3 tools/lens.py profile <csv>` for wide exports) | Run folder, `RUN.md` with findings, questions and the ask word for word |
+| 2. Discovery guide | Claude | `pm-2-discovery-interview` | Notion page |
 | 3. Interview | me | | Notes in that page |
-| 4. Research synthesis | Claude | `1-pm-data-discovery` (Answer: one claim at a time) | Tested claims in `RUN.md` |
-| 5. Spec: solution concept | Claude | `3-pm-problem-to-solution-concept` | Notion page |
-| 6. Design | Claude | `4-pm-solution-design` | Screen specs and images in `design/`, most important first |
-| 7. Prototype | Claude | `5-pm-mvp-build` | One HTML file, tests and a headless check in `build/` |
-| 8. MVP review | me + Claude | `6-pm-mvp-review` | Notion page; feedback back into design and build |
+| 4. Research synthesis | Claude | `pm-1-data-discovery` (Answer: one claim at a time) | Tested claims in `RUN.md` |
+| 5. Spec: solution concept | Claude | `pm-3-problem-to-solution-concept` | Notion page |
+| 6. Design | Claude | `pm-4-solution-design` | Screen specs and images in `design/`, most important first |
+| 7. Prototype | Claude | `pm-5-mvp-build` | One HTML file, tests and a headless check in `build/` |
+| 8. MVP review | me + Claude | `pm-6-mvp-review` | Notion page; feedback back into design and build |
 
 Show results in chat first and commit once per step, except Notion pages: give the link only.
 

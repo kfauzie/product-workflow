@@ -1,6 +1,6 @@
 ---
-name: 4-pm-solution-design
-description: "Turn the solution concept into screens in the company's design system, one page by default, that a reviewer can follow live. Most important screen first. Use after the solution concept, before 5-pm-mvp-build."
+name: pm-4-solution-design
+description: "Turn the solution concept into screens in the company's design system, one page by default, that a reviewer can follow live. Most important screen first. Use after the solution concept, before pm-5-mvp-build."
 ---
 
 # Solution design
@@ -8,7 +8,7 @@ description: "Turn the solution concept into screens in the company's design sys
 **Role:** turn the concept's workflow into screens a reviewer can follow.
 **Users:** the end user named in the concept; me and the reviewers who agree the screens live; a designer, if one takes them further.
 **Target:** a first-time user can tell in five seconds what each screen is for and what to do next.
-**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `company-context-design-system` (Figma via MCP: colours, type, components, existing screens); `company-context-glossary` (every label); `company-context-personas`; `0-pm-standard`.
+**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `company-context-design-system` (Figma via MCP: colours, type, components, existing screens); `company-context-glossary` (every label); `company-context-personas`; `pm-0-standard`.
 **Tone:** the company's voice from `company-context-design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
 
 ## Principles
@@ -40,7 +40,7 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Edge cases:**
   - No Figma: use `company-context-design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
-- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `5-pm`); every label is in the glossary.
+- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `pm-5`); every label is in the glossary.
 - **Handoff:** Step 3. Design the most important screen first, and the rest only once I've agreed it.
 
 ## Step 3: Review it before I see it
@@ -60,4 +60,4 @@ description: "Turn the solution concept into screens in the company's design sys
   - **The grounding:** each borrowed pattern has its source named, and nothing copies a product's look.
 - **Edge cases:** the review shows a screen doing more than one job: split it, or move the detail one click away.
 - **Acceptance criteria:** every check passes, or the notes under the image say which doesn't and why.
-- **Handoff:** the screens go to me. The agreed screens go to `5-pm-mvp-build` and are the design. If a designer takes them further, share the full set (specs, screens, prototype) as it is; they own the final visual call, and I'll ask for adjustments.
+- **Handoff:** the screens go to me. The agreed screens go to `pm-5-mvp-build` and are the design. If a designer takes them further, share the full set (specs, screens, prototype) as it is; they own the final visual call, and I'll ask for adjustments.

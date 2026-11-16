@@ -1,5 +1,5 @@
 ---
-name: 6-pm-mvp-review
+name: pm-6-mvp-review
 description: "Generate quick follow-up questions to confirm the working version solves the customer's problem: checks on the assumptions and on the cases it must handle. Use before showing the working version to the customer."
 ---
 
@@ -8,7 +8,7 @@ description: "Generate quick follow-up questions to confirm the working version 
 **Role:** confirm the solution works for the customer, not sell it.
 **Users:** me running the review; the customer and whoever approves the output.
 **Target:** a yes or no on "does it solve the problem", what sign-off needs, and the sample needed to test the AI parts.
-**Grounding:** the solution concept (problem, workflow, assumptions) from the Notion page in the run notes, fetched fresh; the working version; `company-context-personas` (what the approver typically needs); `company-context-glossary`; `0-pm-standard`.
+**Grounding:** the solution concept (problem, workflow, assumptions) from the Notion page in the run notes, fetched fresh; the working version; `company-context-personas` (what the approver typically needs); `company-context-glossary`; `pm-0-standard`.
 **Tone:** open questions, in the customer's own terms, one idea each.
 
 ## Step 1: Plan the evaluation
@@ -38,4 +38,4 @@ description: "Generate quick follow-up questions to confirm the working version 
 - **Happy path:** run each case through the working version; note which it can't answer and which hit gaps in the data. Group the failures by cause and fix the pattern, not the case; add every failure and risky case to the tests.
 - **Edge cases:** the sample doesn't cover enough cases (different askers, options, segments): ask for more.
 - **Acceptance criteria:** every case has a result.
-- **Handoff:** feedback goes back into `4-pm` screens and `5-pm` build.
+- **Handoff:** feedback goes back into `pm-4` screens and `pm-5` build.

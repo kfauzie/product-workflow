@@ -1,4 +1,4 @@
-# 4. Research synthesis (1-pm, Answer: one claim at a time)
+# 4. Research synthesis (pm-1, Answer: one claim at a time)
 
 > **FICTIONAL EXAMPLE.** Kestrel, Gusta, the use case and all data are synthetic. Any resemblance to a real company is unintended. In a real run these pages live in Notion; here they are Markdown so the workflow can be read end to end.
 
