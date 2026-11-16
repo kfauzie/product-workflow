@@ -14,7 +14,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 ## Step 1: First build
 - **Input:** the screens, the concept, the data.
 - **Output:** one plain HTML file with inline JS and CSS (no framework, no build step), plus a test file and a headless check.
-- **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes.
+- **Happy path:** build all agreed screens in one go, so the flow can be tried end to end. Calculations sit in plain functions that tests can import. Use the data provided directly. Add a small animation when the step changes. If the page may be embedded in another (e.g. a landing page), it reports its own size from inside the frame; the host page never measures it from outside.
 - **Edge cases:**
   - No real data: use a small synthetic file, clearly labelled on screen, and make it believable:
     - **Grounded:** base it on how comparable real products and official guidance handle the same situations (their public help content), paraphrased, never copied; say when a source couldn't be read directly.
@@ -25,7 +25,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Acceptance criteria:**
   - **Correct:** numbers follow the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree; anything the user may want to check (a rule, a source) is one click from where it's cited, opening at the exact item.
   - **Interactive:** every control recalculates everything that depends on it, and tests cover the override paths, not just the default.
-  - **Shippable:** a headless check (about 10 seconds) loads the page, clicks through the main flow and finds no errors; wording rules (banned words, punctuation) are enforced by a check; it works at phone and tablet widths with no sideways scrolling, and small-screen changes leave the desktop view untouched (compare desktop screenshots before and after).
+  - **Shippable:** a headless check (about 10 seconds) loads the page, clicks through the main flow and finds no errors, including on a fresh, slow first load and inside any page that embeds it; wording rules (banned words, punctuation) are enforced by a check; it works at phone and tablet widths with no sideways scrolling, and small-screen changes leave the desktop view untouched (compare desktop screenshots before and after).
 - **Handoff:** Step 2.
 
 ## Step 2: Sanity check before I see it
@@ -33,6 +33,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - **Output:** fixes, and a line in chat on what the check found.
 - **Happy path:** open it and use it as the user would, then check:
   - **Every state:** click every control, open every row and pop-up, try the edge cases from the screen specs; nothing breaks and nothing shows an error.
+  - **First visit:** load it in a fresh browser profile with a slow network, not only after a refresh, since cached files hide timing bugs. If it's embedded in another page, check the frame fits its content as it loads and as it changes.
   - **The numbers:** spot-check a few against the data by hand; totals add up; no blanks, "NaN" or odd rounding; numbers that should move together do.
   - **Fidelity:** nothing agreed in the screens has gone missing or changed by accident.
   - **Colour and layout:** list every colour and merge near-duplicates; aligned, same-size controls; it works at phone and tablet widths.

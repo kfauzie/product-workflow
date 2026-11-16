@@ -122,5 +122,22 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   { const tp = await b.newPage({ viewport: { width: 768, height: 1024 } }); await tp.goto(`http://localhost:${srv.address().port}/build/mvp.html?static=1`); await tp.waitForSelector('body[data-ready="1"]');
     t('tablet (768px): no sideways scrolling, cards layout', (await tp.evaluate(() => document.documentElement.scrollWidth)) <= 768 && !(await tp.isVisible('#types tr.hdr'))); await tp.close(); }
   t('desktop keeps the full table with its header row', await p.isVisible('#types tr.hdr') && (await p.$eval('#types tr.row', r => getComputedStyle(r).display)) === 'table-row');
+  // embedded on the landing page: on a first, uncached visit with slow data, the frame must fit its content (regression: it once stayed at its starting height)
+  { const site = path.resolve(root, '../..'), landing = path.join(site, 'index.html');
+    if (fs.existsSync(landing)) {
+      const slow = http.createServer((q, r) => { const f = path.join(site, decodeURIComponent(q.url.split('?')[0]));
+        const send = () => fs.readFile(f, (e, body) => { if (e) { r.writeHead(404); return r.end(); } r.writeHead(200, { 'Content-Type': f.endsWith('.json') ? 'application/json' : f.endsWith('.svg') ? 'image/svg+xml' : 'text/html' }); r.end(body); });
+        f.endsWith('.json') ? setTimeout(send, 1500) : send(); });
+      await new Promise(ok => slow.listen(0, ok));
+      const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } }), lp = await ctx.newPage();
+      lp.on('pageerror', e => errs.push('landing: ' + e.message));
+      await lp.goto(`http://localhost:${slow.address().port}/index.html`);
+      const fits = async () => { await lp.waitForTimeout(600); return lp.evaluate(() => { const f = document.getElementById('demo'), d = f.contentDocument;
+        return !!d && !!d.body.dataset.ready && Math.abs(f.getBoundingClientRect().height - d.body.getBoundingClientRect().height) <= 2; }); };
+      await lp.waitForFunction(() => { const d = document.getElementById('demo').contentDocument; return d && d.body && d.body.dataset.ready === '1'; }, null, { timeout: 15000 });
+      t('landing page, fresh and slow first visit: the embedded prototype fits its content', await fits());
+      await lp.frameLocator('#demo').locator('tr.row[data-i="6"] .name').click();
+      t('landing page: the frame grows when a row opens', await fits());
+      await ctx.close(); slow.close(); } }
   console.log(errs.length ? 'ERRORS: ' + errs.join(' | ') : 'All checks pass, no errors'); await b.close(); srv.close(); process.exit(errs.length ? 1 : 0);
 })();
