@@ -66,4 +66,4 @@ The writing follows section 2. This section covers how to use Notion's building 
 - **Ask before changing what's fixed.** If a request can't be done without changing something I asked you to keep fixed, ask first: two or three options, each with what it changes, and a recommendation.
 - **Keep everything in sync.** When you rename, move or change something, update every reference in the same change, check every link still resolves, and tell me which links I may already have shared will break.
 - **Fictional examples:** invent names that don't resemble real companies or products in the same space.
-- **Notion:** documents I read or annotate live in Notion, under the parent page named in the active context folder. Create the page and give me the link; don't summarise it in chat.
+- **Notion for key documents only:** the documents I review, annotate or share (the discovery guide, the solution concept, the MVP review) live in Notion, under the parent page named in the active context folder; create the page and give me the link, without summarising it in chat. Everything else (findings, answers, progress) goes in chat and the run notes.

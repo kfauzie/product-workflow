@@ -13,7 +13,7 @@ A discovery-to-prototype workflow for B2B products, run as Claude Code skills in
 - Every number is calculated by code and can be traced; synthetic data is labelled as synthetic on screen
 - Skills hold general method only. Case details go in the run's `RUN.md`
 - Don't change a skill unless I ask. When feedback does change one, write the general principle behind it, never the case
-- Documents I read or annotate (questions, notes, concept, review) live in Notion under the parent page in the context folder. Create the page and give me the link; don't summarise it in chat
+- Key documents I review, annotate or share (discovery guide and notes, solution concept, MVP review) live in Notion under the parent page in the context folder. Create the page and give me the link; don't summarise it in chat. Everything else goes in chat and the run notes
 - Unsure which run something belongs to: ask
 
 ## Workflow
