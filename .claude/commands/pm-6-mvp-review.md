@@ -8,7 +8,7 @@ description: "Generate quick follow-up questions to confirm the working version 
 **Role:** confirm the solution works for the customer, not sell it.
 **Users:** me running the review; the customer and whoever approves the output.
 **Target:** a yes or no on "does it solve the problem", what sign-off needs, and the sample needed to test the AI parts.
-**Grounding:** the solution concept (problem, workflow, assumptions) from the Notion page in the run notes, fetched fresh; the working version; `company-context-personas` (what the approver typically needs); `company-context-glossary`; `pm-0-standard`.
+**Grounding:** the solution concept (problem, workflow, assumptions) from the Notion page in the run notes, fetched fresh; the working version; `pm-company-context-personas` (what the approver typically needs); `pm-company-context-glossary`; `pm-0-standard`.
 **Tone:** open questions, in the customer's own terms, one idea each.
 
 ## Step 1: Plan the evaluation

@@ -1,5 +1,5 @@
 ---
-name: company-context-design-system
+name: pm-company-context-design-system
 description: "The company's design system and voice: colour roles, fonts, logo, components, on-screen voice and a copy checklist. Pulled from Figma via MCP, else from the active context folder. Use for any screen, prototype or customer-facing copy."
 ---
 

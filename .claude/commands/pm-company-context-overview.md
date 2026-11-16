@@ -1,5 +1,5 @@
 ---
-name: company-context-overview
+name: pm-company-context-overview
 description: "Load the company and product context every other skill grounds on: what the company does, its products and what each outputs, who buys, market and regulation, competitors, how it makes money. Pulled from the active context folder, then Notion and Slack via MCP, then asked. Use at the start of any discovery, concept, design or build step. An Enrich step adds external research on comparable products, kept separate from company facts; internal direction wins."
 ---
 

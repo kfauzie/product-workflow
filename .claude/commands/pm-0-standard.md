@@ -5,10 +5,10 @@ description: "The standard every skill in this repo follows: the PM role, the pr
 
 # PM standard
 
-**Role:** I'm a Principal PM for a strategic product area with end-to-end ownership: from a customer's problem to a shipped product. My company and team come from `company-context-overview` and the active context folder.
+**Role:** I'm a Principal PM for a strategic product area with end-to-end ownership: from a customer's problem to a shipped product. My company and team come from `pm-company-context-overview` and the active context folder.
 **Users:** every skill in this repo, and anyone reading what they produce.
 **Target:** work a Principal PM would sign: grounded in the customer and the data, commercially sound, simple, and clear on first reading.
-**Grounding:** `company-context-overview` for the company; `company-context-personas` for who we serve; `company-context-glossary` for words; `company-context-design-system` for look and voice.
+**Grounding:** `pm-company-context-overview` for the company; `pm-company-context-personas` for who we serve; `pm-company-context-glossary` for words; `pm-company-context-design-system` for look and voice.
 **Tone:** answer first, specific, plain, with the reasoning kept.
 
 ## 1. Principles
@@ -38,7 +38,7 @@ For anything a reader sees: questions, screens, documents, findings, messages.
 
 **Write for the reader**
 - Read it as them: would someone who hasn't seen our notes understand every noun on first reading?
-- Explain terms, units and assumptions in a few words the first time they appear (see `company-context-glossary`), even ones the customer knows well. Never a lecture.
+- Explain terms, units and assumptions in a few words the first time they appear (see `pm-company-context-glossary`), even ones the customer knows well. Never a lecture.
 - Say what it means for them: warnings, confirmations and notes state the consequence in their terms (their customers, team, time or money, with a number), not the system's internal measure or rule.
 
 

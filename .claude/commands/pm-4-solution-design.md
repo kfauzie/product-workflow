@@ -8,8 +8,8 @@ description: "Turn the solution concept into screens in the company's design sys
 **Role:** turn the concept's workflow into screens a reviewer can follow.
 **Users:** the end user named in the concept; me and the reviewers who agree the screens live; a designer, if one takes them further.
 **Target:** a first-time user can tell in five seconds what each screen is for and what to do next.
-**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `company-context-design-system` (Figma via MCP: colours, type, components, existing screens); `company-context-glossary` (every label); `company-context-personas`; `pm-0-standard`.
-**Tone:** the company's voice from `company-context-design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
+**Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `pm-company-context-design-system` (Figma via MCP: colours, type, components, existing screens); `pm-company-context-glossary` (every label); `pm-company-context-personas`; `pm-0-standard`.
+**Tone:** the company's voice from `pm-company-context-design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
 
 ## Principles
 1. **Know the user and the job.** Design for the job the user needs done, starting from the matching persona and adjusting to the interview notes; the screen answers their "yes" trigger at a glance. Name a specific, known user with their role ("[Name], [role]"); otherwise use roles.
@@ -38,7 +38,7 @@ description: "Turn the solution concept into screens in the company's design sys
   - **Layout and actions:** a short header in labelled lines (Customer, User, Job to be done), plus a step bar if there's more than one screen, and no other design notes on screen. Details as label | value tables; hover explanations for assumptions; notes and warnings look different from content. One primary button per screen, saying what it does. Controls side by side share one size; in equal-height cards the flexible part takes the spare space, so footers line up.
   - **Ground the layout in real products:** first study screenshots of three to five strong B2B SaaS products with the same or an adjacent job (websites, help centres, public galleries). Design from the patterns they share (e.g. summary numbers above a filterable table, detail in a side panel), name the source of each, and adapt it to the user; never copy a product's look.
 - **Edge cases:**
-  - No Figma: use `company-context-design-system`'s neutral defaults, and say so in the notes under the image.
+  - No Figma: use `pm-company-context-design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
 - **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `pm-5`); every label is in the glossary.
 - **Handoff:** Step 3. Design the most important screen first, and the rest only once I've agreed it.

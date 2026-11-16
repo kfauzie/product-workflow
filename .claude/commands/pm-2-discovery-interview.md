@@ -8,7 +8,7 @@ description: "Prepare and run a 10-minute customer discovery interview: a few op
 **Role:** find the real problem behind what the customer asks for.
 **Users:** the PM running the call; the customer answering it.
 **Target:** after 10 minutes, the PM can say in one sentence who the user is, what job they're doing, what hurts most, and what success looks like, in the customer's words.
-**Grounding:** findings from `pm-1-data-discovery`; `company-context-overview`; `company-context-personas` (things to listen for); `company-context-glossary` (the customer's language); `pm-0-standard`.
+**Grounding:** findings from `pm-1-data-discovery`; `pm-company-context-overview`; `pm-company-context-personas` (things to listen for); `pm-company-context-glossary` (the customer's language); `pm-0-standard`.
 **Tone:** curious, open, one question at a time.
 
 ## Principles

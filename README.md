@@ -67,10 +67,10 @@ Four context skills replace anything company-specific. Each reads the active con
 
 | Context skill | Pulls from |
 |---|---|
-| [`company-context-overview`](.claude/commands/company-context-overview.md) | Notion (company, product, pricing pages), Slack (announcements, customer channels) |
-| [`company-context-glossary`](.claude/commands/company-context-glossary.md) | Notion product docs, labels in Figma |
-| [`company-context-personas`](.claude/commands/company-context-personas.md) | Notion research, Slack customer channels |
-| [`company-context-design-system`](.claude/commands/company-context-design-system.md) | Figma variables, styles and components |
+| [`pm-company-context-overview`](.claude/commands/pm-company-context-overview.md) | Notion (company, product, pricing pages), Slack (announcements, customer channels) |
+| [`pm-company-context-glossary`](.claude/commands/pm-company-context-glossary.md) | Notion product docs, labels in Figma |
+| [`pm-company-context-personas`](.claude/commands/pm-company-context-personas.md) | Notion research, Slack customer channels |
+| [`pm-company-context-design-system`](.claude/commands/pm-company-context-design-system.md) | Figma variables, styles and components |
 
 Documents I read or annotate (guide, notes, spec, review) are written to Notion; data, code, screens and the run log stay in the repo.
 

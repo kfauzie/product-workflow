@@ -8,7 +8,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 **Role:** make the agreed screens work end to end, with real numbers, so the customer can try the flow.
 **Users:** me and the customer in the MVP review; whoever takes it to production: an engineer, or me.
 **Target:** the whole flow clicks through with no errors; every number matches the concept's test cases.
-**Grounding:** the agreed screens from `pm-4`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `company-context-design-system`; `company-context-glossary`; `pm-0-standard`.
+**Grounding:** the agreed screens from `pm-4`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `pm-company-context-design-system`; `pm-company-context-glossary`; `pm-0-standard`.
 **Tone:** match the agreed screens exactly.
 
 ## Step 1: First build
