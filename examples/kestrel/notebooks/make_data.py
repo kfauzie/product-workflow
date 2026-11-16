@@ -131,7 +131,7 @@ T = [
    ('Where are the P60s for my staff?', "They're under Reports > Year end. You can send each employee their P60 from there; they need to have them by 31 May.", 'TAX-1', True, 'Gave the right place and the 31 May deadline.'),
    ("My P60 doesn't match my payslips added up.", 'Your P60 includes a correction made in November, after your tax code changed, which was sent to HMRC separately. Payslips before November show the old figures.', 'TAX-2', True, 'Found the November correction before answering.'),
    ('Do my subbies get a P60?', "Yes: add them under Employees and they'll get a P60 at year end with everyone else.", 'TAX-3', False, 'Treated CIS subcontractors as employees; they get monthly CIS statements, not P60s.')]),
- ("Cancel subscription", 88, 50, "High", "High: account closed wrongly, or final tax authority steps missed", False, [
+ ("Cancel subscription", 88, 50, "High", "High: account closed wrongly, or final filings missed", False, [
    ('Closing the business at the end of the month. What do I need to do?', "Sorry to see you go. Run your final payroll, mark the last FPS as final with the date you stopped employing staff, give everyone a P45, and export your records under Reports > Export all. Once your account owner confirms, I'll set up the cancellation.", 'CAN-1', True, "Covered final payroll, final FPS, P45s, export and the owner's confirmation."),
    ('Please cancel at the end of this month.', "I've set your cancellation for the end of this billing month; this month is still charged. Before then, export your records under Reports > Export all.", 'BILL-2', True, "Cancelled for the end of the billing month and said it's still charged."),
    ('Moving to another provider. What happens to our data?', 'Your records are deleted when your account closes, so export anything you need first.', 'CAN-2', False, "Records stay read-only for 6 years, not deleted at closing, and it didn't mention the 3-year record-keeping rule.")]),
@@ -151,7 +151,7 @@ T = [
    ('My accountant needs payroll totals for the tax year.', "Here's your payroll summary for the last full tax year, 6 April to 5 April, as a spreadsheet. Tell me if your accountant needs different dates.", 'REP-1', True, 'Defaulted to the last full tax year.'),
    ('How do I export last quarter?', 'Go to Reports > Payroll summary, set the dates to April to June, and click Export.', 'REP-2', False, 'The ticket came in October; the most recent full quarter was July to September.'),
    ('Can I get a list of all employees with their salaries?', "Here's the list of your 24 employees with their salaries.", 'REP-3', True, 'Checked the person is an admin before exporting salaries.')]),
- ("Pension deduction question", 96, 44, "Medium", "Medium: pension deducted wrongly, too much or too little", False, [
+ ("Pension deduction question", 96, 44, "Medium", "Medium: too much or too little pension deducted", False, [
    ('Why has pension been taken from our new starter?', "Staff aged 22 or over earning more than £10,000 a year are enrolled automatically. You postpone enrolment by 3 months, and Sam's postponement ended in October, so deductions started this month.", 'PEN-1', True, "Explained enrolment using the account's postponement setting."),
    ('New guy wants to opt out. Can I stop it?', "He opts out himself through the pension provider. If he does within a month of enrolment, record it on his record under Pension and his deductions are refunded in the next run. You can't encourage him to opt out.", 'PEN-2', True, "Covered the opt-out window and refund, and didn't encourage it."),
    ("Amy's pension looks wrong this month.", "This month's pension deduction is the same as last month's, so it looks right.", 'PEN-3', False, "Didn't check her pay: a pay rise hadn't reached the pension calculation, so the deduction was too low.")]),
@@ -192,10 +192,10 @@ REASON = {
  "Cancel subscription": "{p} accurate, but a wrong answer is hard to undo, so a support agent checks",
  "Change pay date": "{p} accurate, but a wrong answer is hard to undo, so a support agent checks",
  "Invoice question": "{p} accurate, and a wrong answer is easy to fix",
- "Holiday pay calculation": "{p} accurate: a useful draft, but hard to undo if wrong, so a support agent checks",
+ "Holiday pay calculation": "{p} accurate: a useful draft, but a wrong answer is hard to undo, so a support agent checks",
  "Export payroll report": "{p} accurate, and a wrong answer is easy to fix",
  "Pension deduction question": "{p} accurate: a useful draft, but below the 98% needed to send unchecked",
- "Other (no matching type)": "Only {p} accurate: below 60%, a draft wouldn't help a support agent",
+ "Other (no matching type)": "Only {p} accurate: a draft would slow a support agent down",
 }
 pct = lambda n: (f"{LIVE[n][1] / LIVE[n][0] * 100:.0f}%" if LIVE[n][0] == 50 else f"{LIVE[n][1] / LIVE[n][0] * 100:.1f}%")
 out = {"label": "FICTIONAL and SYNTHETIC: Kestrel example, not real data",

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="../design/kestrel-logo.svg" type="image/svg+xml">
-<title>Kestrel analytics and configuration (fictional example)</title>
+<title>Kestrel Configuration</title>
 <!-- FICTIONAL example: Kestrel, Gusta and all data are synthetic. -->
 <style>
 :root{--text:#343a40;--head:#212529;--mute:#6c757d;--line:#e6e8eb;--bg:#f9f9fa;--ai-bg:#e7f6ee;--ai:#1c7a4f;--mix-bg:#fff4e0;--mix:#9a5b00;--hum-bg:#fde8ea;--hum:#b4232f;--open:#f4f7f8;--ai-line:#a8dcc0;--mix-line:#f2d39b;--hum-line:#f5b5bd;--info:#1f5f99;--info-dark:#174a78;--info-bg:#eaf1f8;--info-line:#d3e0ee;--info-ink:#3f5b78;--brand:#145a3e;--brand-dark:#0e4630}
@@ -202,18 +202,18 @@ const LOGO = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-h
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
   document.getElementById('intro').innerHTML = `<div class="idc"><span class="tile logo">${LOGO}</span><div><b>${K}</b><span>An AI agent that answers customer support tickets</span></div></div>
-    <div class="idc"><span class="tile t-p">${ic('page')}</span><div><b>This page</b><span>Its analytics and configuration page</span></div></div>`;
+    <div class="idc"><span class="tile t-p">${ic('page')}</span><div><b>This page</b><span>Kestrel's analytics and configuration</span></div></div>`;
   document.getElementById('header').innerHTML = `
     <dt>${ic('customer')}Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>${ic('user')}User</dt><dd>Hannah Okafor, ${G}'s Head of Customer Support</dd>
-    <dt>${ic('job')}Job to be done</dt><dd>Use ${K}'s performance data to decide which ticket types ${K} handles and which go to a human</dd>`;
+    <dt>${ic('job')}Job to be done</dt><dd>Use ${K}'s accuracy data to decide which ticket types ${K} handles and which go to a human</dd>`;
   document.getElementById('headline').textContent = 'Monthly projection per current settings';
   document.getElementById('rules').innerHTML = `<table>
     <tr class="hdr"><th>Setting</th><th>Description</th><th>Recommended when</th></tr>
-    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves.</td><td data-label="Recommended when">Accuracy 98% or more, and a wrong answer is Easy to fix or Fixable.</td></tr>
-    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts; a support agent approves or edits.</td><td data-label="Recommended when">Accuracy 60% or more, whatever the impact, when not recommended for AI.</td></tr>
-    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>Routed to a human agent.</td><td data-label="Recommended when">Accuracy below 60%: a draft would not save a support agent time and may confuse them instead.</td></tr></table>`;
-  document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live, from all ${G} tickets in the last 30 days. A separate grading AI checks each answer against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>, with two overrides: an AI-assisted ticket counts as wrong if the support agent makes a material change to ${K}'s draft, and an AI ticket counts as wrong if the customer asks for a human. Accuracy for ticket types not touched by AI in production is measured on a test run of 50 recent tickets, run daily. Verdicts you override replace the grading AI's in the accuracy.`;
+    <tr class="r-resolve"><td><span class="chip c-resolve">AI</span></td><td>${K} replies and resolves the ticket.</td><td data-label="Recommended when">98% accurate or more, and a wrong answer is Easy to fix or Fixable.</td></tr>
+    <tr class="r-draft"><td><span class="chip c-draft">AI-assisted human</span></td><td>${K} drafts a reply; a support agent edits or approves it.</td><td data-label="Recommended when">60% accurate or more, at any impact, if not recommended for AI.</td></tr>
+    <tr class="r-human"><td><span class="chip c-human">Human</span></td><td>A support agent replies, with no draft.</td><td data-label="Recommended when">Below 60% accurate, where a draft would slow a support agent down or mislead them.</td></tr></table>`;
+  document.getElementById('measure').innerHTML = `* Where Kestrel is in use, accuracy is live: every ${G} ticket from the last 30 days, checked by a separate grading AI against <a href="playbook.html" target="_blank" rel="noopener">${G}'s support playbook</a>. Two cases always count as wrong: an AI-assisted ticket where the support agent makes a material change to ${K}'s draft, and an AI ticket where the customer asks for a human. Ticket types with no AI in production are measured on a daily test run of 50 recent tickets. Verdicts you override replace the grading AI's.`;
   document.getElementById('footer').textContent = `Fictional example: ${K}, ${G} and all data are synthetic.`;
 }
 function render(){
@@ -223,32 +223,32 @@ function render(){
     const good = goodUp ? d > 0 : d < 0; return `<div class="delta ${good ? 'd-up' : 'd-bad'}">${d > 0 ? '+' : '−'}${unit(Math.abs(d))} from recommended settings</div>`; };
   document.getElementById('dashHead').innerHTML = overrides ? `<span id="state" class="state state-over">${overrides} setting ${overrides === 1 ? 'override' : 'overrides'}</span>` : '';
   document.getElementById('summary').innerHTML = `
-    <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled solely by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' pts', true)}</div>
-    <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} min saved per ticket fully handled by AI, ${D.minutes_assisted} per ticket partially handled by AI)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
-    <div class="card"><b id="sumHigh" class="${s.wrongHigh >= 0.5 ? 'hi-bad' : ''}">${fmt(s.wrongHigh)}</b><span>wrong answers reaching customers on ticket types that are Hard to undo</span>${delta(s.wrongHigh, r.wrongHigh, v => fmt(v), false)}</div>`;
+    <div class="card"><b id="sumShare">${(s.aiShare * 100).toFixed(1)}%</b><span>of tickets handled solely by AI (${fmt(s.ai)} of ${fmt(s.all)})</span>${delta(s.aiShare * 100, r.aiShare * 100, v => v.toFixed(1) + ' points', true)}</div>
+    <div class="card"><b id="sumHours">${fmt(s.hours)}</b><span>support hours saved (${D.minutes_ai} minutes per AI ticket, ${D.minutes_assisted} per AI-assisted ticket)</span>${delta(s.hours, r.hours, v => fmt(v) + ' hours', true)}</div>
+    <div class="card"><b id="sumHigh" class="${s.wrongHigh >= 0.5 ? 'hi-bad' : ''}">${fmt(s.wrongHigh)}</b><span>wrong answers reaching customers that are hard to undo</span>${delta(s.wrongHigh, r.wrongHigh, v => fmt(v), false)}</div>`;
   flash([['sumShare', s.aiShare, true], ['sumHours', s.hours, true], ['sumHigh', s.wrongHigh, false]]);
   const rows = E.map((t, i) => {
     const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = (accuracy(t, n) * 100).toFixed(t.tested === 50 ? 0 : 1), adj = t.risk !== D.types[i].risk;
     const over = set !== rec ? `<div><span class="tag">Setting overridden</span></div>` : '';
     const w = wrongPerMonth(t), warn = !aboveRecommended(t, n, set) ? '' : set === 'resolve'
-      ? `<div class="warn">Riskier than recommended: about ${w} wrong ${w === 1 ? 'answer' : 'answers'} a month would reach customers with no one checking</div>`
+      ? `<div class="warn">Riskier than recommended: about ${w} wrong ${w === 1 ? 'answer' : 'answers'} a month would reach customers unchecked</div>`
       : `<div class="warn">Riskier than recommended: support agents would need to catch about ${w} wrong ${w === 1 ? 'draft' : 'drafts'} a month</div>`;
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
       <td class="n" data-label="Tickets a month">${fmt(t.tickets)}</td>
       <td data-label="Accuracy*" class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
-      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="ctl rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option value="${v}"${v === t.risk ? ' selected' : ''}>${IMPACT[v]}</option>`).join('')}</select>${adj ? '<div class="adjusted">Adjusted by user</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
+      <td data-label="Impact if wrong" onclick="event.stopPropagation()"><select class="ctl rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option value="${v}"${v === t.risk ? ' selected' : ''}>${IMPACT[v]}</option>`).join('')}</select>${adj ? '<div class="adjusted">Impact adjusted</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td data-label="Recommendation"><span class="chip ctl c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
       <td data-label="Setting" onclick="event.stopPropagation()"><select class="ctl s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Recent tickets</div><div class="exgrid">${t.examples.map((e, k) => { const key = `${i}-${k}`, o = ovr[key], ok = o ? o.correct : e.correct; return `<div class="exbox ${ok ? 'ex-ok' : 'ex-no'}" data-ex="${key}"><div class="exbody">
       <div class="chat"><div class="chathead"><span class="dot"></span>${D.channel}</div><div class="chatbody">
       <div class="msg-in"><span class="who">${ic('chat')}Customer request</span><div class="bubble">${e.message}</div></div>
-      <div class="msg-out"><span class="who">${ic('spark')}${K} proposed</span><div class="bubble">${e.proposed}</div></div></div></div>
+      <div class="msg-out"><span class="who">${ic('spark')}${K}'s proposed reply</span><div class="bubble">${e.proposed}</div></div></div></div>
       </div>
       <div class="verdict"><span class="who">Evaluation (grading AI)</span>
         <div class="rulebox"><span class="who">${ic('book')}Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</div>
-        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)">Edit</button> · <button class="link" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">Grading AI said ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
+        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)">Edit</button> · <button class="link" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">The grading AI marked it ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
   document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
@@ -265,8 +265,8 @@ function openOverride(i, k, btn){ closeOverride();
   const back = document.createElement('div'); back.className = 'ovr-back'; back.id = 'ovrBack'; back.style.height = document.documentElement.scrollHeight + 'px'; back.onclick = closeOverride;
   const dlg = document.createElement('div'); dlg.className = 'ovr'; dlg.id = 'ovr';
   dlg.setAttribute('role', 'dialog'); dlg.setAttribute('aria-modal', 'true'); dlg.setAttribute('aria-labelledby', 'ovrTitle');
-  dlg.innerHTML = `<h3 id="ovrTitle">${o ? 'Edit your override' : 'Override the grading AI'}</h3>
-    <p>The grading AI said <b class="${e.correct ? 'ok' : 'no'}">${V(e.correct)}</b>. ${o ? 'You changed it to' : 'Change it to'} <b class="${to ? 'ok' : 'no'}">${V(to)}</b>${o ? '' : `, which counts in ${esc(D.types[i].name)}'s accuracy`}.</p>
+  dlg.innerHTML = `<h3 id="ovrTitle">${o ? 'Edit your override' : 'Override the verdict'}</h3>
+    <p>The grading AI marked this <b class="${e.correct ? 'ok' : 'no'}">${V(e.correct)}</b>. ${o ? `You changed it to <b class="${to ? 'ok' : 'no'}">${V(to)}</b>.` : `Change it to <b class="${to ? 'ok' : 'no'}">${V(to)}</b>? It will count in ${esc(D.types[i].name)}'s accuracy.`}</p>
     <label for="ovrReason">Reason <span class="opt">(optional, shown on the ticket)</span></label>
     <textarea id="ovrReason" rows="3" placeholder="What did the grading AI miss?">${o ? esc(o.reason) : ''}</textarea>
     <div class="ovr-actions"><button class="btn2" onclick="closeOverride()">Cancel</button><button class="apply" id="ovrSave" onclick="saveOverride(${i}, ${k}, ${to})">${o ? 'Save' : 'Change to ' + V(to)}</button></div>`;

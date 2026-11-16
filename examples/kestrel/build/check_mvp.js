@@ -10,14 +10,14 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   const txt = s => p.textContent(s);
   await p.goto(`http://localhost:${srv.address().port}/build/mvp.html?static=1`); await p.waitForSelector('body[data-ready="1"]');
   t('no top bar', !(await p.$('#topbar')));
-  const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.includes('An AI agent that answers customer support tickets') && it.indexOf('An AI agent') < it.indexOf('Its analytics and configuration page') && !hd.includes('Its analytics') && hd.includes('Customer'));
-  t('accuracy footnote below the table explains the overrides', (await txt('#measure')).startsWith('* Where Kestrel is in use, accuracy is live') && (await txt('#thAcc')) === 'Accuracy*' && (await txt('#measure')).includes('makes a material change') && (await p.evaluate(() => !!(document.querySelector('#types').compareDocumentPosition(document.querySelector('#measure')) & Node.DOCUMENT_POSITION_FOLLOWING))) && (await txt('#measure')).includes('asks for a human') && (await txt('#measure')).includes('not touched by AI in production is measured on a test run of 50 recent tickets, run daily'));
+  const it = await txt('#intro'), hd = await txt('#header'); t('Kestrel and This page at the top, outside the box', it.includes('An AI agent that answers customer support tickets') && it.indexOf('An AI agent') < it.indexOf("Kestrel's analytics and configuration") && !hd.includes("Kestrel's analytics") && hd.includes('Customer'));
+  t('accuracy footnote below the table explains the overrides', (await txt('#measure')).startsWith('* Where Kestrel is in use, accuracy is live') && (await txt('#thAcc')) === 'Accuracy*' && (await txt('#measure')).includes('makes a material change') && (await p.evaluate(() => !!(document.querySelector('#types').compareDocumentPosition(document.querySelector('#measure')) & Node.DOCUMENT_POSITION_FOLLOWING))) && (await txt('#measure')).includes('asks for a human') && (await txt('#measure')).includes('Ticket types with no AI in production are measured on a daily test run of 50 recent tickets') && (await p.title()) === 'Kestrel Configuration');
   t('the user is named: Hannah Okafor, Head of Customer Support', (await txt('#header')).includes("Hannah Okafor, Gusta's Head of Customer Support"));
   t('impact lines say "tax authority", not HMRC', await p.$$eval('#types tr.row td:nth-child(4) .sub', es => es.length === 16 && es.every(e => !e.textContent.includes('HMRC')) && es.some(e => e.textContent.includes('the tax authority'))));
-  t('impact labels say how hard a mistake is to undo; no legend, each row explains itself', (await p.$$eval('select[data-risk="0"] option', os => os.map(o => o.textContent).join('|'))) === 'Easy to fix|Fixable|Hard to undo' && !(await p.$('.impact-key')) && (await txt('tr.row[data-i="0"] .reason')).includes('a wrong answer is easy to fix') && (await txt('#summary')).includes('ticket types that are Hard to undo'));
+  t('impact labels say how hard a mistake is to undo; no legend, each row explains itself', (await p.$$eval('select[data-risk="0"] option', os => os.map(o => o.textContent).join('|'))) === 'Easy to fix|Fixable|Hard to undo' && !(await p.$('.impact-key')) && (await txt('tr.row[data-i="0"] .reason')).includes('a wrong answer is easy to fix') && (await txt('#summary')).includes('wrong answers reaching customers that are hard to undo'));
   t('headline', (await txt('#headline')) === 'Monthly projection per current settings');
   t('default: 1 setting override (Update company address moved down to AI-assisted human), tagged, no warning', (await txt('#state')) === '1 setting override' && (await p.inputValue('select[data-i="3"]')) === 'draft' && (await txt('tr.row[data-i="3"]')).includes('Setting overridden') && !(await txt('#types')).includes('Riskier than recommended'));
-  t('default projection: 44.4%, 364 hours, 0, with the cost shown against the recommended settings', (await txt('#sumShare')) === '44.4%' && (await txt('#sumHours')) === '364' && (await txt('#sumHigh')) === '0' && (await txt('#summary')).includes('−3.1 pts from recommended settings') && (await txt('#summary')).includes('−8 hours from recommended settings'));
+  t('default projection: 44.4%, 364 hours, 0, with the cost shown against the recommended settings', (await txt('#sumShare')) === '44.4%' && (await txt('#sumHours')) === '364' && (await txt('#sumHigh')) === '0' && (await txt('#summary')).includes('−3.1 points from recommended settings') && (await txt('#summary')).includes('−8 hours from recommended settings'));
   t('static mode: no accuracy change on load', (await p.$$('td.acc-up, td.acc-down')).length === 0);
   t('a blinking live dot on each type measured on live tickets (15), 1-second blink', (await p.$$('td.acc .live-dot')).length === 15 && (await p.evaluate(() => { document.body.classList.remove('static'); const cs = getComputedStyle(document.querySelector('.live-dot')); const ok = cs.animationName === 'blink' && cs.animationDuration === '1s'; document.body.classList.add('static'); return ok; })));
   t('the one test-run type is labelled "based on today\'s test run"', (await p.$$eval('td.acc .sub', es => es.filter(e => e.textContent === "based on today's test run").length)) === 1);
@@ -44,9 +44,9 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     t('recommendation, impact and setting controls are the same size', sz[0] === sz[1] && sz[1] === sz[2]); }
   { const ex = '.exbox[data-ex="0-0"]', acc = () => txt('tr.row[data-i="0"] td.acc');
     await p.click(`${ex} .vtools button`);
-    t('override pop-up shows what the grading AI said and the change', await p.isVisible('#ovr') && (await txt('#ovr')).includes('The grading AI said Correct. Change it to Wrong'));
+    t('override pop-up shows what the grading AI said and the change', await p.isVisible('#ovr') && (await txt('#ovr')).includes('The grading AI marked this Correct. Change it to Wrong? It will count in'));
     await p.fill('#ovrReason', 'Missed the 30-minute limit.'); await p.click('#ovrSave');
-    t('override flips the verdict, shows the reason, and counts in accuracy', !(await p.$('#ovr')) && (await p.getAttribute(ex, 'class')).includes('ex-no') && (await txt(ex)).includes('Verdict overridden') && (await txt(ex)).includes('Your reason: Missed the 30-minute limit.') && (await txt(ex)).includes('Grading AI said Correct') && (await acc()).includes('99.6%'));
+    t('override flips the verdict, shows the reason, and counts in accuracy', !(await p.$('#ovr')) && (await p.getAttribute(ex, 'class')).includes('ex-no') && (await txt(ex)).includes('Verdict overridden') && (await txt(ex)).includes('Your reason: Missed the 30-minute limit.') && (await txt(ex)).includes('The grading AI marked it Correct') && (await acc()).includes('99.6%'));
     await p.click(`${ex} .vtools button:has-text("Edit")`);
     t('edit opens the pop-up with the reason filled in', (await txt('#ovrTitle')) === 'Edit your override' && (await p.inputValue('#ovrReason')) === 'Missed the 30-minute limit.');
     await p.fill('#ovrReason', 'Left out the 30-minute limit.'); await p.click('#ovrSave');
@@ -60,7 +60,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.click('#ovrSave');
     t('Wrong to Correct also works, without a reason', (await p.getAttribute('.exbox[data-ex="0-2"]', 'class')).includes('ex-ok') && (await acc()).includes('100.0%'));
     await p.click('.exbox[data-ex="0-2"] .vtools button:has-text("Undo override")'); }
-  t('examples use the four labels', ['Customer request', 'Kestrel proposed', 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
+  t('examples use the four labels', ['Customer request', "Kestrel's proposed reply", 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
   t('each rule ID links to that rule in the playbook, in a new tab', await p.$eval('a.rule-link[href="playbook.html#BILL-2"]', a => a.target === '_blank' && a.textContent === 'BILL-2').catch(() => false));
@@ -77,7 +77,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('confirmation sits right under the changed control, inside its cell', Math.abs(tb.top - sb.bottom) < 12 && Math.abs(tb.left - sb.left) < 4);
   const row = await txt('tr.row[data-i="6"]');
   t('raising AI share flashes green, high-risk wrong answers flash red', (await p.getAttribute('#sumShare >> xpath=..', 'class')).includes('flash-good') && (await p.getAttribute('#sumHigh >> xpath=..', 'class')).includes('flash-bad'));
-  t('override shows Overridden and the warning', row.includes('Setting overridden') && row.includes('Riskier than recommended: about 10 wrong answers a month would reach customers with no one checking'));
+  t('override shows Overridden and the warning', row.includes('Setting overridden') && row.includes('Riskier than recommended: about 10 wrong answers a month would reach customers unchecked'));
   t('summary updates: 51.4%, 10 high-risk wrong answers', (await txt('#sumShare')) === '51.4%' && (await txt('#sumHigh')) === '10');
   t('dashboard updates: 1 setting override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 setting override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 from recommended settings'));
   await p.selectOption('select[data-i="0"]', 'human');
@@ -88,12 +88,12 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.selectOption('select[data-risk="0"]', 'High');
   let r0 = await txt('tr.row[data-i="0"]');
   t('confirmation after a risk change names the new recommendation', (await txt('#toast')).includes('Saved. Now recommended: AI-assisted human.'));
-  t('risk adjusted: "Adjusted by user" under the risk, recommendation and setting follow', (await txt('tr.row[data-i="0"] td:nth-child(4)')).includes('Adjusted by user') && r0.includes('AI-assisted human') && (await p.inputValue('select[data-i="0"]')) === 'draft' && !r0.includes('Overridden'));
+  t('impact adjusted: "Impact adjusted" under the impact, recommendation and setting follow', (await txt('tr.row[data-i="0"] td:nth-child(4)')).includes('Impact adjusted') && r0.includes('AI-assisted human') && (await p.inputValue('select[data-i="0"]')) === 'draft' && !r0.includes('Overridden'));
   // an overridden setting does not follow a risk change
   await p.selectOption('select[data-i="1"]', 'human'); await p.selectOption('select[data-risk="1"]', 'High');
   t('overridden setting stays when risk changes', (await p.inputValue('select[data-i="1"]')) === 'human');
   await p.selectOption('select[data-risk="0"]', 'Low'); await p.selectOption('select[data-risk="1"]', 'Low'); await p.click('#applyAll');
-  t('back to the original: 47.5%', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Adjusted by user'));
+  t('back to the original: 47.5%', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Impact adjusted'));
   t('confirmation after Apply all', (await txt('#toast')).includes('All recommendations applied'));
   t('Apply all recommendations resets everything', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Setting overridden'));
   t('rules are one table with 3 coloured rows', (await p.$$('#rules tr.r-resolve, #rules tr.r-draft, #rules tr.r-human')).length === 3 && (await p.$$('#rules .chip')).length === 3);

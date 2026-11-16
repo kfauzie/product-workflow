@@ -327,7 +327,7 @@
    "tested": 88,
    "correct": 87,
    "risk": "High",
-   "risk_example": "High: account closed wrongly, or final tax authority steps missed",
+   "risk_example": "High: account closed wrongly, or final filings missed",
    "reason": "98.9% accurate, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
@@ -433,7 +433,7 @@
    "correct": 146,
    "risk": "High",
    "risk_example": "High: staff paid too much or too little holiday pay",
-   "reason": "85.9% accurate: a useful draft, but hard to undo if wrong, so a support agent checks",
+   "reason": "85.9% accurate: a useful draft, but a wrong answer is hard to undo, so a support agent checks",
    "examples": [
     {
      "message": "How much holiday does a 3-day-a-week employee get?",
@@ -502,7 +502,7 @@
    "tested": 96,
    "correct": 84,
    "risk": "Medium",
-   "risk_example": "Medium: pension deducted wrongly, too much or too little",
+   "risk_example": "Medium: too much or too little pension deducted",
    "reason": "87.5% accurate: a useful draft, but below the 98% needed to send unchecked",
    "examples": [
     {
@@ -538,7 +538,7 @@
    "correct": 29,
    "risk": "High",
    "risk_example": "High: customer acts on an answer no rule covers",
-   "reason": "Only 58% accurate: below 60%, a draft wouldn't help a support agent",
+   "reason": "Only 58% accurate: a draft would slow a support agent down",
    "examples": [
     {
      "message": "Is my cleaner self-employed or staff?",
