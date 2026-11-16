@@ -41,12 +41,6 @@ For anything a reader sees: questions, screens, documents, findings, messages.
 - Explain terms, units and assumptions in a few words the first time they appear (see `company-context-glossary`), even ones the customer knows well. Never a lecture.
 - Say what it means for them: warnings, confirmations and notes state the consequence in their terms (their customers, team, time or money, with a number), not the system's internal measure or rule.
 
-**Review the copy before it ships**
-1. Inventory every string, including confirmations, warnings, pop-ups, empty states and errors.
-2. Keep a style sheet: the terms (one name per thing, above), sentence case, numbers and units (no abbreviations in prose), and punctuation (full stops on sentences, not on fragments or labels).
-3. Edit for sense, then clarity, then length: cut repeated words, hedges and anything the reader doesn't need.
-4. Check the UI conventions: buttons start with a verb; labels and tags are short and parallel; confirmations are past tense and say the result; warnings say what will happen.
-5. Proofread in the rendered product, in every state, not in the source.
 
 ## 3. Notion pages
 The writing follows section 2. This section covers how to use Notion's building blocks: a sharp memo with a little visual help, not a decorated slide.

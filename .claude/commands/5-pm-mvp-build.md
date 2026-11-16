@@ -26,16 +26,29 @@ description: "Turn the agreed screens into a working first version, fast: one HT
   - **Correct:** numbers follow the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree; anything the user may want to check (a rule, a source) is one click from where it's cited, opening at the exact item.
   - **Interactive:** every control recalculates everything that depends on it, and tests cover the override paths, not just the default.
   - **Shippable:** a headless check (about 10 seconds) loads the page, clicks through the main flow and finds no errors; wording rules (banned words, punctuation) are enforced by a check; it works at phone and tablet widths with no sideways scrolling, and small-screen changes leave the desktop view untouched (compare desktop screenshots before and after).
+- **Handoff:** Step 2.
+
+## Step 2: Sanity check before I see it
+- **Input:** the working build.
+- **Output:** fixes, and a line in chat on what the check found.
+- **Happy path:** open it and use it as the user would, then check:
+  - **Every state:** click every control, open every row and pop-up, try the edge cases from the screen specs; nothing breaks and nothing shows an error.
+  - **The numbers:** spot-check a few against the data by hand; totals add up; no blanks, "NaN" or odd rounding; numbers that should move together do.
+  - **Fidelity:** nothing agreed in the screens has gone missing or changed by accident.
+  - **Colour and layout:** list every colour and merge near-duplicates; aligned, same-size controls; it works at phone and tablet widths.
+  - **Copy:** run the copy review from `4-pm-solution-design` Step 3 on the build, in every state.
+- **Edge cases:** the check finds something the design didn't cover: fix it in the simplest way consistent with the screens, and say so.
+- **Acceptance criteria:** every check passes; tests and the headless check pass.
 - **Handoff:** tell me how to open it; screenshots only if I ask. If the work is public, a live link (static hosting) and checks that run on every push make it easy to review.
 
-## Step 2: Change one thing at a time
+## Step 3: Change one thing at a time
 - **Input:** my feedback.
 - **Output:** an edited file (never regenerate the whole file), with tests and the headless check rerun.
 - **Happy path:** each change takes about two minutes.
 - **Edge cases:**
   - A change will take longer: tell me first and suggest a smaller step.
   - Something is wrong (a bug, a wrong number): find how far it reaches (one case or all), find the root cause, fix the pattern not the case, add a test that would have caught it, and tell whoever was affected.
-- **Acceptance criteria:** tests and the headless check pass after every change. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after. When a change does move numbers, update everything that quotes them (tests, docs, screenshots, the concept's test cases), and flag any target or success criterion the new numbers miss rather than quietly moving it.
+- **Acceptance criteria:** tests and the headless check pass after every change, and a quick sanity check (Step 2) covers what the change touched. A change to wording or examples leaves the numbers untouched unless I ask; prove it by comparing the data before and after. When a change does move numbers, update everything that quotes them (tests, docs, screenshots, the concept's test cases), and flag any target or success criterion the new numbers miss rather than quietly moving it.
 - **Handoff:** back to me, or to `6-pm-mvp-review` when the flow is ready to show.
 
 ## Later, only if I ask

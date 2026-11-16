@@ -33,7 +33,7 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Output:** screen images in the run's `design/` folder, one per screen, most important first.
 - **Happy path:**
   - **Visual system:** clean B2B SaaS in the company's design system.
-    - Colour: one hue per meaning (e.g. good, caution, bad, AI, reference, brand, neutral), each with fixed shades (text, tint, border) defined once as named values. Same meaning, same colour; different meanings, clearly different hues. The primary colour is for the main action only, and colour is never the only signal. Before shipping, list every colour and merge near-duplicates.
+    - Colour: one hue per meaning (e.g. good, caution, bad, AI, reference, brand, neutral), each with fixed shades (text, tint, border) defined once as named values. Same meaning, same colour; different meanings, clearly different hues. The primary colour is for the main action only, and colour is never the only signal.
     - Icons and marks: small line icons beside labelled facts, in the text colour, never carrying meaning alone. A product mark uses shapes and colours comparable products don't, reads as intended in silhouette, and works at its smallest size (a browser tab).
   - **Layout and actions:** a short header in labelled lines (Customer, User, Job to be done), plus a step bar if there's more than one screen, and no other design notes on screen. Details as label | value tables; hover explanations for assumptions; notes and warnings look different from content. One primary button per screen, saying what it does. Controls side by side share one size; in equal-height cards the flexible part takes the spare space, so footers line up.
   - **Ground the layout in real products:** first study screenshots of three to five strong B2B SaaS products with the same or an adjacent job (websites, help centres, public galleries). Design from the patterns they share (e.g. summary numbers above a filterable table, detail in a side panel), name the source of each, and adapt it to the user; never copy a product's look.
@@ -49,8 +49,14 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Happy path:** walk the flow once as the user, with only what they'd know, then check:
   - **Five seconds:** on each screen, it's clear what it's for and what to do next.
   - **The principles:** each of the seven above holds; fix any that doesn't.
-  - **The visual system:** list every colour and merge near-duplicates; controls side by side share one size; the primary colour is on the main action only.
-  - **The copy:** it has passed the copy review in `0-pm-standard`.
+  - **Colour:** list every colour on the screens and merge near-duplicates that mean the same thing; the primary colour is on the main action only; colour is never the only signal.
+  - **Layout:** controls side by side share one size; footers line up; nothing overflows.
+  - **Copy review** (for anything rendered: screens, prototypes)
+     1. Inventory every string, including confirmations, warnings, pop-ups, empty states and errors.
+     2. Keep a style sheet: the terms (one name per thing), sentence case, numbers and units (no abbreviations in prose), and punctuation (full stops on sentences, not on fragments or labels).
+     3. Edit for sense, then clarity, then length: cut repeated words, hedges and anything the reader doesn't need.
+     4. Check the UI conventions: buttons start with a verb; labels and tags are short and parallel; confirmations are past tense and say the result; warnings say what will happen.
+     5. Proofread in the rendered product, in every state, not in the source.
   - **The grounding:** each borrowed pattern has its source named, and nothing copies a product's look.
 - **Edge cases:** the review shows a screen doing more than one job: split it, or move the detail one click away.
 - **Acceptance criteria:** every check passes, or the notes under the image say which doesn't and why.

@@ -50,7 +50,7 @@ description: "Turn the discovery notes and data findings into a solution concept
   - **The evidence:** every claim has a quote or a computed number; estimates and judgements are marked.
   - **The choice:** the ideas are genuinely different, and the reason the recommended one wins is stated, not implied.
   - **The workflow:** it covers the range of real requests, not just the example, and every input has a reason.
-  - **The page:** it reads in two minutes and has passed the copy review in `0-pm-standard`.
+  - **The page:** it reads in two minutes and follows the communication guide and Notion layout in `0-pm-standard`.
 - **Edge cases:** the review finds a gap that changes the recommendation: fix it, and say so at the top of the page rather than burying it.
 - **Acceptance criteria:** every check passes, or the page says which doesn't and why.
 - **Handoff:** give me the link; add it to the run notes; `4-pm-solution-design` reads it fresh. When I comment, revise as section 3 of `0-pm-standard` describes.
