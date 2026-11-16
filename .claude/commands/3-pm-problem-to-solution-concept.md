@@ -11,15 +11,15 @@ description: "Turn the discovery notes and data findings into a solution concept
 **Grounding:** the interview notes (quote the transcript, not the AI summary); tested claims from `1-pm` Step 2 (don't re-analyse the data); `company-context-overview` (product strategy, how it makes money); `company-context-personas` (user and buyer; the notes win where they differ); `company-context-glossary`; `0-pm-standard`.
 **Tone:** answer first; no claim without a quote or a calculated number.
 
-## Step 0: Check for gaps
+## Step 1: Check for gaps
 - **Input:** the notes.
 - **Output:** either "no gaps that change the idea", or questions for the customer.
 - **Happy path:** no gap big enough to change which idea wins or the main workflow. Write the problem in one sentence in your own words: who the customer is (the person you solve for, not their audience), and the one thing that stops them. Every later section must serve that sentence.
 - **Edge cases:** a gap that would change the idea or the workflow (who the user is, what the job is): show me the questions and wait. Detail choices (defaults, settings, method options) don't stop the work: assume, state it, move on.
-- **Acceptance criteria:** only questions that could change the idea or the workflow are asked; the one-sentence problem is written before Step 1.
-- **Handoff:** Step 1.
+- **Acceptance criteria:** only questions that could change the idea or the workflow are asked; the one-sentence problem is written before Step 2.
+- **Handoff:** Step 2.
 
-## Step 1: Write the concept
+## Step 2: Write the concept
 - **Input:** notes, tested claims, context.
 - **Output:** a Notion page, "[Run]: solution concept ([customer])", under the parent page named in the active context folder:
   1. **The problem:** what they asked for, in their words. The real problem: [user] needs to [job] but today [workaround], which causes [impact]. Evidence: 3–5 bullets, each a quote or a calculated number, with its source.
@@ -40,4 +40,17 @@ description: "Turn the discovery notes and data findings into a solution concept
   - The customer's usual workaround ("we'd just do X instead"): cost it honestly. Workarounds often carry a cost nobody counts.
   - The real fix may be a process change, not a product: say so in the ideas, even if a product is still recommended.
 - **Acceptance criteria:** every claim has a quote or a number; say how, never "seamless" or "met by design"; test cases have computed answers.
-- **Handoff:** give me the link; add it to the run notes; `4-pm-solution-design` reads it fresh.
+- **Handoff:** Step 3.
+
+## Step 3: Review it before I see it
+- **Input:** the draft page.
+- **Output:** a revised page, and a line in chat on what the review changed.
+- **Happy path:** read it once as the person who approves the direction, with no context, then check:
+  - **The thread:** the recommendation solves the one-sentence problem from Step 1, and every section serves it; cut anything that doesn't.
+  - **The evidence:** every claim has a quote or a computed number; estimates and judgements are marked.
+  - **The choice:** the ideas are genuinely different, and the reason the recommended one wins is stated, not implied.
+  - **The workflow:** it covers the range of real requests, not just the example, and every input has a reason.
+  - **The page:** it reads in two minutes and has passed the copy review in `0-pm-standard`.
+- **Edge cases:** the review finds a gap that changes the recommendation: fix it, and say so at the top of the page rather than burying it.
+- **Acceptance criteria:** every check passes, or the page says which doesn't and why.
+- **Handoff:** give me the link; add it to the run notes; `4-pm-solution-design` reads it fresh. When I comment, revise as section 3 of `0-pm-standard` describes.
