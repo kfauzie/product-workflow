@@ -13,12 +13,11 @@ description: "Prepare and run a 10-minute customer discovery interview: a few op
 
 ## Principles
 - **Problem, not solution.** Questions name the problem, never the requested solution. Don't assume who the user is or what gets built. If they ask for a feature, ask what it would let them do.
-- **Be specific.** Ask about a real, recent example, not general habits.
-- **Hold hypotheses, don't voice them.** Write down what you think is going on before the call; ask open questions in it. One question, then silence. Don't summarise their answer for them or offer two options to pick from.
+- **Real, recent, shown.** Ask about a real, recent example, not general habits; where you can, ask them to show it (share their screen).
+- **Neutral questions.** Open, with no hint of the answer you expect and no belief built in. Write your hypotheses down before the call, but don't voice them: don't summarise their answer for them or offer two options to pick from.
+- **One at a time.** One question per line; ask it, then stay silent.
+- **Their words,** from the glossary and from what they say.
 - **Find the assumption they reject.** When people say they don't trust an output, ask which part they don't believe. Distrust usually hangs on one assumption, not on the whole method.
-- **The customer's language,** from the glossary and their own words.
-- **Open questions.** No hint of the answer you expect and no belief built in.
-- **One question per line,** so they get asked one at a time.
 - **Personas and common pain points as things to listen for.** Guess which persona the customer and the user are, and which pain points could be behind the ask. Use that to choose follow-ups and to notice them when they come up; never build them into a question. What the customer says beats the persona.
 
 ## Step 1: Prepare the guide

@@ -13,7 +13,7 @@ description: "Generate quick follow-up questions to confirm the working version 
 
 ## Step 1: Plan the evaluation
 - **Input:** the concept's AI / code / people split.
-- **Output:** for each thing the AI does: what "right" looks like, which cases matter most (common requests, tricky wording, ones it should refuse or flag), and roughly how many examples are needed to trust it.
+- **Output:** for each thing the AI does: what "right" looks like, which cases matter most (common requests, tricky wording, risky ones it should refuse or flag), and roughly how many examples are needed to trust it. Measure two layers: is the AI doing its job, and is the user better off. Plan trust in stages, as far as the cost of a mistake needs: known answers first, then live use with a person checking every output, then acting alone with guardrails and a way to switch it off. If an AI judges the answers, trust it only once it agrees with what experts would decide.
 - **Happy path:** the plan shapes question 3.
 - **Edge cases:** the AI does nothing judgement-based: say so, and skip the sample request.
 - **Acceptance criteria:** the sample asked for matches the plan exactly.
@@ -35,7 +35,7 @@ description: "Generate quick follow-up questions to confirm the working version 
 ## Step 3: Check the sample yourself, don't ask
 - **Input:** the sample the customer sends.
 - **Output:** a short test report.
-- **Happy path:** run each case through the working version; note which it can't answer and which hit gaps in the data.
+- **Happy path:** run each case through the working version; note which it can't answer and which hit gaps in the data. Group the failures by cause and fix the pattern, not the case; add every failure and risky case to the tests.
 - **Edge cases:** the sample doesn't cover enough cases (different askers, options, segments): ask for more.
 - **Acceptance criteria:** every case has a result.
 - **Handoff:** feedback goes back into `4-pm` screens and `5-pm` build.

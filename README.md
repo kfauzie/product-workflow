@@ -82,12 +82,15 @@ Every skill has the same frame:
 The aim is that the next person, or the next skill, knows exactly what they receive and when it's good enough.
 
 ## Principles behind it
-- I start with the persona and the job they need to get done, and go simplest first.
-- I choose based on user insight, commercial benefit to the company, and implementation effort.
-- If it follows fixed logic, it's code. If it needs judgment, it's AI. Every number on a screen is calculated, never written by the model, and labelled for what it really measures.
-- Everything can be checked: examples are built from their source (a policy, a rulebook), quote it by ID and link to it.
-- I write every message as the user reading it: what it means for their customers, team, time or money.
-- I go after the why behind the why.
+The full set is in [`0-pm-standard`](.claude/commands/0-pm-standard.md); every skill applies them.
+1. **Own the problem end to end:** investigate, then build, hands-on up to a working prototype.
+2. **Find the real problem:** the why behind the why, from real, recent examples and representative users.
+3. **Decide on user insight, commercial benefit and effort,** starting from the metric that matters.
+4. **Start simple, ship early:** one persona first; more complex only when simple isn't enough.
+5. **Let the best evidence win:** every number from code, every claim backed by data or the customer's words.
+6. **Set the bar by what a mistake costs:** code for fixed logic, AI for judgement, more checks where a mistake is harder to undo.
+7. **Earn trust by showing the work:** how each answer was produced, and where it came from.
+8. **Match the response to the size of the change:** small changes, small notes; when something breaks, fix the pattern, not the case.
 
 ## How I use this at work
 - **Day to day:** Claude Code with custom skills and MCPs for GitHub, Slack, Notion and Figma, for customer research, data analysis, specs, design, prototyping and PRs.
