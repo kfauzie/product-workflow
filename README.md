@@ -49,7 +49,7 @@ flowchart LR
 
 ## The workflow, end to end
 
-Skills run in number order. [`0-pm-standard`](.claude/commands/0-pm-standard.md) comes first because every other skill reads it: what good looks like, the communication guide and the document style. `1-pm-data-discovery` runs twice: before the interview, and again to test what the customer said.
+Skills run in number order. [`0-pm-standard`](.claude/commands/0-pm-standard.md) comes first because every other skill reads it: the principles, the communication guide and how Notion pages are laid out. `1-pm-data-discovery` runs twice: before the interview, and again to test what the customer said.
 
 | Step | Skill | Grounded in | Output | In the example |
 |---|---|---|---|---|

@@ -1,6 +1,6 @@
 ---
 name: 0-pm-standard
-description: "The standard every skill in this repo follows: the PM role, the principles behind every call, how anything a reader sees is written, Notion document style, and how to work with me. Read it first; use for any discovery, data analysis, solution concept, design or prototype."
+description: "The standard every skill in this repo follows: the PM role, the principles behind every call, how anything a reader sees is written, how Notion pages are laid out, and how to work with me. Read it first; use for any discovery, data analysis, solution concept, design or prototype."
 ---
 
 # PM standard
@@ -27,6 +27,7 @@ For anything a reader sees: questions, screens, documents, findings, messages.
 **Lead with the point**
 - Answer first: the answer or recommendation, then the two or three reasons, then the detail. Each section opens with its point in one line.
 - As few words as possible, every one specific, but keep the "because".
+- Size it to the decision: a small change gets a few lines; a big decision gets a full page.
 - Order things the way they're used: lists, steps and files in the order the reader uses them, with the foundation first. One numbering scheme per view; two side by side make the reader translate.
 
 **Use the precise word**
@@ -47,17 +48,14 @@ For anything a reader sees: questions, screens, documents, findings, messages.
 4. Check the UI conventions: buttons start with a verb; labels and tags are short and parallel; confirmations are past tense and say the result; warnings say what will happen.
 5. Proofread in the rendered product, in every state, not in the source.
 
-## 3. Document style (Notion pages)
-Professional and easy to scan: a sharp memo with a little visual help, not a decorated slide and not a wall of text.
-- **Size it to the decision:** a small change gets a few lines; a big decision gets a full page.
-- **Few callouts:** one at the top with the key message, and at most one more for something that needs attention (e.g. assumptions).
-- **Numbered headings, no icons.** Icons only inside the few callouts.
-- **Colour to mark meaning,** sparingly: light header rows, green for the recommended option, yellow for what needs attention.
-- **Tables only for real comparisons.** Short lists are bullets. **Toggles** for detail most readers can skip.
-- **No glossary block:** explain terms inline where they first appear.
-- **Short lines, one idea each.**
-- **End every page with "Your feedback"** and an empty space for my notes.
-- **Before revising a page,** read the feedback section and the inline comments (fetch with discussions), and say which feedback you acted on.
+## 3. Notion pages
+The writing follows section 2. This section covers how to use Notion's building blocks: a sharp memo with a little visual help, not a decorated slide.
+- **Callouts:** one at the top with the key message, and at most one more for something that needs attention (e.g. assumptions).
+- **Headings:** numbered, no icons. Icons only inside callouts.
+- **Colour:** to mark meaning, sparingly: light header rows, green for the recommended option, yellow for what needs attention.
+- **Tables** only for real comparisons; short lists are bullets; **toggles** for detail most readers can skip.
+- **No glossary block:** terms are explained inline (section 2).
+- **Feedback:** end every page with "Your feedback" and an empty space for my notes. Before revising, read that section and the inline comments (fetch with discussions), and say which feedback you acted on.
 
 ## 4. How to work with me
 - **Show the judgement.** For each step, state the call and the reason before doing it, the trade-off, and what you turned down.
