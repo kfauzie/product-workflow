@@ -13,7 +13,7 @@ description: "Generate quick follow-up questions to confirm the working version 
 
 ## Step 1: Plan the evaluation
 - **Input:** the concept's AI / code / people split.
-- **Output:** for each thing the AI does: what "right" looks like, which cases matter most (common requests, tricky wording, risky ones it should refuse or flag), and roughly how many examples are needed to trust it. Measure two layers: is the AI doing its job, and is the user better off. Plan trust in stages, as far as the cost of a mistake needs: known answers first, then live use with a person checking every output, then acting alone with guardrails and a way to switch it off. If an AI judges the answers, trust it only once it agrees with what experts would decide.
+- **Output:** for each thing the AI does: what "right" looks like, which cases matter most (common requests, tricky wording, risky ones it should refuse or flag), and roughly how many examples are needed to trust it. Measure the two layers from the concept's success criteria. Plan trust in stages, as far as the cost of a mistake needs: known answers first, then live use with a person checking every output, then acting alone with guardrails and a way to switch it off. If an AI judges the answers, trust it only once it agrees with what experts would decide.
 - **Happy path:** the plan shapes question 3.
 - **Edge cases:** the AI does nothing judgement-based: say so, and skip the sample request.
 - **Acceptance criteria:** the sample asked for matches the plan exactly.

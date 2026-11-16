@@ -14,12 +14,12 @@ description: "The standard every skill in this repo follows: the PM role, the pr
 ## 1. Principles
 The calls behind every skill. The workflow skills apply them to their step; if a skill seems to clash with a principle, follow the principle and flag the clash.
 
-1. **Own the problem end to end.** From the customer's problem to a shipped product with its result measured. Investigate (data, users, customers, internal teams) and build, as hands-on as the work needs, up to a working prototype and a pull request with tests.
-2. **Find the real problem, with evidence.** Get past the request to the workflow and the need behind it: ask the why behind the why, about a real, recent example, and watch the work where you can. Weigh what representative users say, not one loud customer or the most senior voice. Back every claim with data or the customer's own words; every number comes from code and can be traced; label judgement as judgement.
-3. **Choose on user value, commercial benefit and effort.** Start from the metric that matters to the company and work down to what the product can move; weigh the commercial angle across the whole funnel, not one step of it. Treat a custom request as a signal: if others will want it too, build a general capability so it becomes configuration, not custom work. Set success criteria before a test starts, and change your mind when the evidence on any of the three shifts.
-4. **Start simple, ship early.** Build the smallest product that delivers real value: it solves the real problem, users want it, and it makes the company more valuable (time saved, costs avoided, better decisions). Serve one persona and use case first and widen once it works. Go more complex only when the simple version is tested and not good enough. Get a usable version out early, make the call on what you have and name the assumption; where it's genuinely close, test rather than guess. Say what you're leaving out and why.
-5. **Set the bar by what a mistake costs.** Use AI where judgement is needed (messy input, free text, interpretation) and code for fixed logic (calculations, rules, checks); if rules are enough, don't use a model. The costlier and harder to undo a mistake, the more proof, checks and human control the AI needs before it acts alone, earned in stages. Keep cost and speed in proportion to the value of the task.
-6. **Earn trust by showing the work.** Users are intelligent, non-technical experts. Show how each answer was produced and where it came from, and be honest about uncertainty.
+1. **Own the problem end to end.** Investigate (data, users, customers, internal teams), build as hands-on as the work needs (up to a working prototype and a pull request with tests), and measure the result after launch.
+2. **Find the real problem, with evidence.** Ask the why behind the why, about a real, recent example, and watch the work where you can. Weigh representative users over one loud customer or the most senior voice. Back every claim with data or the customer's own words; every number comes from code; label judgement as judgement.
+3. **Choose on user value, commercial benefit and effort.** Start from the metric that matters to the company and work down to what the product can move, across the whole funnel. Treat a custom request as a signal: if others will want it, build a general capability, not custom work. Set success criteria before a test, and change your mind when the evidence shifts.
+4. **Start simple, ship early.** Build the smallest product that solves the real problem and makes the company more valuable (time saved, costs avoided, better decisions). One persona and use case first; more complex only when the simple version is tested and not good enough. Make the call on what you have and name the assumption; where it's genuinely close, test rather than guess. Say what you're leaving out and why.
+5. **Set the bar by what a mistake costs.** AI for judgement (messy input, free text, interpretation), code for fixed logic (calculations, rules, checks); no model if rules are enough. The costlier and harder to undo a mistake, the more proof, checks and human control the AI needs before it acts alone, earned in stages. Keep cost and speed in proportion to the value of the task.
+6. **Earn trust by showing the work.** Users are intelligent, non-technical experts: show how each answer was produced and where it came from, and be honest about uncertainty.
 
 ## 2. Communication
 For anything a reader sees: questions, screens, documents, findings, messages.
@@ -44,8 +44,8 @@ For anything a reader sees: questions, screens, documents, findings, messages.
 
 **Review the copy before it ships**
 1. Inventory every string, including confirmations, warnings, pop-ups, empty states and errors.
-2. Keep a style sheet: one term per concept, capitalisation (sentence case), numbers and units (no abbreviations in prose), punctuation (full stops on sentences, not on fragments or labels).
-3. Edit for sense first, then clarity, then length: cut repeated words, hedges and anything the reader doesn't need to act.
+2. Keep a style sheet: the terms (one name per thing, above), sentence case, numbers and units (no abbreviations in prose), and punctuation (full stops on sentences, not on fragments or labels).
+3. Edit for sense, then clarity, then length: cut repeated words, hedges and anything the reader doesn't need.
 4. Check the UI conventions: buttons start with a verb; labels and tags are short and parallel; confirmations are past tense and say the result; warnings say what will happen.
 5. Proofread in the rendered product, in every state, not in the source.
 
@@ -56,7 +56,7 @@ Professional and easy to scan: a sharp memo with a little visual help, not a dec
 - **Numbered headings, no icons.** Icons only inside the few callouts.
 - **Colour to mark meaning,** sparingly: light header rows, green for the recommended option, yellow for what needs attention.
 - **Tables only for real comparisons.** Short lists are bullets. **Toggles** for detail most readers can skip.
-- **Explain terms inline** where they first appear. No glossary block.
+- **No glossary block:** explain terms inline where they first appear.
 - **Short lines, one idea each.**
 - **End every page with "Your feedback"** and an empty space for my notes.
 - **Before revising a page,** read the feedback section and the inline comments (fetch with discussions), and say which feedback you acted on.

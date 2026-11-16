@@ -12,12 +12,11 @@ description: "Look at a customer's data before and during discovery to find the 
 **Tone:** plain words, one number per finding, guesses labelled as guesses.
 
 ## Ground rules
-- Every number is calculated by running code, never estimated by reading the file. Keep the code so each number can be traced.
-- Mark anything guessed (meanings, units, intent) as a guess.
+- Run code for every number, never estimate by reading the file, and keep the code.
 - Stay generic: look for patterns, not for a known story.
 - The data may not be perfect. Flag quality issues briefly; only dig in if a gap is big enough to change the findings.
 - Say where each measure comes from (live use, a test sample, an estimate) and how big the base is. A figure from a small test and one from a full month of real use should never look the same.
-- Be suspicious of numbers that are too neat: every value round, or totals that add up perfectly. Real data rarely looks like that; if synthetic data has to stand in, make it believable and label it.
+- Be suspicious of numbers that are too neat (every value round, totals that add up perfectly): real data rarely looks like that.
 
 ## Step 1: Initial review (before the interview)
 - **Input:** the data file and the customer's ask, word for word. Start with `python3 tools/lens.py profile <csv>` if the file is a wide export (one row per item, with measures repeated across columns for each option or period); otherwise analyse by hand.

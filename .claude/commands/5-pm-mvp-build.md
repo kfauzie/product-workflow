@@ -23,7 +23,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
     - **Expert-proof:** read each example as a domain expert would; the input, the response and the verdict must hold together.
   - The concept leaves a number undefined: stop and name it, don't invent a formula.
 - **Acceptance criteria:**
-  - **Correct:** every number is calculated by code, following the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree.
+  - **Correct:** numbers follow the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree.
   - **Interactive:** every control recalculates everything that depends on it, and tests cover the override paths, not just the default; anything the user may want to check (a rule, a source) is one click from where it's cited, opening at the exact item.
   - **Shippable:** a headless check (about 10 seconds) loads the page, clicks through the main flow and finds no errors; wording rules (banned words, punctuation) are enforced by a check; it works at phone and tablet widths with no sideways scrolling, and small-screen changes leave the desktop view untouched (compare desktop screenshots before and after).
 - **Handoff:** tell me how to open it; screenshots only if I ask. If the work is public, a live link (static hosting) and checks that run on every push make it easy to review.
@@ -42,4 +42,4 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - Branch and PR with screenshots, how to run it and test results
 - Dark mode
 - A clickable demo that replays precomputed answers
-- Taking it to production: with no engineer, I ship it myself from the PR with tests; with engineers, deliver the spec, the prototype and the PR together, adjusted afterwards if they want something different. Either way: one PR per screen behind a feature flag, engineer review, staging, release, and measurement against the agreed targets. Size the launch note to the change: a small change gets a line in the product update; a big one gets updated guides, the teams who need to know told, and a check-in afterwards.
+- Taking it to production: one PR per screen behind a feature flag, review, staging, release, then measure against the agreed targets. With engineers, give them the spec, prototype and PR together; with none, I ship it from the PR. Size the launch note to the change: a line in the product update for a small one; updated guides, the right teams told and a check-in for a big one.
