@@ -23,8 +23,8 @@ description: "Turn the agreed screens into a working first version, fast: one HT
     - **Expert-proof:** read each example as a domain expert would; the input, the response and the verdict must hold together.
   - The concept leaves a number undefined: stop and name it, don't invent a formula.
 - **Acceptance criteria:**
-  - **Correct:** numbers follow the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree.
-  - **Interactive:** every control recalculates everything that depends on it, and tests cover the override paths, not just the default; anything the user may want to check (a rule, a source) is one click from where it's cited, opening at the exact item.
+  - **Correct:** numbers follow the concept's AI / code / people split; when the brief gives data or rules, tests check them exactly (every row, every rule outcome); the concept's test cases pass; text that quotes a number reads it from the same value, so the two never disagree; anything the user may want to check (a rule, a source) is one click from where it's cited, opening at the exact item.
+  - **Interactive:** every control recalculates everything that depends on it, and tests cover the override paths, not just the default.
   - **Shippable:** a headless check (about 10 seconds) loads the page, clicks through the main flow and finds no errors; wording rules (banned words, punctuation) are enforced by a check; it works at phone and tablet widths with no sideways scrolling, and small-screen changes leave the desktop view untouched (compare desktop screenshots before and after).
 - **Handoff:** tell me how to open it; screenshots only if I ask. If the work is public, a live link (static hosting) and checks that run on every push make it easy to review.
 

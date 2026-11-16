@@ -87,7 +87,7 @@ The full set is in [`0-pm-standard`](.claude/commands/0-pm-standard.md); every s
 2. **Find the real problem, with evidence:** the why behind the why, from real examples and representative users; every number from code.
 3. **Choose on user value, commercial benefit and effort,** starting from the metric that matters.
 4. **Start simple, ship early:** one persona first; more complex only when simple isn't enough.
-5. **Set the bar by what a mistake costs:** code for fixed logic, AI for judgement, more checks where a mistake is harder to undo.
+5. **Use AI only where it earns its place:** code for fixed logic, AI for judgement, more checks where a mistake is harder to undo.
 6. **Earn trust by showing the work:** how each answer was produced, and where it came from.
 
 ## How I use this at work
