@@ -36,6 +36,8 @@ iframe{display:block;width:100%;height:1200px;border:0}
 <script>
 // size the embedded prototype to its content, and keep it sized as rows open and close
 const f = document.getElementById('demo');
+// the prototype reports its own height from inside the frame, so it is right even on a first, uncached load
+window.addEventListener('message', e => { if (e.source === f.contentWindow && e.data && e.data.kestrelHeight) f.style.height = e.data.kestrelHeight + 'px'; });
 f.addEventListener('load', () => { const d = f.contentDocument, fit = () => { f.style.height = Math.ceil(d.body.getBoundingClientRect().height) + 'px'; };
   fit(); new ResizeObserver(fit).observe(d.body); });
 </script>

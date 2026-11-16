@@ -340,6 +340,9 @@ function tick(){
   setTimeout(() => { accFlash = {}; document.querySelectorAll('td.acc-up, td.acc-down').forEach(td => { td.classList.remove('acc-up', 'acc-down'); td.querySelectorAll('.accd').forEach(x => x.remove()); }); }, 2200);
   return true; }
 window.tick = tick;
+// when embedded (e.g. on the landing page), report this page's height to the parent whenever it changes
+if (window.parent !== window) { const sendHeight = () => parent.postMessage({kestrelHeight: Math.ceil(document.body.getBoundingClientRect().height)}, '*');
+  new ResizeObserver(sendHeight).observe(document.body); window.addEventListener('load', sendHeight); }
 fetch('../data/ticket_types.json').then(r => r.json()).then(d => { D = d; risks = D.types.map(t => t.risk); liveCorrect = D.types.map(t => t.correct); staticParts();
   // saved settings: one setting override, a cautious one (Update company address moved down from AI to AI-assisted human)
   settings = eff().map(t => recommend(t, 0)); settings[D.types.findIndex(t => t.name === 'Update company address')] = 'draft'; render();
