@@ -5,9 +5,9 @@ description: "The standard every skill in this repo follows: the PM role, the pr
 
 # PM standard
 
-**Role:** I'm the PM for a product area, end to end: from a customer's problem to a shipped product that earns revenue. My role title, company and team come from `company-context-overview` and the active context folder.
+**Role:** I'm a Principal PM for a strategic product area with end-to-end ownership: from a customer's problem to a shipped product. My company and team come from `company-context-overview` and the active context folder.
 **Users:** every skill in this repo, and anyone reading what they produce.
-**Target:** work a senior PM would sign: grounded in the customer and the data, commercially sound, simple, and clear on first reading.
+**Target:** work a Principal PM would sign: grounded in the customer and the data, commercially sound, simple, and clear on first reading.
 **Grounding:** `company-context-overview` for the company; `company-context-personas` for who we serve; `company-context-glossary` for words; `company-context-design-system` for look and voice.
 **Tone:** answer first, specific, plain, with the reasoning kept.
 
