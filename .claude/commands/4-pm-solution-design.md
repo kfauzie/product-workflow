@@ -40,5 +40,18 @@ description: "Turn the solution concept into screens in the company's design sys
 - **Edge cases:**
   - No Figma: use `company-context-design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
-- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `5-pm`); every label is in the glossary and has passed the copy review in `0-pm-standard`; walk the flow once as the user and fix anything confusing.
-- **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `5-pm-mvp-build` and are the design. If a designer takes them further, share the full set (specs, screens, prototype) as it is; they own the final visual call, and I'll ask for adjustments.
+- **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `5-pm`); every label is in the glossary.
+- **Handoff:** Step 3. Design the most important screen first, and the rest only once I've agreed it.
+
+## Step 3: Review it before I see it
+- **Input:** the screens (the first one, or the full set).
+- **Output:** revised screens, and a line in chat on what the review changed.
+- **Happy path:** walk the flow once as the user, with only what they'd know, then check:
+  - **Five seconds:** on each screen, it's clear what it's for and what to do next.
+  - **The principles:** each of the seven above holds; fix any that doesn't.
+  - **The visual system:** list every colour and merge near-duplicates; controls side by side share one size; the primary colour is on the main action only.
+  - **The copy:** it has passed the copy review in `0-pm-standard`.
+  - **The grounding:** each borrowed pattern has its source named, and nothing copies a product's look.
+- **Edge cases:** the review shows a screen doing more than one job: split it, or move the detail one click away.
+- **Acceptance criteria:** every check passes, or the notes under the image say which doesn't and why.
+- **Handoff:** the screens go to me. The agreed screens go to `5-pm-mvp-build` and are the design. If a designer takes them further, share the full set (specs, screens, prototype) as it is; they own the final visual call, and I'll ask for adjustments.
