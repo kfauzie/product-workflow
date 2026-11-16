@@ -91,6 +91,8 @@ tr.detail td{background:var(--open);padding:2px 10px 14px 32px}
 .verdict{padding:9px 14px 11px;border-top:1px solid var(--line)}
 button.link{background:none;border:0;padding:0;font:inherit;font-size:12px;font-weight:600;color:var(--info);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 button.link:hover{color:var(--info-dark)}
+button.btn-sm{font:inherit;font-size:12px;font-weight:600;line-height:1;padding:6px 10px;border-radius:6px;cursor:pointer}
+button.danger{background:var(--hum);color:#fff;border:1px solid var(--hum)}button.danger:hover{background:#93202a;border-color:#93202a}
 .vtools{margin-top:6px;font-size:12px;color:var(--mute)}
 .ovr-note{margin-top:6px;font-size:12.5px}.ovr-note .ai-said{margin-top:4px;font-size:12px;color:var(--mute)}
 .ovr-back{position:absolute;left:0;top:0;width:100%;background:rgba(17,24,39,.32);z-index:50}
@@ -248,7 +250,7 @@ function render(){
       </div>
       <div class="verdict"><span class="who">Evaluation (grading AI)</span>
         <div class="rulebox"><span class="who">${ic('book')}Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</div>
-        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)">Edit</button> · <button class="link" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">The grading AI marked it ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
+        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)">Edit</button> · <button class="link" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">The grading AI marked it ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="btn-sm danger" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
   document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
