@@ -63,7 +63,7 @@ Skills run in number order. [`0-pm-standard`](.claude/commands/0-pm-standard.md)
 | Hand-off | `5-pm-mvp-build` ("later, if asked") | The prototype and its tests | One PR per screen behind a feature flag, engineer review, staging, release | Not shown in the example |
 
 ## How MCPs ground it
-Four context skills replace anything company-specific. Each reads the active context folder first, then MCP, then asks me, and never fills a gap from the model's memory:
+Four context skills replace anything company-specific. Each reads the active context folder first, then MCP, then asks me, and never fills a gap from the model's memory Three of them can also run an Enrich step: external research on comparable products, kept apart from company facts and overruled by internal direction where they disagree:
 
 | Context skill | Pulls from |
 |---|---|

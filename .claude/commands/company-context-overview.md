@@ -1,6 +1,6 @@
 ---
 name: company-context-overview
-description: "Load the company and product context every other skill grounds on: what the company does, its products and what each outputs, who buys, market and regulation, competitors, how it makes money. Pulled from the active context folder, then Notion and Slack via MCP, then asked. Use at the start of any discovery, concept, design or build step."
+description: "Load the company and product context every other skill grounds on: what the company does, its products and what each outputs, who buys, market and regulation, competitors, how it makes money. Pulled from the active context folder, then Notion and Slack via MCP, then asked. Use at the start of any discovery, concept, design or build step. An Enrich step adds external research on comparable products, kept separate from company facts; internal direction wins."
 ---
 
 # Company context
@@ -31,4 +31,14 @@ description: "Load the company and product context every other skill grounds on:
   - Sources disagree: use the newest dated one and flag the conflict.
   - An MCP isn't connected: say which, and carry on with the folder and my answers.
 - **Acceptance criteria:** every field has a value and a source, or sits under "Not known". No product capability is claimed without a source.
-- **Handoff:** the brief goes to the calling skill. Background only: don't build features from it unless I ask.
+- **Handoff:** the brief goes to the calling skill, or to Step 2. Background only: don't build features from it unless I ask.
+
+## Step 2: Enrich
+- **Input:** the brief from Step 1.
+- **Output:** a section "External, not company direction": three to five comparable or adjacent products; for each, what they offer, how they charge and who they serve, with a public source (their website, help centre, pricing page, public reviews). Then two or three opportunities the company may not have considered, each with the external evidence behind it.
+- **Happy path:** search for products that do the same job, or an adjacent one, for a similar buyer; read their public pages; paraphrase, never copy.
+- **Sandboxed:** keep the findings in a separate section, "External, not company direction". Never mix them into the company facts above, and never present them as what the company does or plans.
+- **Internal wins:** where an external finding contradicts anything internal (the context folder, Notion, Slack, or what I've said), follow the internal side. There may be a reason the company doesn't go that way, so turn the contradiction into a question for me ("Comparable products do [X]; is there a reason we don't?").
+- **Edge cases:** a source can't be read directly (blocked, paywalled): say so, and mark what came only from search summaries.
+- **Acceptance criteria:** every external point has a source; every opportunity is framed as an idea to test, not a fact about the company.
+- **Handoff:** `3-pm-problem-to-solution-concept` may draw solution ideas from it, marked as external; never as evidence of what the customer needs.
