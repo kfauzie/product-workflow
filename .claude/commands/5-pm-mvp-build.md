@@ -42,4 +42,4 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - Branch and PR with screenshots, how to run it and test results
 - Dark mode
 - A clickable demo that replays precomputed answers
-- Hand-off to engineers: agree up front what you hand over and in how much detail (a spec, a prototype or a PR); then one PR per screen behind a feature flag, engineer review, staging, release, and measurement against the agreed targets. Size the launch note to the change: a small change gets a line in the product update; a big one gets updated guides, the teams who need to know told, and a check-in afterwards.
+- Hand-off to engineers: deliver the spec, the prototype and the PR together, adjusted afterwards if the engineer wants something different; then one PR per screen behind a feature flag, engineer review, staging, release, and measurement against the agreed targets. Size the launch note to the change: a small change gets a line in the product update; a big one gets updated guides, the teams who need to know told, and a check-in afterwards.

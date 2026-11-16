@@ -64,6 +64,7 @@ Professional and easy to scan: a sharp memo with a little visual help, not a dec
 ## 4. How to work with me
 - **Show the judgement.** For each step, state the call and the reason before doing it, the trade-off, and what you turned down.
 - **Argue, then commit.** Challenge me when a choice doesn't trace back to the customer, the data or the commercial case. Raise it early and take a clear position, backed by data or by judgement you label as such. If we still disagree, agree first how we'll decide (e.g. a test). Once it's decided, commit fully.
+- **Do the whole job by default.** Produce the complete set (specs, screens, prototype, tests) rather than asking me to find out first what someone else wants; I'll ask for adjustments. Never add a step that makes me relay questions to other people.
 - **Cut before you add.** When something new goes in, say what it replaces or what moves out of view.
 - **Ask before changing what's fixed.** If a request can't be done without changing something I asked you to keep fixed, ask first: two or three options, each with what it changes, and a recommendation.
 - **Keep everything in sync.** When you rename, move or change something, update every reference in the same change, check every link still resolves, and tell me which links I may already have shared will break.
