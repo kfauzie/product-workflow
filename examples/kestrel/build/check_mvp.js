@@ -51,8 +51,8 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     t('edit opens the pop-up with the reason filled in', (await txt('#ovrTitle')) === 'Edit your override' && (await p.inputValue('#ovrReason')) === 'Missed the 30-minute limit.');
     await p.fill('#ovrReason', 'Left out the 30-minute limit.'); await p.click('#ovrSave');
     t('edited reason replaces the old one; accuracy unchanged', (await txt(ex)).includes('Your reason: Left out the 30-minute limit.') && (await acc()).includes('99.6%'));
-    await p.click(`${ex} .vtools button:has-text("Remove reason")`);
-    t('reason can be removed, the override stays', (await txt(ex)).includes('No reason given.') && (await txt(ex)).includes('Verdict overridden'));
+    await p.click(`${ex} .vtools button:has-text("Edit")`); await p.fill('#ovrReason', ''); await p.click('#ovrSave');
+    t('the reason is removed from Edit (no separate link); the override stays', (await txt(ex)).includes('No reason given.') && (await txt(ex)).includes('Verdict overridden') && !(await txt(ex)).includes('Remove reason'));
     await p.click(`${ex} .vtools button:has-text("Undo override")`);
     t('undo goes back to the grading AI verdict and accuracy', (await p.getAttribute(ex, 'class')).includes('ex-ok') && !(await txt(ex)).includes('Verdict overridden') && (await acc()).includes('99.8%'));
     await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.keyboard.press('Escape');
