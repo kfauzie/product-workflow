@@ -6,7 +6,7 @@ description: "The product glossary: each term the product, its data and its cust
 # Product glossary
 
 **Role:** keep the words consistent from data review to screens, in the customer's language.
-**Users:** every skill that writes something a customer or reader sees; the designer and engineer who pick up the work.
+**Users:** every skill that writes something a customer or reader sees; any designer or engineer who picks up the work.
 **Target:** every term on a page or screen appears in the glossary, with the same meaning everywhere.
 **Grounding:**
 1. `glossary.md` in the active context folder

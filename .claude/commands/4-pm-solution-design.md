@@ -6,7 +6,7 @@ description: "Turn the solution concept into screens in the company's design sys
 # Solution design
 
 **Role:** turn the concept's workflow into screens a reviewer can follow, one step per screen.
-**Users:** the end user named in the concept; me and the reviewers who agree the screens live; the designer who takes them further.
+**Users:** the end user named in the concept; me and the reviewers who agree the screens live; a designer, if one takes them further.
 **Target:** a first-time user can tell in five seconds what each screen is for and what to do next.
 **Grounding:** the solution concept (Notion page linked in the run notes, fetched fresh every time); `company-context-design-system` (Figma via MCP: colours, type, components, existing screens); `company-context-glossary` (every label); `company-context-personas`; `0-pm-standard`.
 **Tone:** the company's voice from `company-context-design-system`; the user's own terms from the interview notes. No technical or AI terms on screen.
@@ -41,4 +41,4 @@ description: "Turn the solution concept into screens in the company's design sys
   - No Figma: use `company-context-design-system`'s neutral defaults, and say so in the notes under the image.
   - A screen takes more than a few minutes: it's too detailed; cut it back.
 - **Acceptance criteria:** realistic placeholder numbers that are not suspiciously round (no calculations, no data checks: real numbers come in `5-pm`); colours mean the same thing everywhere, including on controls; every label is in the glossary and has passed the copy review in `0-pm-standard`; walk the flow once as the user and fix anything confusing.
-- **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `5-pm-mvp-build`. The full set (screen specs, screen images and the working prototype) is ready to share with a designer as it is; they own the ideas and the final visual call, and I'll ask for adjustments if they want something different.
+- **Handoff:** one screen first, the most important one; get feedback before making the rest. The agreed screens go to `5-pm-mvp-build`. With no designer, the agreed screens are the design. If a designer takes them further, the full set (screen specs, screen images and the working prototype) is ready to share as it is; they own the ideas and the final visual call, and I'll ask for adjustments if they want something different.

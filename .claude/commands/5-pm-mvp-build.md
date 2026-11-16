@@ -6,7 +6,7 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 # Build: the working first version
 
 **Role:** make the agreed screens work end to end, with real numbers, so the customer can try the flow.
-**Users:** me and the customer in the MVP review; the engineer who later takes it to production.
+**Users:** me and the customer in the MVP review; whoever takes it to production: an engineer, or me.
 **Target:** the whole flow clicks through with no errors; every number matches the concept's test cases.
 **Grounding:** the agreed screens from `4-pm`; the solution concept (workflow, AI / code / people split, success criteria, test cases) from the Notion page in the run notes, fetched fresh; `company-context-design-system`; `company-context-glossary`; `0-pm-standard`.
 **Tone:** match the agreed screens exactly.
@@ -42,4 +42,4 @@ description: "Turn the agreed screens into a working first version, fast: one HT
 - Branch and PR with screenshots, how to run it and test results
 - Dark mode
 - A clickable demo that replays precomputed answers
-- Hand-off to engineers: deliver the spec, the prototype and the PR together, adjusted afterwards if the engineer wants something different; then one PR per screen behind a feature flag, engineer review, staging, release, and measurement against the agreed targets. Size the launch note to the change: a small change gets a line in the product update; a big one gets updated guides, the teams who need to know told, and a check-in afterwards.
+- Taking it to production: with no engineer, I ship it myself from the PR with tests; with engineers, deliver the spec, the prototype and the PR together, adjusted afterwards if they want something different. Either way: one PR per screen behind a feature flag, engineer review, staging, release, and measurement against the agreed targets. Size the launch note to the change: a small change gets a line in the product update; a big one gets updated guides, the teams who need to know told, and a check-in afterwards.
