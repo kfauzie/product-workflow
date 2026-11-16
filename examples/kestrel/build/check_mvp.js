@@ -47,6 +47,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     t('override pop-up shows what the grading AI said and the change', await p.isVisible('#ovr') && (await txt('#ovr')).includes('The grading AI marked this Correct. Change it to Wrong? It will count in'));
     await p.fill('#ovrReason', 'Missed the 30-minute limit.'); await p.click('#ovrSave');
     t('override flips the verdict, shows the reason, and counts in accuracy', !(await p.$('#ovr')) && (await p.getAttribute(ex, 'class')).includes('ex-no') && (await txt(ex)).includes('Verdict overridden') && (await txt(ex)).includes('Your reason: Missed the 30-minute limit.') && (await txt(ex)).includes('The grading AI marked it Correct') && (await acc()).includes('99.6%'));
+    t('Edit and Undo override are small buttons', await p.$eval(`${ex} .vtools`, v => [...v.querySelectorAll('button')].map(b => b.className).join('|')) === 'btn-sm secondary|btn-sm secondary');
     await p.click(`${ex} .vtools button:has-text("Edit")`);
     t('edit opens the pop-up with the reason filled in', (await txt('#ovrTitle')) === 'Edit your override' && (await p.inputValue('#ovrReason')) === 'Missed the 30-minute limit.');
     await p.fill('#ovrReason', 'Left out the 30-minute limit.'); await p.click('#ovrSave');
@@ -60,6 +61,12 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.click('#ovrSave');
     t('Wrong to Correct also works, without a reason', (await p.getAttribute('.exbox[data-ex="0-2"]', 'class')).includes('ex-ok') && (await acc()).includes('100.0%'));
     await p.click('.exbox[data-ex="0-2"] .vtools button:has-text("Undo override")'); }
+  { const cnt = () => txt('tr.detail .excount'), shown = () => p.$$eval('tr.detail .exbox', es => es.map(e => e.dataset.ex).join(','));
+    t('Password reset shows 3 of its 5 recent tickets, with arrows', (await cnt()) === '1–3 of 5' && (await shown()) === '0-0,0-1,0-2' && await p.isDisabled('button[aria-label="Previous tickets"]'));
+    await p.click('button[aria-label="Next tickets"]'); await p.click('button[aria-label="Next tickets"]');
+    t('next moves one ticket at a time, and stops at the end', (await cnt()) === '3–5 of 5' && (await shown()) === '0-2,0-3,0-4' && await p.isDisabled('button[aria-label="Next tickets"]'));
+    await p.click('button[aria-label="Previous tickets"]'); await p.click('button[aria-label="Previous tickets"]');
+    t('previous moves back to the start', (await cnt()) === '1–3 of 5' && (await shown()) === '0-0,0-1,0-2'); }
   t('examples use the four labels', ['Customer request', "Kestrel's proposed reply", 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));

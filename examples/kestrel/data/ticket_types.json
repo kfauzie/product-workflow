@@ -38,6 +38,22 @@
      "rule": "Reset links expire after 30 minutes and only the newest one works. Say both every time you send one.",
      "correct": false,
      "verdict_reason": "Didn't say only the newest link works; the customer opened an older email and it failed again."
+    },
+    {
+     "message": "Can you just tell me my password?",
+     "proposed": "I can't see or send passwords; nobody at Gusta can. I've sent a reset link to the email you sign in with. It works for 30 minutes, and only the newest link works.",
+     "rule_id": "ACC-2",
+     "rule": "Reset links expire after 30 minutes and only the newest one works. Say both every time you send one.",
+     "correct": true,
+     "verdict_reason": "Sent a reset link and gave the 30-minute limit and the newest-link rule."
+    },
+    {
+     "message": "I've asked for a reset three times and none of the emails came.",
+     "proposed": "I've sent another reset link.",
+     "rule_id": "ACC-1",
+     "rule": "Forgotten password: send one reset link. If it hasn't arrived, ask the customer to check their junk folder and, in Gmail, the Promotions tab for an email from Gusta.",
+     "correct": false,
+     "verdict_reason": "Sent a fourth link without pointing to the junk folder or Promotions tab, where the earlier emails were."
     }
    ]
   },

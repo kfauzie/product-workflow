@@ -93,6 +93,13 @@ button.link{background:none;border:0;padding:0;font:inherit;font-size:12px;font-
 button.link:hover{color:var(--info-dark)}
 button.btn-sm{font:inherit;font-size:12px;font-weight:600;line-height:1;padding:6px 10px;border-radius:6px;cursor:pointer}
 button.danger{background:var(--hum);color:#fff;border:1px solid var(--hum)}button.danger:hover{background:#93202a;border-color:#93202a}
+button.secondary{background:#fff;color:var(--head);border:1px solid var(--line)}button.secondary:hover{border-color:var(--mute)}
+.vtools{display:flex;flex-wrap:wrap;gap:6px}
+.exhead{display:flex;align-items:center;justify-content:space-between}
+.exnav{display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--mute)}
+button.navbtn{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--head);font-size:16px;line-height:1;cursor:pointer;display:grid;place-items:center}
+button.navbtn:hover:not(:disabled){border-color:var(--mute)}button.navbtn:disabled{opacity:.35;cursor:default}
+.exgrid.slide{animation:exslide .25s ease}@keyframes exslide{from{opacity:.4;transform:translateX(var(--dx,12px))}to{opacity:1;transform:none}}
 .vtools{margin-top:6px;font-size:12px;color:var(--mute)}
 .ovr-note{margin-top:6px;font-size:12.5px}.ovr-note .ai-said{margin-top:4px;font-size:12px;color:var(--mute)}
 .ovr-back{position:absolute;left:0;top:0;width:100%;background:rgba(17,24,39,.32);z-index:50}
@@ -243,17 +250,27 @@ function render(){
       <td data-label="Recommendation"><span class="chip ctl c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
       <td data-label="Setting" onclick="event.stopPropagation()"><select class="ctl s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
-    const det = isOpen ? `<tr class="detail"><td colspan="6"><div class="exhead">Recent tickets</div><div class="exgrid">${t.examples.map((e, k) => { const key = `${i}-${k}`, o = ovr[key], ok = o ? o.correct : e.correct; return `<div class="exbox ${ok ? 'ex-ok' : 'ex-no'}" data-ex="${key}"><div class="exbody">
+    const det = isOpen ? `<tr class="detail"><td colspan="6">${exHead(i, t.examples.length)}<div class="exgrid${exSlide[i] ? ' slide' : ''}" style="--dx:${exSlide[i] || 0}px">${t.examples.map((e, k) => { if (k < exStart(i) || k >= exStart(i) + EX_SHOWN) return ''; const key = `${i}-${k}`, o = ovr[key], ok = o ? o.correct : e.correct; return `<div class="exbox ${ok ? 'ex-ok' : 'ex-no'}" data-ex="${key}"><div class="exbody">
       <div class="chat"><div class="chathead"><span class="dot"></span>${D.channel}</div><div class="chatbody">
       <div class="msg-in"><span class="who">${ic('chat')}Customer request</span><div class="bubble">${e.message}</div></div>
       <div class="msg-out"><span class="who">${ic('spark')}${K}'s proposed reply</span><div class="bubble">${e.proposed}</div></div></div></div>
       </div>
       <div class="verdict"><span class="who">Evaluation (grading AI)</span>
         <div class="rulebox"><span class="who">${ic('book')}Customer support rule · <a class="rule-link" href="playbook.html#${e.rule_id}" target="_blank" rel="noopener" title="Open this rule in ${D.customer}'s support playbook">${e.rule_id}</a></span>${e.rule}</div>
-        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="link" onclick="openOverride(${i}, ${k}, this)">Edit</button> · <button class="link" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">The grading AI marked it ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="btn-sm danger" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
+        <div class="vline"><span class="pill ${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}${ok ? 'Correct' : 'Wrong'}</span>${o ? '<span class="tag">Verdict overridden</span>' : e.verdict_reason}${o ? `<div class="ovr-note">${o.reason ? `<b>Your reason:</b> ${esc(o.reason)}` : '<i>No reason given.</i>'}<div class="vtools"><button class="btn-sm secondary" onclick="openOverride(${i}, ${k}, this)">Edit</button><button class="btn-sm secondary" onclick="undoOverride(${i}, ${k})">Undo override</button></div><div class="ai-said">The grading AI marked it ${e.correct ? 'Correct' : 'Wrong'}: ${e.verdict_reason}</div></div>` : `<div class="vtools"><button class="btn-sm danger" onclick="openOverride(${i}, ${k}, this)" aria-label="Override the grading AI's verdict">Override verdict</button></div>`}</div></div></div>`; }).join('')}</div></td></tr>` : '';
     return main + det; }).join('');
   document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
+// recent tickets: three at a time; arrows move the window one ticket
+const EX_SHOWN = 3; let exPos = {}, exSlide = {};
+const exStart = i => exPos[i] || 0;
+function exHead(i, n){ if (n <= EX_SHOWN) return '<div class="exhead"><span>Recent tickets</span></div>';
+  const a = exStart(i), b = Math.min(n, a + EX_SHOWN);
+  return `<div class="exhead"><span>Recent tickets</span><span class="exnav"><span class="excount">${a + 1}–${b} of ${n}</span>
+    <button class="navbtn" aria-label="Previous tickets" onclick="exMove(${i}, -1)"${a === 0 ? ' disabled' : ''}>‹</button>
+    <button class="navbtn" aria-label="Next tickets" onclick="exMove(${i}, 1)"${b >= n ? ' disabled' : ''}>›</button></span></div>`; }
+function exMove(i, d){ const n = D.types[i].examples.length; exPos[i] = Math.max(0, Math.min(n - EX_SHOWN, exStart(i) + d));
+  exSlide[i] = d * 12; render(); exSlide[i] = 0; }
 const esc = v => String(v).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const verdictOf = (i, k) => { const o = ovr[`${i}-${k}`]; return o ? o.correct : D.types[i].examples[k].correct; };
 // an overridden verdict counts in accuracy: the type moves by one ticket; the setting follows the recommendation only if it was on it

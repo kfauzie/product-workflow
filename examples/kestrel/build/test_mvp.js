@@ -10,7 +10,7 @@ BRIEF.forEach(([name, tk, tested, k, risk, rec], i) => { const x = D.types[i];
   t(`${name}: data matches; tested on all 30-day tickets if Kestrel is used, else 50 in the daily test`, x.name === name && x.tickets === tk && x.tested === (rec === 'human' ? 50 : tk) && x.tested === tested && x.correct === k && x.risk === risk);
   t(`${name}: reason quotes the live accuracy`, x.reason.includes((k / tested * 100).toFixed(tested === 50 ? 0 : 1) + '%'));
   t(`${name}: rules give the brief's recommendation`, C.recommend(x, n) === rec);
-  t(`${name}: 3 examples with message, proposal, rule and verdict`, x.examples.length === 3 && x.examples.every(e => e.message && e.proposed && e.rule && e.verdict_reason));
+  t(`${name}: 3 recent tickets (5 for Password reset) with message, proposal, rule and verdict`, x.examples.length === (name === 'Password reset' ? 5 : 3) && x.examples.every(e => e.message && e.proposed && e.rule && e.verdict_reason));
   t(`${name}: each example quotes its rule word for word from the support playbook`, x.examples.every(e => PB.includes(`- **${e.rule_id}** ${e.rule}\n`)));
   if (k < tested) t(`${name}: below 100% so at least one Wrong example`, x.examples.some(e => !e.correct)); });
 const rec = D.types.map(x => C.recommend(x, n)), s = C.summary(D, rec);
