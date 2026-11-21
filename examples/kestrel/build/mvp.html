@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="../design/kestrel-logo.svg" type="image/svg+xml">
-<title>Kestrel Dashboard</title>
+<title>Kestrel Configuration</title>
 <!-- FICTIONAL example: Kestrel, Gusta and all data are synthetic. -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -10,20 +10,21 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
 main{max-width:1240px;margin:0 auto;padding:24px 24px 14px}
-.intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 14px}
-.idc{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-.tile{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff}
+.intro{margin:0 0 14px}
+.idc{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.tile{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff}
 .tile .ic{width:19px;height:19px;stroke-width:2}
-.logo svg{width:36px;height:36px;display:block}.t-p{background:var(--info)}
-.idc b{display:block;color:var(--head);font-size:15px;line-height:1.25}.idc div>span{display:block;color:var(--mute);font-size:13px;line-height:1.35}
+.logo svg{width:52px;height:52px;display:block}
+.idc b{display:block;color:var(--head);font-size:20px;line-height:1.25}.idc div>span{display:block;color:var(--mute);font-size:15px;line-height:1.4}
 .header{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:15px;margin:0 0 20px;padding:16px 18px;background:var(--info-bg);border:1px solid var(--info-line);border-radius:8px}
 .header dt{color:var(--info-ink);font-weight:600;display:flex;align-items:center;gap:8px}.header dd{margin:0;color:var(--head)}
 .ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-h1{font-size:28px;color:var(--head);margin:0 0 16px}
-.dash-head{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-size:13px;color:var(--mute)}
+h1{font-size:28px;color:var(--head);margin:0 0 14px}
+#headline{font-size:15px;font-weight:600;color:var(--head);margin:0}
+.dash-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 8px;font-size:13px;color:var(--mute)}
 .dash-head b{color:var(--head);font-size:13px}
 .dyn{font-size:12px;color:var(--mute)}
-.state{font-size:12px;font-weight:600;padding:2px 8px;border-radius:5px}.state-rec{background:var(--ai-bg);color:var(--ai)}.state-over{background:var(--mix-bg);color:var(--mix)}
+.state{font-size:12px;font-weight:600;padding:2px 8px;border-radius:5px;white-space:nowrap}.state-rec{background:var(--ai-bg);color:var(--ai)}.state-over{background:var(--mix-bg);color:var(--mix)}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
 .delta{font-size:12px;font-weight:600;margin-top:4px}.d-up{color:var(--ai)}.d-bad{color:var(--hum)}.d-none{color:var(--mute);font-weight:400}
 .card b.hi-bad{color:var(--hum)}
@@ -114,9 +115,9 @@ footer{margin-top:20px;margin-bottom:0;color:var(--mute);font-size:12px;border-t
 /* phone and tablet: the tables become cards; everything fits the screen width */
 @media (max-width:860px){
   main{padding:14px 12px 10px}
-  .intro{grid-template-columns:1fr;gap:8px}.idc{padding:9px 12px}
+  .idc{padding:12px 14px}.tile,.logo svg{width:44px;height:44px}.idc b{font-size:18px}
   .header{padding:12px 14px;font-size:14px}.header dd{margin-bottom:6px}
-  h2,#headline{font-size:22px}
+  h1{font-size:24px}
   [data-label]::before{content:attr(data-label);display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--mute);margin:0 0 3px}
   .rules table,.rules tbody,.rules tr,.rules td{display:block;width:auto!important}
   .rules tr.hdr,#types tr.hdr{display:none}
@@ -138,8 +139,8 @@ footer{margin-top:20px;margin-bottom:0;color:var(--mute);font-size:12px;border-t
 <main>
 <div class="intro" id="intro"></div>
 <dl class="header" id="header"></dl>
-<h1 id="headline"></h1>
-<div class="dash-head" id="dashHead"></div>
+<h1 id="title">Kestrel Configuration</h1>
+<div class="dash-head"><h2 id="headline"></h2><span id="dashHead"></span></div>
 <div class="summary" id="summary"></div>
 <div class="panel rules" id="rules"></div>
 <div class="bar" style="justify-content:flex-end"><button class="apply" id="applyAll" onclick="applyAll()">Apply all recommendations</button></div>
@@ -200,8 +201,7 @@ const ic = k => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICON[k
 const LOGO = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="kt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#145a3e"/><stop offset="1" stop-color="#08291c"/></linearGradient><linearGradient id="kw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc870"/><stop offset="1" stop-color="#e2651c"/></linearGradient></defs><rect width="64" height="64" rx="17" fill="url(#kt)"/><g transform="translate(3.84 4.2) scale(.88)"><path d="M32 16.8C30.9 16.8 30.2 18.4 30.2 20.3L29.8 22.6C22 21.6 12.5 19.2 5 16.8C10.8 24.2 19.6 31 29.4 34L26.6 44.2Q32 46.6 37.4 44.2L34.6 34C44.4 31 53.2 24.2 59 16.8C51.5 19.2 42 21.6 34.2 22.6L33.8 20.3C33.8 18.4 33.1 16.8 32 16.8Z" fill="url(#kw)"/></g></svg>';
 function staticParts(){
   const K = D.product, G = D.customer, n = 0;
-  document.getElementById('intro').innerHTML = `<div class="idc"><span class="tile logo">${LOGO}</span><div><b>${K}</b><span>An AI agent that answers customer support tickets</span></div></div>
-    <div class="idc"><span class="tile t-p">${ic('page')}</span><div><b>This page</b><span>Kestrel's analytics and configuration</span></div></div>`;
+  document.getElementById('intro').innerHTML = `<div class="idc"><span class="tile logo">${LOGO}</span><div><b>${K}</b><span>An AI agent that answers customer support tickets</span></div></div>`;
   document.getElementById('header').innerHTML = `
     <dt>${ic('customer')}Customer</dt><dd>${G}, payroll software for small businesses (~${fmt(Math.round(D.types.reduce((s, t) => s + t.tickets, 0) / 100) * 100)} support tickets a month)</dd>
     <dt>${ic('user')}User</dt><dd>Hannah Okafor, ${G}'s Head of Customer Support</dd>

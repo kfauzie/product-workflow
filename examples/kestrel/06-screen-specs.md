@@ -6,7 +6,7 @@ One page: [design/1-overview.png](design/1-overview.png) (Password reset expande
 
 | Part | Shows | Acceptance criteria |
 |---|---|---|
-| Header | This page, Kestrel, customer, user, job to be done | Short labelled lines, no paragraph |
+| Header | Kestrel (logo, name, one line), then customer, user, job to be done; title "Kestrel Configuration" (also the tab name), with "Monthly projection per current settings" as a subtitle right above the three numbers | Short labelled lines, no paragraph |
 | Three numbers | Share handled by AI, hours saved, wrong answers reaching customers | Match the table to the ticket |
 | Decision rules | AI, AI-assisted human, Human, colour-coded | Above the table |
 | Setting | A dropdown per row, defaulting to the recommendation; "Setting overridden" tag; a warning above the recommendation; "Apply all recommendations" | The three numbers update live |
