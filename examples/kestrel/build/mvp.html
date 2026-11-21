@@ -228,7 +228,7 @@ function render(){
   flash([['sumShare', s.aiShare, true], ['sumHours', s.hours, true], ['sumHigh', s.wrongHigh, false]]);
   const rows = E.map((t, i) => {
     const rec = recommend(t, n), set = settings[i], isOpen = open.has(i), p = (accuracy(t, n) * 100).toFixed(t.tested === 50 ? 0 : 1), adj = t.risk !== D.types[i].risk;
-    const over = set !== rec ? `<div><span class="tag">Setting overridden</span></div>` : '';
+    const over = set !== rec ? `<div><span class="tag">Overridden</span></div>` : '';
     const w = wrongPerMonth(t), warn = !aboveRecommended(t, n, set) ? '' : set === 'resolve'
       ? `<div class="warn">Riskier than recommended: about ${w} wrong ${w === 1 ? 'answer' : 'answers'} a month would reach customers unchecked</div>`
       : `<div class="warn">Riskier than recommended: support agents would need to catch about ${w} wrong ${w === 1 ? 'draft' : 'drafts'} a month</div>`;

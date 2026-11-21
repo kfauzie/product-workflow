@@ -18,7 +18,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('impact lines say "tax authority", not HMRC', await p.$$eval('#types tr.row td:nth-child(4) .sub', es => es.length === 16 && es.every(e => !e.textContent.includes('HMRC')) && es.some(e => e.textContent.includes('the tax authority'))));
   t('impact labels say how hard a mistake is to undo; no legend, each row explains itself', (await p.$$eval('select[data-risk="0"] option', os => os.map(o => o.textContent).join('|'))) === 'Easy to fix|Fixable|Hard to undo' && !(await p.$('.impact-key')) && (await txt('tr.row[data-i="0"] .reason')).includes('a wrong answer is easy to fix') && (await txt('#summary')).includes('wrong answers reaching customers that are hard to undo'));
   t('headline', (await txt('#headline')) === 'Monthly projection per current settings');
-  t('default: 1 setting override (Update company address moved down to AI-assisted human), tagged, no warning', (await txt('#state')) === '1 setting override' && (await p.inputValue('select[data-i="3"]')) === 'draft' && (await txt('tr.row[data-i="3"]')).includes('Setting overridden') && !(await txt('#types')).includes('Riskier than recommended'));
+  t('default: 1 setting override (Update company address moved down to AI-assisted human), tagged, no warning', (await txt('#state')) === '1 setting override' && (await p.inputValue('select[data-i="3"]')) === 'draft' && (await txt('tr.row[data-i="3"]')).includes('Overridden') && !(await txt('#types')).includes('Riskier than recommended'));
   t('default projection: 44.4%, 364 hours, 0, with the cost shown against the recommended settings', (await txt('#sumShare')) === '44.4%' && (await txt('#sumHours')) === '364' && (await txt('#sumHigh')) === '0' && (await txt('#summary')).includes('−3.1 points from recommended settings') && (await txt('#summary')).includes('−8 hours from recommended settings'));
   t('static mode: no accuracy change on load', (await p.$$('td.acc-up, td.acc-down')).length === 0);
   t('a blinking live dot on each type measured on live tickets (15), 1-second blink', (await p.$$('td.acc .live-dot')).length === 15 && (await p.evaluate(() => { document.body.classList.remove('static'); const cs = getComputedStyle(document.querySelector('.live-dot')); const ok = cs.animationName === 'blink' && cs.animationDuration === '1s'; document.body.classList.add('static'); return ok; })));
@@ -90,12 +90,12 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('confirmation sits right under the changed control, inside its cell', Math.abs(tb.top - sb.bottom) < 12 && Math.abs(tb.left - sb.left) < 4);
   const row = await txt('tr.row[data-i="6"]');
   t('raising AI share flashes green, high-risk wrong answers flash red', (await p.getAttribute('#sumShare >> xpath=..', 'class')).includes('flash-good') && (await p.getAttribute('#sumHigh >> xpath=..', 'class')).includes('flash-bad'));
-  t('override shows Overridden and the warning', row.includes('Setting overridden') && row.includes('Riskier than recommended: about 10 wrong answers a month would reach customers unchecked'));
+  t('override shows Overridden and the warning', row.includes('Overridden') && row.includes('Riskier than recommended: about 10 wrong answers a month would reach customers unchecked'));
   t('summary updates: 51.4%, 10 high-risk wrong answers', (await txt('#sumShare')) === '51.4%' && (await txt('#sumHigh')) === '10');
   t('dashboard updates: 1 setting override, 10 on High-risk types, deltas shown', (await txt('#state')) === '1 setting override' && (await txt('#sumHigh')) === '10' && (await txt('#summary')).includes('+10 from recommended settings'));
   await p.selectOption('select[data-i="0"]', 'human');
   const row0 = await txt('tr.row[data-i="0"]');
-  t('lowering autonomy: Overridden, no warning', row0.includes('Setting overridden') && !row0.includes('Riskier than recommended'));
+  t('lowering autonomy: Overridden, no warning', row0.includes('Overridden') && !row0.includes('Riskier than recommended'));
   await p.click('#applyAll');
   // risk: Password reset Low -> High moves it to AI-assisted human; the setting follows because it was on the recommendation
   await p.selectOption('select[data-risk="0"]', 'High');
@@ -108,7 +108,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   await p.selectOption('select[data-risk="0"]', 'Low'); await p.selectOption('select[data-risk="1"]', 'Low'); await p.click('#applyAll');
   t('back to the original: 47.5%', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Impact adjusted'));
   t('confirmation after Apply all', (await txt('#toast')).includes('All recommendations applied'));
-  t('Apply all recommendations resets everything', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Setting overridden'));
+  t('Apply all recommendations resets everything', (await txt('#sumShare')) === '47.5%' && !(await txt('#types')).includes('Overridden'));
   t('rules are one table with 3 coloured rows', (await p.$$('#rules tr.r-resolve, #rules tr.r-draft, #rules tr.r-human')).length === 3 && (await p.$$('#rules .chip')).length === 3);
   t('setting dropdown is coloured by its value', (await p.getAttribute('select[data-i="0"]', 'class')).split(' ').includes('s-resolve') && (await p.getAttribute('select[data-i="6"]', 'class')).split(' ').includes('s-draft') && (await p.getAttribute('select[data-i="15"]', 'class')).split(' ').includes('s-human'));
   const body = await txt('body');
