@@ -40,14 +40,17 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('16 rows, Password reset expanded by default', (await p.$$('tr.row')).length === 16 && (await p.$$('tr.detail')).length === 1 && (await txt('tr.row.open')).includes('Password reset'));
   const det = await txt('tr.detail');
   t('each expanded row has a Recent tickets heading', det.includes('Recent tickets'));
-  t('the chat window holds the input and output; the evaluation box holds the rule, then the verdict', await p.$eval('tr.detail .exbox', b => !!b.querySelector('.chat .msg-in') && !!b.querySelector('.chat .msg-out') && !b.querySelector('.chat .rulebox') && !b.querySelector('.chat .verdict') && !!b.querySelector('.verdict .rulebox') && !!b.querySelector('.verdict .rulebox + .vline .pill')));
+  t('recent tickets are lines, one per ticket, in four columns: request, reply, rule, evaluation', (await p.$$('tr.detail .exrow:not(.exhdr)')).length === 5 && await p.$eval('tr.detail .exrow[data-ex]', r => [...r.children].map(c => c.className).join('|') === 'exc|exc|exc exrule|exc vline' && !!r.querySelector('.exrule .rule-link') && !!r.querySelector('.vline .pill')));
+  t("the grading AI's Wrong tickets come first, with a count in the heading", (await p.$$eval('tr.detail .exrow[data-ex]', es => es.map(e => e.dataset.ex).join(','))) === '0-2,0-4,0-0,0-1,0-3' && (await txt('tr.detail .excount')) === '2 of 5 wrong');
+  t('colour sits only on the verdict pill: rows are white, Override verdict is a neutral button', await p.$$eval('tr.detail .exrow[data-ex]', es => es.every(e => getComputedStyle(e).backgroundColor === 'rgba(0, 0, 0, 0)' && e.querySelector('.vtools button').className === 'btn-sm secondary')));
   { const sz = await p.$eval('tr.row[data-i="0"]', r => ['td[data-label="Recommendation"] .ctl', 'select[data-risk]', 'select[data-i]'].map(q => { const b = r.querySelector(q).getBoundingClientRect(); return Math.round(b.width) + 'x' + Math.round(b.height); }));
     t('recommendation, impact and setting controls are the same size', sz[0] === sz[1] && sz[1] === sz[2]); }
-  { const ex = '.exbox[data-ex="0-0"]', acc = () => txt('tr.row[data-i="0"] td.acc');
+  { const ex = '.exrow[data-ex="0-0"]', acc = () => txt('tr.row[data-i="0"] td.acc');
     await p.click(`${ex} .vtools button`);
     t('override pop-up shows what the grading AI said and the change', await p.isVisible('#ovr') && (await txt('#ovr')).includes('The grading AI marked this Correct. Change it to Wrong? It will count in'));
     await p.fill('#ovrReason', 'Missed the 30-minute limit.'); await p.click('#ovrSave');
     t('override flips the verdict, shows the reason, and counts in accuracy', !(await p.$('#ovr')) && (await p.getAttribute(ex, 'class')).includes('ex-no') && (await txt(ex)).includes('Verdict overridden') && (await txt(ex)).includes('Your reason: Missed the 30-minute limit.') && (await txt(ex)).includes('The grading AI marked it Correct') && (await acc()).includes('99.6%'));
+    t('the confirmation shows under that ticket\'s verdict', await p.$eval('#toast', el => !!el.closest('.vline')));
     t('Edit and Undo override are small buttons', await p.$eval(`${ex} .vtools`, v => [...v.querySelectorAll('button')].map(b => b.className).join('|')) === 'btn-sm secondary|btn-sm secondary');
     await p.click(`${ex} .vtools button:has-text("Edit")`);
     t('edit opens the pop-up with the reason filled in', (await txt('#ovrTitle')) === 'Edit your override' && (await p.inputValue('#ovrReason')) === 'Missed the 30-minute limit.');
@@ -57,17 +60,11 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     t('the reason is removed from Edit (no separate link); the override stays', (await txt(ex)).includes('No reason given.') && (await txt(ex)).includes('Verdict overridden') && !(await txt(ex)).includes('Remove reason'));
     await p.click(`${ex} .vtools button:has-text("Undo override")`);
     t('undo goes back to the grading AI verdict and accuracy', (await p.getAttribute(ex, 'class')).includes('ex-ok') && !(await txt(ex)).includes('Verdict overridden') && (await acc()).includes('99.8%'));
-    await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.keyboard.press('Escape');
-    t('Escape closes the pop-up without changing anything', !(await p.$('#ovr')) && (await p.getAttribute('.exbox[data-ex="0-2"]', 'class')).includes('ex-no'));
-    await p.click('.exbox[data-ex="0-2"] .vtools button'); await p.click('#ovrSave');
-    t('Wrong to Correct also works, without a reason', (await p.getAttribute('.exbox[data-ex="0-2"]', 'class')).includes('ex-ok') && (await acc()).includes('100.0%'));
-    await p.click('.exbox[data-ex="0-2"] .vtools button:has-text("Undo override")'); }
-  { const cnt = () => txt('tr.detail .excount'), shown = () => p.$$eval('tr.detail .exbox', es => es.map(e => e.dataset.ex).join(','));
-    t('Password reset shows 3 of its 5 recent tickets, with arrows', (await cnt()) === '1–3 of 5' && (await shown()) === '0-0,0-1,0-2' && await p.isDisabled('button[aria-label="Previous tickets"]'));
-    await p.click('button[aria-label="Next tickets"]'); await p.click('button[aria-label="Next tickets"]');
-    t('next moves one ticket at a time, and stops at the end', (await cnt()) === '3–5 of 5' && (await shown()) === '0-2,0-3,0-4' && await p.isDisabled('button[aria-label="Next tickets"]'));
-    await p.click('button[aria-label="Previous tickets"]'); await p.click('button[aria-label="Previous tickets"]');
-    t('previous moves back to the start', (await cnt()) === '1–3 of 5' && (await shown()) === '0-0,0-1,0-2'); }
+    await p.click('.exrow[data-ex="0-2"] .vtools button'); await p.keyboard.press('Escape');
+    t('Escape closes the pop-up without changing anything', !(await p.$('#ovr')) && (await p.getAttribute('.exrow[data-ex="0-2"]', 'class')).includes('ex-no'));
+    await p.click('.exrow[data-ex="0-2"] .vtools button'); await p.click('#ovrSave');
+    t('Wrong to Correct also works, without a reason', (await p.getAttribute('.exrow[data-ex="0-2"]', 'class')).includes('ex-ok') && (await acc()).includes('100.0%'));
+    await p.click('.exrow[data-ex="0-2"] .vtools button:has-text("Undo override")'); }
   t('examples use the four labels', ['Customer request', "Kestrel's proposed reply", 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
