@@ -50,6 +50,7 @@ button.apply:hover{background:var(--brand-dark)}
 .panel{background:#fff;border:1px solid var(--line);border-radius:10px}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:12px;color:var(--mute);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line)}
+#types tr.hdr th:nth-child(2){width:120px}
 td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.row{cursor:pointer}tr.row:hover{background:var(--open)}tr.row.open{background:var(--open)}
@@ -233,15 +234,15 @@ function render(){
       : `<div class="warn">Riskier than recommended: support agents would need to catch about ${w} wrong ${w === 1 ? 'draft' : 'drafts'} a month</div>`;
     const main = `<tr class="row${isOpen ? ' open' : ''}" data-i="${i}" onclick="if (!event.target.closest('select, button, a, input')) toggle(${i})">
       <td><span class="chev">${isOpen ? '▾' : '▸'}</span><span class="name">${t.name}</span></td>
-      <td class="n" data-label="Tickets a month">${fmt(t.tickets)}</td>
-      <td data-label="Accuracy*" class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
+      <td class="n" data-label="Estimated tickets a month">${fmt(t.tickets)}</td>
+      <td data-label="Expected accuracy*" class="n acc ${accFlash[i] ? (accFlash[i] > 0 ? 'acc-up' : 'acc-down') : ''}">${accFlash[i] ? `<span class="accd">${accFlash[i] > 0 ? '▲ +' : '▼ −'}${Math.abs(accFlash[i]).toFixed(1)}</span>` : ''}${p}%<div class="sub">${t.tested === t.tickets ? '<span class="live-dot"></span>last 30 days' : "based on today's test run"}</div></td>
       <td data-label="Impact if wrong"><select class="ctl rk-${t.risk}" data-risk="${i}" onchange="setRisk(${i}, this.value)">${['Low', 'Medium', 'High'].map(v => `<option value="${v}"${v === t.risk ? ' selected' : ''}>${IMPACT[v]}</option>`).join('')}</select>${adj ? '<div class="adjusted">Impact adjusted</div>' : `<div class="sub">${t.risk_example.replace(/^\w+: /, '')}</div>`}</td>
       <td data-label="Recommendation"><span class="chip ctl c-${rec}">${LABEL[rec]}</span>${adj ? '' : `<div class="reason">${t.reason.replace(/\d+(\.\d)?%/, p + '%')}</div>`}</td>
       <td data-label="Setting"><select class="ctl s-${set}" data-i="${i}" onchange="setMode(${i}, this.value)">${['resolve', 'draft', 'human'].map(m => `<option value="${m}"${m === set ? ' selected' : ''}>${LABEL[m]}</option>`).join('')}</select>${over}${warn}</td>
 </tr>`;
     const det = isOpen ? `<tr class="detail"><td colspan="6">${exList(i, t)}</td></tr>` : '';
     return main + det; }).join('');
-  document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
+  document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Estimated tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Expected accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 // recent tickets as lines: the grading AI's Wrong ones first (order fixed, so a row doesn't jump when overridden); the verdict is the only colour
 const EX_COLS = ['Customer request', `reply`, 'Customer support rule', 'Evaluation (grading AI)'];
@@ -288,9 +289,9 @@ function closeOverride(){ ['ovr', 'ovrBack'].forEach(id => { const el = document
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeOverride(); });
 function saveOverride(i, k, to){ const key = `${i}-${k}`, reason = document.getElementById('ovrReason').value.trim(), editing = !!ovr[key];
   const rec = applyVerdict(i, k, () => { ovr[key] = {correct: to, reason}; }); closeOverride();
-  toast(editing ? (reason ? 'Reason saved.' : 'Reason removed.') : `Verdict changed to ${to ? 'Correct' : 'Wrong'}. Accuracy now ${accText(i)}.${rec}`, `.exrow[data-ex="${key}"] .vtools`); }
+  toast(editing ? (reason ? 'Reason saved.' : 'Reason removed.') : `Verdict changed to ${to ? 'Correct' : 'Wrong'}. Expected accuracy now ${accText(i)}.${rec}`, `.exrow[data-ex="${key}"] .vtools`); }
 function undoOverride(i, k){ const key = `${i}-${k}`; const rec = applyVerdict(i, k, () => { delete ovr[key]; });
-  toast(`Back to the grading AI's verdict. Accuracy now ${accText(i)}.${rec}`, `.exrow[data-ex="${key}"] .vtools`); }
+  toast(`Back to the grading AI's verdict. Expected accuracy now ${accText(i)}.${rec}`, `.exrow[data-ex="${key}"] .vtools`); }
 function toggle(i){ open.has(i) ? open.delete(i) : open.add(i); render(); }
 // colour a card for a moment when its number changes: green if the change is good, red if not
 let last = null;
