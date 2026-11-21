@@ -68,6 +68,13 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
   t('examples use the four labels', ['Customer request', "Kestrel's reply", 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
+  { const open = () => p.$$eval('tr.detail', d => d.length), edge = async q => { const l = p.locator(q); await l.scrollIntoViewIfNeeded(); const b = await l.boundingBox(); await l.click({ position: { x: b.width - 4, y: b.height / 2 } }); };
+    const before = await open();
+    await edge('tr.row[data-i="1"] td[data-label="Impact if wrong"]'); const a1 = await open();
+    await edge('tr.row[data-i="1"] td[data-label="Setting"]'); const a2 = await open();
+    t('clicking the empty space beside the Impact or Setting dropdown opens and closes the row, like the rest of it', a1 === before + 1 && a2 === before);
+    await p.click('tr.row[data-i="1"] select[data-risk]'); await p.keyboard.press('Escape');
+    t('clicking a dropdown itself does not open the row', (await open()) === before); }
   t('each rule ID links to that rule in the playbook, in a new tab', await p.$eval('a.rule-link[href="playbook.html#BILL-2"]', a => a.target === '_blank' && a.textContent === 'BILL-2').catch(() => false));
   t('footnote links to the playbook', (await p.getAttribute('#measure a', 'href')) === 'playbook.html');
   { const q = await b.newPage(); q.on('pageerror', e => errs.push('playbook: ' + e.message));
