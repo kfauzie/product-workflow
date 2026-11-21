@@ -244,7 +244,7 @@ function render(){
   document.getElementById('types').innerHTML = `<tr class="hdr"><th>Ticket type</th><th class="n">Tickets a month</th><th class="n" id="thAcc"><span id="thAccLabel">Accuracy*</span></th><th>Impact if wrong</th><th>Recommendation</th><th>Setting</th></tr>${rows}`;
 }
 // recent tickets as lines: the grading AI's Wrong ones first (order fixed, so a row doesn't jump when overridden); the verdict is the only colour
-const EX_COLS = ['Customer request', `proposed reply`, 'Customer support rule', 'Evaluation (grading AI)'];
+const EX_COLS = ['Customer request', `reply`, 'Customer support rule', 'Evaluation (grading AI)'];
 function exList(i, t){
   const K = D.product, L = [EX_COLS[0], `${K}'s ${EX_COLS[1]}`, EX_COLS[2], EX_COLS[3]];
   const order = t.examples.map((e, k) => k).sort((a, b) => t.examples[a].correct - t.examples[b].correct);

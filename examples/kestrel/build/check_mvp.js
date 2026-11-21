@@ -65,7 +65,7 @@ const srv = http.createServer((q, r) => { const f = path.join(root, decodeURICom
     await p.click('.exrow[data-ex="0-2"] .vtools button'); await p.click('#ovrSave');
     t('Wrong to Correct also works, without a reason', (await p.getAttribute('.exrow[data-ex="0-2"]', 'class')).includes('ex-ok') && (await acc()).includes('100.0%'));
     await p.click('.exrow[data-ex="0-2"] .vtools button:has-text("Undo override")'); }
-  t('examples use the four labels', ['Customer request', "Kestrel's proposed reply", 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
+  t('examples use the four labels', ['Customer request', "Kestrel's reply", 'Customer support rule', 'Evaluation (grading AI)'].every(l => det.includes(l)));
   await p.click('tr.row:has-text("Refund request") .name');
   t('clicking a row expands it, with a Wrong example', (await p.$$('tr.detail')).length === 2 && (await txt('#types')).includes('February was still due'));
   t('each rule ID links to that rule in the playbook, in a new tab', await p.$eval('a.rule-link[href="playbook.html#BILL-2"]', a => a.target === '_blank' && a.textContent === 'BILL-2').catch(() => false));
